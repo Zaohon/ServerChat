@@ -14,11 +14,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
+import configuration.Config;
 import configuration.Lang;
 
 public class EventListener implements Listener {
 	private ServerChat plugin;
-	private HashMap<UUID, Long> chattime = new HashMap<UUID, Long>();
+	private HashMap<UUID, Long> horncooltime = new HashMap<UUID, Long>();
+	private HashMap<UUID, Long> chatcooltime = new HashMap<UUID, Long>();
 	private HashMap<UUID, Boolean> usingtrumple = new HashMap<UUID, Boolean>();
 	private HashMap<UUID, BukkitRunnable> playerrunnable = new HashMap<UUID, BukkitRunnable>();
 
@@ -33,15 +35,14 @@ public class EventListener implements Listener {
 		}
 		Player p = e.getPlayer();
 		if (!isAuthenticated(p)) {
-			p.sendMessage(Lang.WITHOUTAUTHENTICATED.replace("&", "¡ì"));
+			p.sendMessage(Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
 			return;
 		}
 		String message = e.getMessage();
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
-			if (message.length() < plugin.getConfig().getInt("LenthLimit.Min")
-					|| message.length() > plugin.getConfig().getInt("LenthLimit.Max")) {
-				p.sendMessage(plugin.Message.Chat_Lenth_Error.replace("&", "¡ì"));
+			if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
+				p.sendMessage(Lang.CHAT_LENTH_ERROR);
 				return;
 			}
 			usingtrumple.put(p.getUniqueId(), false);
@@ -49,8 +50,8 @@ public class EventListener implements Listener {
 			BungeeUtil.sendServerChat(plugin, p, message);
 			return;
 		}
-		if (plugin.getConfig().getBoolean("ChatPrefixEnable")) {
-			String prefix = plugin.getConfig().getString("ChatPrefix");
+		if (Config.CHAT_PREFIX_ENABLE) {
+			String prefix = Config.CHAT_PREFIX;
 			if (message.startsWith(prefix)) {
 				e.setCancelled(true);
 				// if (chattime.containsKey(p.getUniqueId())) {
@@ -67,10 +68,10 @@ public class EventListener implements Listener {
 				// return;
 				// }
 				// }
-				int cooltime = remainCoolTime(p.getUniqueId());
+				int cooltime = remainChatCoolTime(p.getUniqueId());
 				if (cooltime > 0) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							plugin.Message.PrefixChatInCoolTime.replace("%cooltime%", cooltime + "")));
+							Lang.CHAT_IN_COOL_TIME.replace("%cooltime%", cooltime + "")));
 					return;
 				}
 
@@ -82,7 +83,7 @@ public class EventListener implements Listener {
 
 				if (plugin.getConfig().getBoolean("FreeChat")) {
 					BungeeUtil.sendServerChat(plugin, p, message);
-					updateCoolTime(p.getUniqueId());
+					updateChatCoolTime(p.getUniqueId());
 					return;
 				}
 
@@ -91,27 +92,30 @@ public class EventListener implements Listener {
 						ItemStack item = p.getInventory().getItem(p.getInventory().first(plugin.getHorn()));
 						item.setAmount(item.getAmount() - 1);
 						BungeeUtil.sendServerChat(plugin, p, message);
-						updateCoolTime(p.getUniqueId());
+						updateChatCoolTime(p.getUniqueId());
+						this.sendPlayerMsg(p, Lang.AUTO_USE_SUCCESS);
 						return;
-					}else 
-					if(plugin.getConfig().getBoolean("AutoCost")){
+					} else if (plugin.getConfig().getBoolean("AutoCost")) {
 						int mc = plugin.getConfig().getInt("Cost.Money");
-						int ppc = plugin.getConfig().getInt("Cost.PlayerPoint");
-						if(mc!=0&&plugin.getEconomy().getBalance(p)>=mc){
+						// int ppc =
+						// plugin.getConfig().getInt("Cost.PlayerPoint");
+						if (mc != 0 && plugin.getEconomy().getBalance(p) >= mc) {
 							plugin.getEconomy().depositPlayer(p, mc);
 							BungeeUtil.sendServerChat(plugin, p, message);
-							updateCoolTime(p.getUniqueId());
+							updateChatCoolTime(p.getUniqueId());
 							this.sendPlayerMsg(p, Lang.AUTO_COST_MONEY);
+						} else {
+							this.sendPlayerMsg(p, Lang.AUTO_COST_FAILED);
+							return;
 						}
-						//TODO playerpoint
-					}
-					else{
-						
+						// TODO playerpoint
+					} else {
+						this.sendPlayerMsg(p, Lang.AUTO_USE_FAILED);
+						return;
 					}
 				}
-
 				BungeeUtil.sendServerChat(plugin, p, message);
-				chattime.put(p.getUniqueId(), System.currentTimeMillis());
+				chatcooltime.put(p.getUniqueId(), System.currentTimeMillis());
 				return;
 			}
 		}
@@ -122,7 +126,7 @@ public class EventListener implements Listener {
 	public void useTrumpet(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		if (!isAuthenticated(p)) {
-			p.sendMessage(plugin.Message.WithoutAuthenticated.replace("&", "¡ì"));
+			p.sendMessage(Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
 			return;
 		}
 		ItemStack hand = e.getItem();
@@ -134,6 +138,13 @@ public class EventListener implements Listener {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.Message.AlreadyUsingHorn));
 				return;
 			}
+
+			int cooltime = remainHornCoolTime(p.getUniqueId());
+			if (cooltime > 0) {
+				p.sendMessage(Lang.HORN_IN_COOL_TIME.replace("&", "¡ì").replace("%cooltime%", cooltime + ""));
+				return;
+			}
+
 			usingtrumple.put(p.getUniqueId(), true);
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.Message.HintWhenUsingHorn));
 			int amount = hand.getAmount();
@@ -167,22 +178,38 @@ public class EventListener implements Listener {
 		return true;
 	}
 
-	private int remainCoolTime(UUID uuid) {
+	private int remainChatCoolTime(UUID uuid) {
 		int cooltime = 0;
-		if (chattime.containsKey(uuid)) {
-			Long t = chattime.get(uuid);
-			if (t + 1000 * plugin.getConfig().getInt("CoolTime") > System.currentTimeMillis()) {
-				cooltime = (int) (t + 1000 * plugin.getConfig().getInt("ChatCoolTime")
-						- System.currentTimeMillis() / 1000);
+		if (chatcooltime.containsKey(uuid)) {
+			Long t = chatcooltime.get(uuid);
+			if (t + 1000 * Config.CHAT_COOL_TIME > System.currentTimeMillis()) {
+				cooltime = (int) (t + 1000 * Config.CHAT_COOL_TIME - System.currentTimeMillis() / 1000);
 			}
 		}
 		return cooltime;
 	}
 
-	private void updateCoolTime(UUID uuid) {
-		chattime.put(uuid, System.currentTimeMillis());
+	private void updateChatCoolTime(UUID uuid) {
+		chatcooltime.put(uuid, System.currentTimeMillis());
 	}
-	private void sendPlayerMsg(Player p,String msg){
-		if(!msg.equals(""))p.sendMessage(msg);
+
+	private int remainHornCoolTime(UUID uuid) {
+		int cooltime = 0;
+		if (horncooltime.containsKey(uuid)) {
+			Long t = horncooltime.get(uuid);
+			if (t + 1000 * Config.HORNSET_COOL_TIME > System.currentTimeMillis()) {
+				cooltime = (int) (t + 1000 * Config.HORNSET_COOL_TIME - System.currentTimeMillis() / 1000);
+			}
+		}
+		return cooltime;
+	}
+
+	private void updateHornCoolTime(UUID uuid) {
+		horncooltime.put(uuid, System.currentTimeMillis());
+	}
+
+	private void sendPlayerMsg(Player p, String msg) {
+		if (!msg.equals(""))
+			p.sendMessage(msg);
 	}
 }

@@ -9,35 +9,28 @@ ChatPrefixEnable: true
 #跨服说话的前缀
 ChatPrefix: "!"
 #跨服说话冷却时间(/秒)
-#ChatCoolTime: 30
-
-#喇叭的有效时间(/秒)
-ItemResponTime: 30
-
-CoolTime: 30
-
-ItemNoCoolTime: true
-
-CommandBuyItem: true
-
-ItemBuyMenu: true
+ChatCoolTime: 30
 
 FreeChat: false
 
+ItemBuyMenu: true
+
 AutoUse: true
 
-AutoCost: true
+AutoCost: false
 
-ItemSet:
-  NoCoolTime: true
-  AllowCommandBuy: true
-  BuyMenu: true
-  ResponTime: 30
 Cost:
   Enable: true
   Money: 50
   PlayerPoint: 10
-
+  
+HornSet:
+  AllowCommandBuy: true
+  BuyMenu: true
+  #喇叭的有效时间(/秒)
+  ResponTime: 30
+  #喇叭冷却时间(/秒)
+  HornCoolTime: 10
 ###########################################
 ###############BOSS血条配置################
 ###########################################

@@ -34,7 +34,8 @@ public class NMSUtils {
 	public static void sendPacket(Player p, Object packet) {
 		Object connection = getField("playerConnection", getHandle(p));
 		if(connection==null){
-			Bukkit.broadcastMessage("s");
+			Bukkit.broadcastMessage("Packet 发送错误,请联系作者@Zao_hon");
+			return;
 		}
 		try {
 			getMethod("sendPacket", connection.getClass(), new Class[] { getNMSClass("Packet") }).invoke(connection,
