@@ -1,40 +1,78 @@
+#语言文件
+Lang: zh_cn
+
 #该服务器的名字，用于替换%server%
 ThisServerName: "§e§l大厅"
 
-######################################
-#前缀发送跨服聊天 设置为false即为禁止
-ChatPrefixEnable: false
+#前缀发送跨服聊天 设置为false禁止,默认为"true"
+ChatPrefixEnable: true
 #跨服说话的前缀
 ChatPrefix: "!"
 #跨服说话冷却时间(/秒)
-ChatCoolTime: 30
+#ChatCoolTime: 30
 
 #喇叭的有效时间(/秒)
 ItemResponTime: 30
 
+CoolTime: 30
+
+ItemNoCoolTime: true
+
+CommandBuyItem: true
+
+ItemBuyMenu: true
+
+FreeChat: false
+
+AutoUse: true
+
+AutoCost: true
+
+ItemSet:
+  NoCoolTime: true
+  AllowCommandBuy: true
+  BuyMenu: true
+  ResponTime: 30
+Cost:
+  Enable: true
+  Money: 50
+  PlayerPoint: 10
+
 ###########################################
-#使用BossBar发布跨服消息   设置为"false"禁用
-#1.9以下请关闭这个！否则会报错
+###############BOSS血条配置################
+###########################################
+
+#设置"false"为禁止.1.9以下请关闭这个！否则会报错
 BossBar: false
 
-##BossBar的颜色
+##Boss血条的颜色
 BossBarColor: GREEN
 
-##BossBar持续时间(/秒)
+##Boss血条的风格
+BossBarStyle: SOLID
+
+BossBarFlags:[]
+
+#BossBar持续时间(/秒)
 BossBarContinued: 6
 
 BossBarMessage: "%server% §a§l%player% §7如此说道: §r%message%"
-#########################################
 
 
-##############################################
-#使用ActionBar 设置为"false"禁用
+###############################################
+###############ActionBar配置############
+###############################################
+
+#设置"false"为禁止
 ActionBar: true
 
 ActionBarMessage: "§a§l%player% : %message%"
-##############################################
 
-#########################################
+
+#####################################
+###########聊天栏配置##############
+#####################################
+
 #在聊天栏中发送跨服消息 设置为"false"禁用
 Chat: true
 
@@ -47,8 +85,6 @@ LenthLimit:
   Min: 0
   #最长
   Max: 40
-  #不符时提示消息
-  Message: "&c你说话的内容太长或太短了！"
 
 ##脏话屏蔽
 ShieldMessages:

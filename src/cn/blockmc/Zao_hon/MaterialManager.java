@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.Bukkit;
+package cn.blockmc.Zao_hon;
 
 import java.util.HashMap;
 import java.util.Map;

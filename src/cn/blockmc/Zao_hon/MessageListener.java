@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.Bukkit;
+package cn.blockmc.Zao_hon;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

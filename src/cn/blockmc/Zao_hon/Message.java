@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.Bukkit;
+package cn.blockmc.Zao_hon;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +16,7 @@ public class Message {
 	public String Command_giveplayer = "§2/sc give [玩家]   §6--给予玩家一个喇叭,留空则给自己";
 	public String Command_ignored = "§2/sc ignore --§6无视所有跨服消息";
 	public String Command_reload = "§2/sc reload   §6--重载插件配置";
+	public String Chat_Lenth_Error = "§c你说的话太长或者太短了";
 	public String IgnoredServerChat_On = "§e忽略所有跨服消息";
 	public String IgnoredServerChat_Off = "§e接收所有跨服消息";
 	public String ReloadCompletely = "§2ServerChat重载完成";
@@ -41,6 +42,8 @@ public class Message {
 			msgfile = new File(plugin.getDataFolder(), "Message.yml");
 		}
 		if (!msgfile.exists()) {
+			plugin.PR("没有找到语言文件..");
+			plugin.PR("正在创建新的..");
 			this.saveToFile();
 			return;
 

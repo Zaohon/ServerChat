@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.Bukkit;
+package cn.blockmc.Zao_hon;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.Bukkit;
+package cn.blockmc.Zao_hon;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
 public class Commands implements CommandExecutor {
 	private ServerChat plugin;
 
-	public Commands(ServerChat plugin) {
-		this.plugin = plugin;
+	public Commands() {
+		this.plugin = ServerChat.getInstance();
 	}
 
 	@Override
@@ -54,8 +54,9 @@ public class Commands implements CommandExecutor {
 					p.sendMessage(plugin.Message.NoPermission);
 					return true;
 				}
-				plugin.Message.load();
-				plugin.loadHorn();
+				plugin.loadConfig();
+//				plugin.Message.load();
+//				plugin.loadHorn();
 				p.sendMessage(plugin.Message.ReloadCompletely);
 				return true;
 			} else if(a1.equals("ignore")){
