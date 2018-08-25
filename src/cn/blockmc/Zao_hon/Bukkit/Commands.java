@@ -38,7 +38,7 @@ public class Commands implements CommandExecutor {
 				plugin.getConfig().set("Item.Name", trumple.getItemMeta().getDisplayName());
 				plugin.getConfig().set("Item.Lore", trumple.getItemMeta().getLore());
 				plugin.saveConfig();
-				plugin.reloadConfig();
+//				plugin.reloadConfig();
 				plugin.updateTrumpleItem();
 				p.sendMessage("§b设置跨服喇叭成功");
 				return true;

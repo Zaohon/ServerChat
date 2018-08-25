@@ -26,11 +26,12 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		Player p = e.getPlayer();
-		if (plugin.getAuthMeApi() != null&&!plugin.getAuthMeApi().isAuthenticated(p)) {
+		if(e.isCancelled()){
 			return;
 		}
-		if(plugin.getLoginSecurity()!=null&&!LoginSecurity.getSessionManager().getPlayerSession(p).isAuthorized()){
+		Player p = e.getPlayer();
+		if(!isAuthenticated(p)){
+			p.sendMessage(plugin.getConfig().getString("Message.WithoutAuthenticated").replace("&", "¡ì"));
 			return;
 		}
 		String message = e.getMessage();
@@ -77,10 +78,8 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void useTrumpet(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if (plugin.getAuthMeApi() != null&&!plugin.getAuthMeApi().isAuthenticated(p)) {
-			return;
-		}
-		if(plugin.getLoginSecurity()!=null&&!LoginSecurity.getSessionManager().getPlayerSession(p).isLoggedIn()){
+		if(!isAuthenticated(p)){
+			p.sendMessage(plugin.getConfig().getString("Message.WithoutAuthenticated").replace("&", "¡ì"));
 			return;
 		}
 		ItemStack hand = p.getInventory().getItemInMainHand();
@@ -109,5 +108,14 @@ public class EventListener implements Listener {
 			playerrunnable.put(p.getUniqueId(), runable);
 		}
 
+	}
+	private boolean isAuthenticated(Player player){
+		if (plugin.getAuthMeApi() != null&&!plugin.getAuthMeApi().isAuthenticated(player)) {
+			return false;
+		}
+		if(plugin.getLoginSecurity()!=null&&!LoginSecurity.getSessionManager().getPlayerSession(player).isAuthorized()){
+			return false;
+		}
+		return true;
 	}
 }

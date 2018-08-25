@@ -86,6 +86,7 @@ ShieldMessages:
 ShieldReplaces: "♥"
 
 Message:
+  WithoutAuthenticated: "§c请先登录后再使用跨服喇叭"
   PrefixChatInCoolTime: "§c你还要再等§e%cooltime%§c秒才能再次发送跨服喇叭"
   HintOvertimeUseHorn: "§a由于长时间没有使用，跨服喇叭已自动退回"
   HintWhenUsingHorn: "§d请输入你要发送的喇叭内容"

@@ -28,11 +28,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-		getLogger().info("========================");
-		getLogger().info("      ServerChat          ");
-		getLogger().info("     Version: " + this.getDescription().getVersion());
-		getLogger().info("     Author:Zao_hon           ");
-		getLogger().info("========================");
 		
 		File file = new File(getDataFolder(),"config.yml");
 		if(!file.exists()){
@@ -50,6 +45,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Spigot"));
 		
 		this.loadDepends();
+		getLogger().info("========================");
+		getLogger().info("      ServerChat          ");
+		getLogger().info("     Version: " + this.getDescription().getVersion());
+		getLogger().info("     Author:Zao_hon           ");
+		getLogger().info("========================");
 	}
 	private void loadDepends(){
 		if(this.getServer().getPluginManager().getPlugin("Authme")!=null){
@@ -61,10 +61,10 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	public void updateTrumpleItem() {
-//		getConfig().addDefault("Item.Name", null);
-//		getConfig().addDefault("Item.Lore", null);
-		String n = getConfig().getString("Item.Name");
+		getConfig().addDefault("Item.Lore", null);
+		String n = getConfig().getString("Item.Name",null);
 		List<String> lore = getConfig().getStringList("Item.Lore");
+		this.getLogger().info(getConfig().getString("Item.Material"));
 		Material m = MaterialManager.getMaterial(getConfig().getString("Item.Material"));
 		horn = new ItemStack(m);
 		ItemMeta meta = horn.getItemMeta();
