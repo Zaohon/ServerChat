@@ -1,0 +1,12 @@
+api-version: 1.13
+name: ServerChat
+version: 1.6.4
+author: Zao_hon
+main: cn.blockmc.ServerChat.Zao_hon.ServerChat
+softdepends: [AuthMe,LoginSecurity]
+commands:
+    ServerChat:
+        aliases: [sc]
+Permissions:
+    ServerChat.Admin:
+        default: op

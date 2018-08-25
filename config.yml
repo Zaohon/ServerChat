@@ -1,0 +1,92 @@
+#该服务器的名字，用于替换%server%
+ThisServerName: "§e§l大厅"
+
+
+
+######################################
+#前缀发送跨服聊天 设置为false即为禁止
+ChatPrefixEnable: false
+#跨服说话的前缀
+ChatPrefix: "!"
+#跨服说话冷却时间(/秒)
+ChatCoolTime: 30
+
+######################################
+#喇叭物品设置，如果不了解请使用游戏中的指令修改
+Item:
+  Material: SUNFLOWER
+  Name: "§a跨服喇叭"
+  Lore:
+    - "§e§o§6右键使用，发送跨服消息"
+##使用跨服喇叭后喇叭的有效时间  单位：秒  默认:30
+ResponTime: 30
+
+
+###########################################
+#使用BossBar发布跨服消息   设置为"false"禁用
+BossBar: true
+
+##BossBar的颜色
+BossBarColor: GREEN
+
+##BossBar持续时间(/秒)
+BossBarContinued: 6
+
+BossBarMessage: "%server% §a§l%player% §7如此说道: §r%message%"
+#########################################
+
+
+
+
+#########################################
+#在聊天栏中发送跨服消息 设置为"false"禁用
+Chat: true
+
+ChatMessage: "§7<%server%§7> §a§l%player% §7says §r%message%"
+##########################################
+
+
+
+
+##############################################
+#使用ActionBar 设置为"false"禁用
+ActionBar: true
+
+ActionBarMessage: "§a§l%player% : %message%"
+##############################################
+
+
+
+##跨服说话长度限制
+LenthLimit:
+  #最短
+  Min: 0
+  #最长
+  Max: 40
+  #不符时提示消息
+  Message: "&c你说话的内容太长或太短了！"
+
+##脏话屏蔽
+ShieldMessages:
+  - "操你妈"
+  - "傻逼"
+  - "干你妈"
+  - "有病"
+  - "畜生"
+  - "禽兽"
+  - "人兽"
+  - "你妈"
+  - "他妈"
+  - "脑残"
+  - "操"
+  - "fuck"
+  - "shit"
+  - "bitch"
+##脏话替换的字符
+ShieldReplaces: "♥"
+
+Message:
+  PrefixChatInCoolTime: "§c你还要再等§e%cooltime%§c秒才能再次发送跨服喇叭"
+  HintOvertimeUseHorn: "§a由于长时间没有使用，跨服喇叭已自动退回"
+  HintWhenUsingHorn: "§d请输入你要发送的喇叭内容"
+  AlreadyUsingHorn: "§6你已经有一个正在使用的跨服喇叭了"
