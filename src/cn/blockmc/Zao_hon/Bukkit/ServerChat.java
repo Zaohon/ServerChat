@@ -1,87 +1,120 @@
 package cn.blockmc.Zao_hon.Bukkit;
 
 import java.io.File;
-import java.util.List;
-
+import java.io.IOException;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class ServerChat extends JavaPlugin implements Listener {
+	private File file;
+	private FileConfiguration hornconfig;
 	private LoginSecurity loginsecurity;
 	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
 
 	@Override
 	public void onEnable() {
-		
-		File file = new File(getDataFolder(),"config.yml");
-		if(!file.exists()){
-			this.saveDefaultConfig();
-		}
-//		this.saveDefaultConfig();
-		this.reloadConfig();
+
+		this.saveDefaultConfig();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		this.getCommand("ServerChat").setExecutor(new Commands(this));
-		this.updateTrumpleItem();
-		
+
+		file = new File(this.getDataFolder(), "Item.yml");
+		this.loadHorn();
+
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Spigot"));
-		
+
 		this.loadDepends();
-		getLogger().info("========================");
-		getLogger().info("      ServerChat          ");
-		getLogger().info("     Version: " + this.getDescription().getVersion());
-		getLogger().info("     Author:Zao_hon           ");
-		getLogger().info("========================");
+		PR("========================");
+		PR("      ServerChat          ");
+		PR("     Version: " + this.getDescription().getVersion());
+		PR("     Author:Zao_hon           ");
+		PR("========================");
 	}
-	private void loadDepends(){
-		if(this.getServer().getPluginManager().getPlugin("Authme")!=null){
+
+	private void loadDepends() {
+		if (this.getServer().getPluginManager().getPlugin("Authme") != null) {
 			authmeapi = AuthMeApi.getInstance();
 		}
-		if(this.getServer().getPluginManager().getPlugin("LoginSecurity")!=null){
+		if (this.getServer().getPluginManager().getPlugin("LoginSecurity") != null) {
 			loginsecurity = (LoginSecurity) getServer().getPluginManager().getPlugin("LoginSecurity");
 		}
 	}
 
-	public void updateTrumpleItem() {
-		getConfig().addDefault("Item.Lore", null);
-		String n = getConfig().getString("Item.Name",null);
-		List<String> lore = getConfig().getStringList("Item.Lore");
-		this.getLogger().info(getConfig().getString("Item.Material"));
-		Material m = MaterialManager.getMaterial(getConfig().getString("Item.Material"));
-		horn = new ItemStack(m);
-		ItemMeta meta = horn.getItemMeta();
-		meta.setDisplayName(n);
-		meta.setLore(lore);
-		horn.setItemMeta(meta);
+	public boolean loadHorn() {
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				hornconfig = YamlConfiguration.loadConfiguration(file);
+				this.setHorn(DefaultItem.getHorn());
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		hornconfig = YamlConfiguration.loadConfiguration(file);
+		horn = hornconfig.getItemStack("Item");
+		return true;
 	}
-
-	public ItemStack getHorn() {
+	public ItemStack getHorn(){
 		return horn;
 	}
-
-	public void setHorn(ItemStack item) {
-		this.horn = item;
+	public boolean setHorn(ItemStack item){
+		horn = item;
+		hornconfig.set("Item", horn);
+		try {
+			hornconfig.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
+//	public void loadConfig(){
+//		this.saveDefaultConfig();
+//	}
+
+//	public void updateTrumpleItem() {
+//		getConfig().addDefault("Item.Lore", null);
+//		String n = getConfig().getString("Item.Name", null);
+//		List<String> lore = getConfig().getStringList("Item.Lore");
+//		this.getLogger().info(getConfig().getString("Item.Material"));
+//		Material m = MaterialManager.getMaterial(getConfig().getString("Item.Material"));
+//		horn = new ItemStack(m);
+//		ItemMeta meta = horn.getItemMeta();
+//		meta.setDisplayName(n);
+//		meta.setLore(lore);
+//		horn.setItemMeta(meta);
+//	}
+
+//	public ItemStack loadItem() {
+//		File file = new File(getDataFolder(), "Item.yml");
+//		if (!file.exists()) {
+//			this.saveResource("Item.yml", true);
+//		}
+//
+//		return null;
+//	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
+		NMSUtils.sendActionBar(Bukkit.getPlayer("Little_K"),msg);
 		if (getConfig().getBoolean("BossBar")) {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("BossBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
@@ -106,13 +139,15 @@ public class ServerChat extends JavaPlugin implements Listener {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ActionBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
 			Bukkit.getOnlinePlayers().forEach(
-					p -> p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(shieldReplace(message))));
+					p ->NMSUtils.sendActionBar(p,shieldReplace(message)));
 		}
 	}
-	public AuthMeApi getAuthMeApi(){
+
+	public AuthMeApi getAuthMeApi() {
 		return authmeapi;
 	}
-	public LoginSecurity getLoginSecurity(){
+
+	public LoginSecurity getLoginSecurity() {
 		return loginsecurity;
 	}
 
@@ -132,5 +167,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 			str = str + s;
 		}
 		return str;
+	}
+
+	public void PR(String str) {
+		this.getLogger().info(str);
 	}
 }

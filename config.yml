@@ -11,20 +11,13 @@ ChatPrefix: "!"
 #跨服说话冷却时间(/秒)
 ChatCoolTime: 30
 
-######################################
-#喇叭物品设置，如果不了解请使用游戏中的指令修改
-Item:
-  Material: SUNFLOWER
-  Name: "§a跨服喇叭"
-  Lore:
-    - "§e§o§6右键使用，发送跨服消息"
-##使用跨服喇叭后喇叭的有效时间  单位：秒  默认:30
-ResponTime: 30
-
+#喇叭的有效时间(/秒)
+ItemResponTime: 30
 
 ###########################################
 #使用BossBar发布跨服消息   设置为"false"禁用
-BossBar: true
+#1.9以下请关闭这个！否则会报错
+BossBar: false
 
 ##BossBar的颜色
 BossBarColor: GREEN
@@ -36,7 +29,12 @@ BossBarMessage: "%server% §a§l%player% §7如此说道: §r%message%"
 #########################################
 
 
+##############################################
+#使用ActionBar 设置为"false"禁用
+ActionBar: true
 
+ActionBarMessage: "§a§l%player% : %message%"
+##############################################
 
 #########################################
 #在聊天栏中发送跨服消息 设置为"false"禁用
@@ -48,12 +46,7 @@ ChatMessage: "§7<%server%§7> §a§l%player% §7says §r%message%"
 
 
 
-##############################################
-#使用ActionBar 设置为"false"禁用
-ActionBar: true
 
-ActionBarMessage: "§a§l%player% : %message%"
-##############################################
 
 
 
@@ -91,3 +84,6 @@ Message:
   HintOvertimeUseHorn: "§a由于长时间没有使用，跨服喇叭已自动退回"
   HintWhenUsingHorn: "§d请输入你要发送的喇叭内容"
   AlreadyUsingHorn: "§6你已经有一个正在使用的跨服喇叭了"
+  
+#别碰他！
+ConfigVersion: 1

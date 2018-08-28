@@ -34,12 +34,12 @@ public class Commands implements CommandExecutor {
 					p.sendMessage("§c喇叭不能为空气！");
 					return true;
 				}
-				plugin.getConfig().set("Item.Material", trumple.getType().name());
-				plugin.getConfig().set("Item.Name", trumple.getItemMeta().getDisplayName());
-				plugin.getConfig().set("Item.Lore", trumple.getItemMeta().getLore());
-				plugin.saveConfig();
+//				plugin.getConfig().set("Item.Material", trumple.getType().name());
+//				plugin.getConfig().set("Item.Name", trumple.getItemMeta().getDisplayName());
+//				plugin.getConfig().set("Item.Lore", trumple.getItemMeta().getLore());
+//				plugin.saveConfig();
 //				plugin.reloadConfig();
-				plugin.updateTrumpleItem();
+				plugin.setHorn(trumple);
 				p.sendMessage("§b设置跨服喇叭成功");
 				return true;
 			} else if (a1.equals("give")) {
@@ -52,7 +52,7 @@ public class Commands implements CommandExecutor {
 				return true;
 			} else if (a1.equals("reload")) {
 				plugin.reloadConfig();
-				plugin.updateTrumpleItem();
+				plugin.loadHorn();
 				p.sendMessage("§2ServerChat重载完成");
 				return true;
 			}

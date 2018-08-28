@@ -82,7 +82,8 @@ public class EventListener implements Listener {
 			p.sendMessage(plugin.getConfig().getString("Message.WithoutAuthenticated").replace("&", "¡ì"));
 			return;
 		}
-		ItemStack hand = p.getInventory().getItemInMainHand();
+		ItemStack hand = e.getItem();
+//		ItemStack hand = p.getItemInHand();
 
 		if (hand != null && hand.isSimilar(plugin.getHorn())) {
 			e.setCancelled(true);
@@ -94,7 +95,12 @@ public class EventListener implements Listener {
 			usingtrumple.put(p.getUniqueId(), true);
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					plugin.getConfig().getString("Message.HintWhenUsingHorn")));
-			hand.setAmount(hand.getAmount() - 1);
+			int amount = hand.getAmount();
+			if(amount<=1){
+				p.getInventory().remove(hand);
+			}else{
+				hand.setAmount(amount-1);
+			}
 			BukkitRunnable runable = new BukkitRunnable() {
 				@Override
 				public void run() {
@@ -104,7 +110,7 @@ public class EventListener implements Listener {
 					p.getInventory().addItem(plugin.getHorn());
 				}
 			};
-			runable.runTaskLater(plugin, plugin.getConfig().getInt("ResponTime") * 20);
+			runable.runTaskLater(plugin, plugin.getConfig().getInt("ItemResponTime") * 20);
 			playerrunnable.put(p.getUniqueId(), runable);
 		}
 
