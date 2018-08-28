@@ -1,8 +1,6 @@
 #该服务器的名字，用于替换%server%
 ThisServerName: "§e§l大厅"
 
-
-
 ######################################
 #前缀发送跨服聊天 设置为false即为禁止
 ChatPrefixEnable: false

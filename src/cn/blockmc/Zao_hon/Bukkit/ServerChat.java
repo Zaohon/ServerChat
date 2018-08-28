@@ -2,6 +2,8 @@ package cn.blockmc.Zao_hon.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -87,34 +89,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 		return true;
 	}
-//	public void loadConfig(){
-//		this.saveDefaultConfig();
-//	}
-
-//	public void updateTrumpleItem() {
-//		getConfig().addDefault("Item.Lore", null);
-//		String n = getConfig().getString("Item.Name", null);
-//		List<String> lore = getConfig().getStringList("Item.Lore");
-//		this.getLogger().info(getConfig().getString("Item.Material"));
-//		Material m = MaterialManager.getMaterial(getConfig().getString("Item.Material"));
-//		horn = new ItemStack(m);
-//		ItemMeta meta = horn.getItemMeta();
-//		meta.setDisplayName(n);
-//		meta.setLore(lore);
-//		horn.setItemMeta(meta);
-//	}
-
-//	public ItemStack loadItem() {
-//		File file = new File(getDataFolder(), "Item.yml");
-//		if (!file.exists()) {
-//			this.saveResource("Item.yml", true);
-//		}
-//
-//		return null;
-//	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
-		NMSUtils.sendActionBar(Bukkit.getPlayer("Little_K"),msg);
 		if (getConfig().getBoolean("BossBar")) {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("BossBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));

@@ -10,17 +10,25 @@ import org.bukkit.entity.Player;
 public class NMSUtils {
 	public static Class<?> PACKET_PLAY_OUT_CHAT = getNMSClass("PacketPlayOutChat");
 	public static Class<?> CHAT_COMPONENT_TEXT = getNMSClass("ChatComponentText");
+	public static Class<?> Chat_Message_Type = getNMSClass("ChatMessageType");
 
 	public static void sendActionBar(Player p, String message) {
+		Object packet = null;
 		try {
-			Object packet = PACKET_PLAY_OUT_CHAT.getConstructor(new Class[] { getNMSClass("IChatBaseComponent"), byte.class })
+			packet = PACKET_PLAY_OUT_CHAT.getConstructor(new Class[] { getNMSClass("IChatBaseComponent"),byte.class})
 					.newInstance(CHAT_COMPONENT_TEXT.getConstructor(String.class).newInstance(message), (byte) 2);
-			sendPacket(p,packet);
+
 		} catch (IllegalArgumentException | SecurityException | InstantiationException | IllegalAccessException
 				| InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
+			try {
+				packet = PACKET_PLAY_OUT_CHAT.getConstructor(new Class[] { getNMSClass("IChatBaseComponent"),Chat_Message_Type})
+						.newInstance(CHAT_COMPONENT_TEXT.getConstructor(String.class).newInstance(message),Chat_Message_Type.getEnumConstants()[2]);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+				e1.printStackTrace();
+			}
 		}
-		// CraftPlayer cp;
+		sendPacket(p,packet);
 	}
 
 	public static void sendPacket(Player p, Object packet) {
