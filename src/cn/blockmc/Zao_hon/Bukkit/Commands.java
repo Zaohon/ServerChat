@@ -18,12 +18,12 @@ public class Commands implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§2该插件指令只能玩家使用");
+			sender.sendMessage(plugin.Message.OnlyPlayerUseCommand);
 			return true;
 		}
 		Player p = (Player) sender;
 		if (!p.hasPermission("ServerChat.Admin")) {
-			p.sendMessage("§c权限不足");
+			p.sendMessage(plugin.Message.NoPermission);
 			return true;
 		}
 		if (args.length >= 1) {
@@ -31,36 +31,31 @@ public class Commands implements CommandExecutor {
 			if (a1.equals("setitem")) {
 				ItemStack trumple = p.getInventory().getItemInMainHand();
 				if (trumple == null || trumple.getType() == Material.AIR) {
-					p.sendMessage("§c喇叭不能为空气！");
+					p.sendMessage(plugin.Message.HornCantBeAir);
 					return true;
 				}
-//				plugin.getConfig().set("Item.Material", trumple.getType().name());
-//				plugin.getConfig().set("Item.Name", trumple.getItemMeta().getDisplayName());
-//				plugin.getConfig().set("Item.Lore", trumple.getItemMeta().getLore());
-//				plugin.saveConfig();
-//				plugin.reloadConfig();
 				plugin.setHorn(trumple);
-				p.sendMessage("§b设置跨服喇叭成功");
+				p.sendMessage(plugin.Message.SuccessSetHornItem);
 				return true;
 			} else if (a1.equals("give")) {
 				Player gp = args.length == 1 ? p : Bukkit.getPlayer(args[1]);
 				gp.getInventory().addItem(plugin.getHorn().clone());
 				if (gp != p) {
-					p.sendMessage("§b已给予玩家§a" + gp.getDisplayName() + "§b一个跨服喇叭");
+					p.sendMessage(plugin.Message.GivePlayerHorn.replace("%player%", p.getName()));
 				}
-				gp.sendMessage("§b你获得了一个跨服喇叭");
+				gp.sendMessage(plugin.Message.ReceiveAHorn);
 				return true;
 			} else if (a1.equals("reload")) {
-				plugin.reloadConfig();
+				plugin.Message.load();
 				plugin.loadHorn();
-				p.sendMessage("§2ServerChat重载完成");
+				p.sendMessage(plugin.Message.ReloadCompletely);
 				return true;
 			}
 		}
-		p.sendMessage("§2---ServerChat---");
-		p.sendMessage("§2/sc setitem   §6--将手上拿着的物品设置为喇叭");
-		p.sendMessage("§2/sc give [玩家]   §6--给予玩家一个喇叭,留空则给自己");
-		p.sendMessage("§2/sc reload   §6--重载插件配置");
+		p.sendMessage(plugin.Message.Command_heading);
+		p.sendMessage(plugin.Message.Command_setitem);
+		p.sendMessage(plugin.Message.Command_giveplayer);
+		p.sendMessage(plugin.Message.Command_reload);
 
 		return true;
 	}

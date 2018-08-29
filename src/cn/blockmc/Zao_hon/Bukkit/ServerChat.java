@@ -26,11 +26,13 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private LoginSecurity loginsecurity;
 	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
+	public Message Message;
 
 	@Override
 	public void onEnable() {
 
-		this.saveDefaultConfig();
+		Message = new Message(this);
+		this.loadConfig();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
@@ -75,10 +77,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 		horn = hornconfig.getItemStack("Item");
 		return true;
 	}
-	public ItemStack getHorn(){
+
+	public ItemStack getHorn() {
 		return horn;
 	}
-	public boolean setHorn(ItemStack item){
+
+	public boolean setHorn(ItemStack item) {
 		horn = item;
 		hornconfig.set("Item", horn);
 		try {
@@ -88,6 +92,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 			return false;
 		}
 		return true;
+	}
+
+	public void loadConfig() {
+		this.saveDefaultConfig();
+		Message.load();
 	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
@@ -114,8 +123,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		if (getConfig().getBoolean("ActionBar")) {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ActionBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
-			Bukkit.getOnlinePlayers().forEach(
-					p ->NMSUtils.sendActionBar(p,shieldReplace(message)));
+			Bukkit.getOnlinePlayers().forEach(p -> NMSUtils.sendActionBar(p, shieldReplace(message)));
 		}
 	}
 

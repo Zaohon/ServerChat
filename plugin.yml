@@ -1,6 +1,6 @@
 api-version: 1.13
 name: ServerChat
-version: 1.6.51
+version: 1.6.6
 author: Zao_hon
 main: cn.blockmc.Zao_hon.Bukkit.ServerChat
 softdepends: [AuthMe,LoginSecurity]
