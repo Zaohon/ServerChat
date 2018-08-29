@@ -2,7 +2,9 @@ package cn.blockmc.Zao_hon.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -26,6 +28,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private LoginSecurity loginsecurity;
 	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
+	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	public Message Message;
 
 	@Override
@@ -100,6 +103,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
+
 		if (getConfig().getBoolean("BossBar")) {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("BossBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
@@ -107,24 +111,34 @@ public class ServerChat extends JavaPlugin implements Listener {
 			BossBar bar = Bukkit.createBossBar(shieldReplace(message),
 					BarColor.valueOf(getConfig().getString("BossBarColor")), BarStyle.SOLID, new BarFlag[] {});
 
-			Bukkit.getOnlinePlayers().forEach(p -> bar.addPlayer(p));
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				if (!ignored.getOrDefault(p.getUniqueId(), false))
+					bar.addPlayer(p);
+			});
 			bar.setVisible(true);
 			Bukkit.getScheduler().runTaskLater(this, () -> bar.removeAll(),
 					getConfig().getInt("BossBarContinued") * 20);
 		}
 
 		if (getConfig().getBoolean("Chat")) {
-
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ChatMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
-			Bukkit.broadcastMessage(shieldReplace(message));
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				if (!ignored.getOrDefault(p.getUniqueId(), false))
+					p.sendMessage(shieldReplace(message));
+			});
 		}
 
 		if (getConfig().getBoolean("ActionBar")) {
 			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ActionBarMessage")
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
-			Bukkit.getOnlinePlayers().forEach(p -> NMSUtils.sendActionBar(p, shieldReplace(message)));
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
+					NMSUtils.sendActionBar(p, shieldReplace(message));
+				}
+			});
 		}
+		PR("<"+servername+"> "+playername+" : "+msg);
 	}
 
 	public AuthMeApi getAuthMeApi() {
@@ -133,6 +147,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	public LoginSecurity getLoginSecurity() {
 		return loginsecurity;
+	}
+
+	public boolean changePlayerIgnored(UUID uuid) {
+		ignored.putIfAbsent(uuid, Boolean.FALSE);
+		return ignored.put(uuid, !ignored.get(uuid));
 	}
 
 	private String shieldReplace(String msg) {
