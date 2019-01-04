@@ -3,6 +3,7 @@ package cn.blockmc.Zao_hon;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -19,6 +20,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
+import cn.blockmc.Zao_hon.configuration.Config;
+import cn.blockmc.Zao_hon.configuration.Lang;
 import cn.blockmc.Zao_hon.old.Message;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.md_5.bungee.api.ChatColor;
@@ -31,13 +34,16 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
-	public Message Message;
+//	public Message Message;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 		// Message = new Message(this);
-		this.loadConfig();
+		Config.reload();
+		Lang.reload();
+//		this.loadConfig();
+		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
@@ -120,19 +126,19 @@ public class ServerChat extends JavaPlugin implements Listener {
 		return true;
 	}
 
-	public void loadConfig() {
-		this.saveDefaultConfig();
-		this.reloadConfig();
-		if (Message == null) {
-			Message = new Message(this);
-		}
-		Message.load();
-		// if(file==null){
-		// file = new File(this.getDataFolder(), "Item.yml");
-		// }
-		// this.loadHorn();
-		this.loadDepends();
-	}
+//	public void loadConfig() {
+//		this.saveDefaultConfig();
+//		this.reloadConfig();
+//		if (Message == null) {
+//			Message = new Message(this);
+//		}
+//		Message.load();
+//		// if(file==null){
+//		// file = new File(this.getDataFolder(), "Item.yml");
+//		// }
+//		// this.loadHorn();
+//		this.loadDepends();
+//	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
 
@@ -142,10 +148,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 			BarColor color = BarColor.valueOf(getConfig().getString("BossBarColor"));
 			BarStyle style = BarStyle.valueOf(getConfig().getString("BossBarStyle"));
-			String[] sflags = (String[]) getConfig().getStringList("BossBarFlags").toArray();
-			BarFlag[] flags = new BarFlag[sflags.length];
-			for (int i = 0; i < sflags.length; i++) {
-				flags[i] = BarFlag.valueOf(sflags[i]);
+			List<String> sflags = Config.BOSS_BAR_FLAGS;
+//			String[] sflags = (String[]) getConfig().getStringList("BossBarFlags").toArray();
+			
+			BarFlag[] flags = new BarFlag[sflags.size()];
+			for (int i = 0; i < sflags.size(); i++) {
+				flags[i] = BarFlag.valueOf(sflags.get(i));
 			}
 			BossBar bar = Bukkit.createBossBar(shieldReplace(message), color, style, flags);
 

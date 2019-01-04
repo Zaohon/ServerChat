@@ -1,0 +1,34 @@
+Command_heading: §2---ServerChat---
+Command_setitem: §2/sc setitem   §6--将手上拿着的物品设置为喇叭
+Command_giveplayer: §2/sc give §d[玩家]   §6--给予玩家一个喇叭,留空则给自己
+Command_ignored: §2/sc ignore §6--无视所有跨服消息
+Command_buy: §2/sc buy §d[数量] §6--购买跨服喇叭
+Command_buy_cost_money: §a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币
+Command_buy_cost_point: §a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券
+Command_buy_cost_failed: §c购买失败,钱不足
+Command_reload: §2/sc reload   §6--重载插件配置
+Command_reload_completely:§2ServerChat重载完成
+ChatLenthError: §c你说的话太长或者太短了
+ChatMsgEmpty: §c消息不能为空
+IgnoredServerChat_On: §e忽略所有跨服消息
+IgnoredServerChat_Off: §e接收所有跨服消息
+ReceiveHorn: §b你收到了§e%number%§b个跨服喇叭
+GivePlayerHorn: §b已给予玩家§a%player%§e%number%§b个跨服喇叭
+SuccessSetHornItem: §b设置跨服喇叭成功
+HornCantBeAir: §c喇叭不能为空气！
+NoPermissionBuy: §c你没有权限购买跨服喇叭
+NoPermissionIgnore: §c你还没有权限忽略跨服消息
+NoPermission: §c权限不足
+OnlyPlayerUseCommand: §2该插件指令只能玩家使用
+WithoutAuthenticated: §c请先登录后再使用跨服喇叭
+ChatInCoolTime: §c你还要再等§e%cooltime%§c秒才能再次发送跨服消息
+HornInCoolTime: §c你还要再等§e%cooltime%§c秒才能再次使用跨服喇叭
+Hint_OvertimeUseHorn: §a由于长时间没有使用，跨服喇叭已自动退回
+Hint_WhenUsingHorn: §d请输入你要发送的喇叭内容
+AlreadyUsingHorn: §6你已经有一个正在使用的跨服喇叭了
+Auto_Cost_Money: §a已自动购买跨服喇叭,花费§e%money%§a金钱
+Auto_Cost_Point: §a已自动购买跨服喇叭,花费§d%point%点券
+Auto_Cost_Failed_Money: §c你需要§e%money%§c金币才能发送跨服消息
+Auto_Cost_Failed_Point: §c你需要§e%point%§c点券才能发送跨服消息
+Auto_Use_Success: §a喊话成功,消耗一个跨服喇叭
+Auto_Use_Failed: §c缺少跨服喇叭
