@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

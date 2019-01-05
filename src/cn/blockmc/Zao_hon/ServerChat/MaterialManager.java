@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import java.util.HashMap;
 import java.util.Map;

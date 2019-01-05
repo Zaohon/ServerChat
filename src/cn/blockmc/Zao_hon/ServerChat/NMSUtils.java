@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

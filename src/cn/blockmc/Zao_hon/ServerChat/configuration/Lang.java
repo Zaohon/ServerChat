@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.configuration;
+package cn.blockmc.Zao_hon.ServerChat.configuration;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import cn.blockmc.Zao_hon.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class Lang {
 	private static ServerChat plugin;

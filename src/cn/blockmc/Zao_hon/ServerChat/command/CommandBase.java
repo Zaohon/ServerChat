@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.command;
+package cn.blockmc.Zao_hon.ServerChat.command;
 
 public abstract class CommandBase {
 	private String permission;

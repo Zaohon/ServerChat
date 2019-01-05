@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import cn.blockmc.Zao_hon.configuration.Config;
-import cn.blockmc.Zao_hon.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 
 public class Commands implements CommandExecutor {
 	private ServerChat plugin;

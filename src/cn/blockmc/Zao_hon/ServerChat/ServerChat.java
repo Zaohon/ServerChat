@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +20,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
-import cn.blockmc.Zao_hon.configuration.Config;
-import cn.blockmc.Zao_hon.configuration.Lang;
-import cn.blockmc.Zao_hon.old.Message;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.old.Message;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;

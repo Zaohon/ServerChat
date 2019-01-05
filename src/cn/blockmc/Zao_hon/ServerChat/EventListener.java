@@ -1,9 +1,8 @@
-package cn.blockmc.Zao_hon;
+package cn.blockmc.Zao_hon.ServerChat;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +15,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
-import cn.blockmc.Zao_hon.configuration.Config;
-import cn.blockmc.Zao_hon.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 
 public class EventListener implements Listener {
 	private ServerChat plugin;

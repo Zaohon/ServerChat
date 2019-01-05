@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.old;
+package cn.blockmc.Zao_hon.ServerChat.old;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import cn.blockmc.Zao_hon.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class Message {
 	private File msgfile = null;

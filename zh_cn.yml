@@ -7,7 +7,7 @@ Command_buy_cost_money: §a成功购买§b%number%§a个跨服喇叭,花费§e%m
 Command_buy_cost_point: §a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券
 Command_buy_cost_failed: §c购买失败,钱不足
 Command_reload: §2/sc reload   §6--重载插件配置
-Command_reload_completely:§2ServerChat重载完成
+Command_reload_completely: §2ServerChat重载完成
 ChatLenthError: §c你说的话太长或者太短了
 ChatMsgEmpty: §c消息不能为空
 IgnoredServerChat_On: §e忽略所有跨服消息

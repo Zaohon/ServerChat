@@ -1,11 +1,11 @@
-package cn.blockmc.Zao_hon.configuration;
+package cn.blockmc.Zao_hon.ServerChat.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import cn.blockmc.Zao_hon.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class Config {
 	public static String LANG = "zh_cn";
@@ -38,7 +38,7 @@ public class Config {
 	public static int LENTH_LIMIT_MIN = 0;
 	public static int LENTH_LIMIT_MAX = 40;
 	public static List<String> SHIELD_MESSAGES = new ArrayList<String>();
-	public static String SHILED_REPLACES = "â™¥";
+	public static String SHILED_REPLACES = "â™?";
 
 	public static void reload() {
 		ServerChat plugin = ServerChat.getInstance();
@@ -75,7 +75,7 @@ public class Config {
 		LENTH_LIMIT_MIN = config.getInt("LenthLimit.Min", 0);
 		LENTH_LIMIT_MAX = config.getInt("LenthLimit.Max", 40);
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
-		SHILED_REPLACES = config.getString("ShieldReplaces", " â™¥");
+		SHILED_REPLACES = config.getString("ShieldReplaces", " â™?");
 
 	}
 
