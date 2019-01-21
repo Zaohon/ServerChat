@@ -2,8 +2,11 @@ package cn.blockmc.Zao_hon.ServerChat;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -34,15 +37,14 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
+	private boolean outdate = true;
 //	public Message Message;
 
 	@Override
 	public void onEnable() {
 		instance = this;
-		// Message = new Message(this);
 		Config.reload();
 		Lang.reload();
-//		this.loadConfig();
 		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -50,18 +52,28 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.getCommand("ServerChat").setExecutor(new Commands());
 
-		// file = new File(this.getDataFolder(), "Item.yml");
-		// this.loadHorn();
-
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Spigot"));
-
-		// this.loadDepends();
+		
 		PR("========================");
 		PR("      ServerChat          ");
 		PR("     Version: " + this.getDescription().getVersion());
 		PR("     Author:Zao_hon           ");
 		PR("========================");
+		
+		this.checkUpdate();
+		
+	}
+	private void checkUpdate(){
+		String latest = UpdateChecker.getLatestVersion();
+		String now = this.getDescription().getVersion();
+		if(now.equals(latest)){
+			outdate = false;
+		}else{
+			outdate = true;
+			PR("发现一个新版本v"+latest+"!,而你还在用旧版本v"+now);
+			PR("快去MCBBS下载最新版本吧!http://www.mcbbs.net/thread-704339-1-1.html");
+		}
 	}
 
 	private void loadDepends() {
@@ -87,7 +99,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 		if (rsp == null) {
 			return false;
 		}
-		this.getLogger().info("已加载依赖插件Vault");
 		economy = rsp.getProvider();
 		return economy != null;
 	}
@@ -97,14 +108,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 			itemfile = new File(this.getDataFolder(), "Item.yml");
 		}
 		if (!itemfile.exists()) {
-			// file.createNewFile();
-			// hornconfig = YamlConfiguration.loadConfiguration(file);
 			this.setHorn(DefaultItem.getHorn());
 			return true;
 		}
 
 		horn = YamlConfiguration.loadConfiguration(itemfile).getItemStack("Item");
-		// PR(horn+"");
 		return true;
 	}
 
@@ -114,7 +122,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	public boolean setHorn(ItemStack item) {
 		horn = item;
-		// hornconfig.set("Item", horn);
 		FileConfiguration config = YamlConfiguration.loadConfiguration(itemfile);
 		try {
 			config.set("Item", item);
@@ -125,20 +132,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 		return true;
 	}
-
-//	public void loadConfig() {
-//		this.saveDefaultConfig();
-//		this.reloadConfig();
-//		if (Message == null) {
-//			Message = new Message(this);
-//		}
-//		Message.load();
-//		// if(file==null){
-//		// file = new File(this.getDataFolder(), "Item.yml");
-//		// }
-//		// this.loadHorn();
-//		this.loadDepends();
-//	}
 
 	public void sendServerChat(String servername, String playername, String msg) {
 
@@ -203,6 +196,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);
 		return ignored.put(uuid, !ignored.get(uuid));
 	}
+	public boolean isOutdate(){
+		return outdate;
+	}
 
 	private String shieldReplace(String msg) {
 		String r = getConfig().getString("ShieldReplaces");
@@ -221,7 +217,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 		return str;
 	}
-
+	
 	public void PR(String str) {
 		this.getLogger().info(str);
 	}

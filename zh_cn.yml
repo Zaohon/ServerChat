@@ -1,6 +1,6 @@
 Command_heading: §2---ServerChat---
 Command_setitem: §2/sc setitem   §6--将手上拿着的物品设置为喇叭
-Command_giveplayer: §2/sc give §d[玩家]   §6--给予玩家一个喇叭,留空则给自己
+Command_giveplayer: §2/sc give §d[玩家] [数量]  §6--给予玩家喇叭,留空则给自己
 Command_ignored: §2/sc ignore §6--无视所有跨服消息
 Command_buy: §2/sc buy §d[数量] §6--购买跨服喇叭
 Command_buy_cost_money: §a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币

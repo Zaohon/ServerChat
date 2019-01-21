@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,6 +30,16 @@ public class EventListener implements Listener {
 		this.plugin = ServerChat.getInstance();
 	}
 
+	@EventHandler
+	public void updateCheck(PlayerLoginEvent e){
+		Player p = e.getPlayer();
+		if(p.isOp()){
+			if(plugin.isOutdate()){
+				String latest = UpdateChecker.getLatestVersion();
+				p.sendMessage("[ServerChat]发现新版本"+latest+",快前往http://www.mcbbs.net/thread-704339-1-1.html下载!");
+			}
+		}
+	}
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if (e.isCancelled()) {

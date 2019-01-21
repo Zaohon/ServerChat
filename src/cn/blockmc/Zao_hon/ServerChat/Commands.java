@@ -101,6 +101,9 @@ public class Commands implements CommandExecutor {
 					plugin.getEconomy().depositPlayer(p, mc);
 					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
 							mc * number + ""));
+					ItemStack horn = plugin.getHorn().clone();
+					horn.setAmount(number);
+					p.getInventory().addItem(horn);
 				} else {
 					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_FAILED);
 				}
