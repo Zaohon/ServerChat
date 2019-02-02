@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
+import cn.blockmc.Zao_hon.ServerChat.configuration.ConfigUpdater;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 import cn.blockmc.Zao_hon.ServerChat.old.Message;
 import fr.xephi.authme.api.v3.AuthMeApi;
@@ -38,7 +39,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private boolean outdate = true;
-//	public Message Message;
+	// public Message Message;
 
 	@Override
 	public void onEnable() {
@@ -53,25 +54,30 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getCommand("ServerChat").setExecutor(new Commands());
 
 		Metrics metrics = new Metrics(this);
-		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Spigot"));
-		
+		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Bungee"));
+
 		PR("========================");
 		PR("      ServerChat          ");
 		PR("     Version: " + this.getDescription().getVersion());
 		PR("     Author:Zao_hon           ");
 		PR("========================");
-		
-		this.checkUpdate();
-		
+
+		if (Config.AUTO_UPDATE_CHECK)
+			this.checkUpdate();
+
+		//
+		ConfigUpdater.configUpdate();
+		//
 	}
-	private void checkUpdate(){
+
+	private void checkUpdate() {
 		String latest = UpdateChecker.getLatestVersion();
 		String now = this.getDescription().getVersion();
-		if(now.equals(latest)){
+		if (now.equals(latest)) {
 			outdate = false;
-		}else{
+		} else {
 			outdate = true;
-			PR("发现一个新版本v"+latest+"!,而你还在用旧版本v"+now);
+			PR("发现一个新版本v" + latest + "!,而你还在用旧版本v" + now);
 			PR("快去MCBBS下载最新版本吧!http://www.mcbbs.net/thread-704339-1-1.html");
 		}
 	}
@@ -135,15 +141,16 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	public void sendServerChat(String servername, String playername, String msg) {
 
-		if (getConfig().getBoolean("BossBar")) {
-			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("BossBarMessage")
+		if (Config.BOSS_BAR_ENABLE) {
+			String message = ChatColor.translateAlternateColorCodes('&', Config.BOSS_BAR_MESSAGE
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
 
-			BarColor color = BarColor.valueOf(getConfig().getString("BossBarColor"));
-			BarStyle style = BarStyle.valueOf(getConfig().getString("BossBarStyle"));
+			BarColor color = BarColor.valueOf(Config.BOSS_BAR_COLOR);
+			BarStyle style = BarStyle.valueOf(Config.BOSS_BAR_STYLE);
 			List<String> sflags = Config.BOSS_BAR_FLAGS;
-//			String[] sflags = (String[]) getConfig().getStringList("BossBarFlags").toArray();
-			
+			// String[] sflags = (String[])
+			// getConfig().getStringList("BossBarFlags").toArray();
+
 			BarFlag[] flags = new BarFlag[sflags.size()];
 			for (int i = 0; i < sflags.size(); i++) {
 				flags[i] = BarFlag.valueOf(sflags.get(i));
@@ -159,8 +166,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 					getConfig().getInt("BossBarContinued") * 20);
 		}
 
-		if (getConfig().getBoolean("Chat")) {
-			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ChatMessage")
+		if (Config.CHAT_ENABLE) {
+			String message = ChatColor.translateAlternateColorCodes('&', Config.CHAT_MESSAGE
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
@@ -168,8 +175,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 			});
 		}
 
-		if (getConfig().getBoolean("ActionBar")) {
-			String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("ActionBarMessage")
+		if (Config.ACTION_BAR_ENABLE) {
+			String message = ChatColor.translateAlternateColorCodes('&', Config.ACTION_BAR_MESSAGE
 					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
@@ -196,13 +203,14 @@ public class ServerChat extends JavaPlugin implements Listener {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);
 		return ignored.put(uuid, !ignored.get(uuid));
 	}
-	public boolean isOutdate(){
+
+	public boolean isOutdate() {
 		return outdate;
 	}
 
 	private String shieldReplace(String msg) {
-		String r = getConfig().getString("ShieldReplaces");
-		for (String s : getConfig().getStringList("ShieldMessages")) {
+		String r = Config.SHILED_REPLACES;
+		for (String s :Config.SHIELD_MESSAGES) {
 			if (msg.contains(s)) {
 				msg = msg.replaceAll(s, copy(r, s.length()));
 			}
@@ -217,7 +225,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 		return str;
 	}
-	
+
 	public void PR(String str) {
 		this.getLogger().info(str);
 	}

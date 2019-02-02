@@ -9,7 +9,7 @@ import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class Config {
 	public static String LANG = "zh_cn";
-	public static int CONFIG_VERSION = 2;
+	public static int CONFIG_VERSION = 1;
 	public static String THIS_SERVER_NAME = "NoneServerName";
 	public static boolean CHAT_PREFIX_ENABLE = true;
 	public static String CHAT_PREFIX = "!";
@@ -38,7 +38,9 @@ public class Config {
 	public static int LENTH_LIMIT_MIN = 0;
 	public static int LENTH_LIMIT_MAX = 40;
 	public static List<String> SHIELD_MESSAGES = new ArrayList<String>();
-	public static String SHILED_REPLACES = "â™?";
+	public static String SHILED_REPLACES = "â™¥";
+	public static Boolean AUTO_UPDATE_CHECK = true;
+	
 
 	public static void reload() {
 		ServerChat plugin = ServerChat.getInstance();
@@ -75,8 +77,8 @@ public class Config {
 		LENTH_LIMIT_MIN = config.getInt("LenthLimit.Min", 0);
 		LENTH_LIMIT_MAX = config.getInt("LenthLimit.Max", 40);
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
-		SHILED_REPLACES = config.getString("ShieldReplaces", " â™?");
-
+		SHILED_REPLACES = config.getString("ShieldReplaces", " â™¥");
+		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck",true);
 	}
 
 }

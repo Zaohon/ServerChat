@@ -67,6 +67,10 @@ public class EventListener implements Listener {
 			if (message.startsWith(prefix)) {
 				e.setCancelled(true);
 				message = message.substring(1);
+				if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
+					Lang.sendMsg(p,Lang.CHAT_LENTH_ERROR);
+					return;
+				}
 				if (message.length() == 0) {
 					Lang.sendMsg(p,Lang.CHAT_MSG_EMPTY);
 					return;
@@ -212,10 +216,6 @@ public class EventListener implements Listener {
 		horncooltime.put(uuid, System.currentTimeMillis());
 	}
 
-//	private void sendPlayerMsg(Player p, String msg) {
-//		if (!msg.equals(""))
-//			Lang.sendMsg(p,msg);
-//	}
 
 	private boolean consumeItemStack(Inventory inv, ItemStack item) {
 		for (ItemStack cont : inv.getStorageContents()) {
