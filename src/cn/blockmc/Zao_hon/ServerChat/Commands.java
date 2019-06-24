@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
@@ -20,16 +21,17 @@ public class Commands implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) {
-			Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
-			return true;
-		}
-		Player p = (Player) sender;
+
 		int lenth = args.length;
 		if (lenth >= 1) {
 			String a1 = args[0];
 			if (a1.equals("setitem")) {
-				if (!p.hasPermission("ServerChat.Admin")) {
+				if (!(sender instanceof Player)) {
+					Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+					return true;
+				}
+				Player p = (Player) sender;
+				if (!sender.hasPermission("ServerChat.Admin")) {
 					Lang.sendMsg(p, Lang.NO_PERMISSION);
 					return true;
 				}
@@ -42,6 +44,11 @@ public class Commands implements CommandExecutor {
 				Lang.sendMsg(p, Lang.SUCCESS_SET_HORN);
 				return true;
 			} else if (a1.equals("give")) {
+				if (!(sender instanceof Player)) {
+					Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+					return true;
+				}
+				Player p = (Player) sender;
 				if (!p.hasPermission("ServerChat.Admin")) {
 					Lang.sendMsg(p, Lang.NO_PERMISSION);
 					return true;
@@ -63,17 +70,22 @@ public class Commands implements CommandExecutor {
 				Lang.sendMsg(p, Lang.RECEIVE_HORN.replace("%number%", number + ""));
 				return true;
 			} else if (a1.equals("reload")) {
-				if (!p.hasPermission("ServerChat.Admin")) {
-					Lang.sendMsg(p, Lang.NO_PERMISSION);
+				if (!sender.hasPermission("ServerChat.Admin")) {
+					Lang.sendMsg(sender, Lang.NO_PERMISSION);
 					return true;
 				}
 				Config.reload();
 				Lang.reload();
 				// plugin.Message.load();
 				// plugin.loadHorn();
-				Lang.sendMsg(p, Lang.COMMAND_RELOAD_COMPLETELY);
+				Lang.sendMsg(sender, Lang.COMMAND_RELOAD_COMPLETELY);
 				return true;
 			} else if (a1.equals("ignore")) {
+				if (!(sender instanceof Player)) {
+					Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+					return true;
+				}
+				Player p = (Player) sender;
 				if (!p.hasPermission("ServerChat.Ignore")) {
 					Lang.sendMsg(p, Lang.NO_PERMISSION_IGNORE);
 					return true;
@@ -85,6 +97,11 @@ public class Commands implements CommandExecutor {
 				}
 				return true;
 			} else if (Config.COST_ENABLE && a1.equals("buy")) {
+				if (!(sender instanceof Player)) {
+					Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+					return true;
+				}
+				Player p = (Player) sender;
 				if (!p.hasPermission("ServerChat.Buy")) {
 					Lang.sendMsg(p, Lang.NO_PERMISSION_BUY);
 					return true;
@@ -109,14 +126,25 @@ public class Commands implements CommandExecutor {
 				}
 				return true;
 			}
+			else if(a1.equals("send")){
+				String msg = lenth>=2?args[1]:"";
+				if (sender instanceof Player){
+					AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false,(Player)sender,(Config.CHAT_PREFIX_ENABLE?Config.CHAT_PREFIX:"")+msg,null);
+					plugin.getServer().getPluginManager().callEvent(e);
+					return true;
+				}else{
+					plugin.sendServerChat(Config.THIS_SERVER_NAME, "Server", msg);
+					return true;
+				}
+			}
 		}
-		Lang.sendMsg(p, Lang.COMMAND_HEADING);
-		Lang.sendMsg(p, Lang.COMMAND_SETITEM);
-		Lang.sendMsg(p, Lang.COMMAND_GIVEPLAYER);
-		Lang.sendMsg(p, Lang.COMMAND_IGNORED);
-		Lang.sendMsg(p, Lang.COMMAND_RELOAD);
+		Lang.sendMsg(sender, Lang.COMMAND_HEADING);
+		Lang.sendMsg(sender, Lang.COMMAND_SETITEM);
+		Lang.sendMsg(sender, Lang.COMMAND_GIVEPLAYER);
+		Lang.sendMsg(sender, Lang.COMMAND_IGNORED);
+		Lang.sendMsg(sender, Lang.COMMAND_RELOAD);
 		if (Config.COST_ENABLE)
-			Lang.sendMsg(p, Lang.COMMAND_BUY);
+			Lang.sendMsg(sender, Lang.COMMAND_BUY);
 		return true;
 	}
 

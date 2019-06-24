@@ -1,6 +1,7 @@
 package cn.blockmc.Zao_hon.ServerChat.configuration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,6 +42,7 @@ public class Config {
 	public static String SHILED_REPLACES = "♥";
 	public static Boolean AUTO_UPDATE_CHECK = true;
 	
+	public static HashMap<String,String> CONFIG_PATH = new HashMap<String,String>();
 
 	public static void reload() {
 		ServerChat plugin = ServerChat.getInstance();
@@ -79,6 +81,10 @@ public class Config {
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
 		SHILED_REPLACES = config.getString("ShieldReplaces", " ♥");
 		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck",true);
+		//Config Update Check
+//		if(CONFIG_VERSION!=ConfigUpdater.CONFIG_VERSION){
+//			ConfigUpdater.configUpdate();
+//		}
 	}
 
 }

@@ -50,6 +50,7 @@ public class EventListener implements Listener {
 			Lang.sendMsg(p,Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
 			return;
 		}
+
 		String message = e.getMessage();
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
@@ -59,6 +60,11 @@ public class EventListener implements Listener {
 			}
 			usingtrumple.put(p.getUniqueId(), false);
 			playerrunnable.get(p.getUniqueId()).cancel();
+			
+			if(p.hasPermission("ServerChat.Color")){
+				message = message.replace("&", "¡ì");
+			}
+			
 			BungeeUtil.sendServerChat(plugin, p, message);
 			return;
 		}
@@ -83,6 +89,9 @@ public class EventListener implements Listener {
 								Lang.CHAT_IN_COOL_TIME.replace("%cooltime%", cooltime + "")));
 						return;
 					}
+					if(p.hasPermission("ServerChat.Color")){
+						message = message.replace("&", "¡ì");
+					}
 					BungeeUtil.sendServerChat(plugin, p, message);
 					updateChatCoolTime(p.getUniqueId());
 					return;
@@ -96,6 +105,9 @@ public class EventListener implements Listener {
 						return;
 					}
 					if (this.consumeItemStack(p.getInventory(), plugin.getHorn())) {
+						if(p.hasPermission("ServerChat.Color")){
+							message = message.replace("&", "¡ì");
+						}
 						BungeeUtil.sendServerChat(plugin, p, message);
 						updateHornCoolTime(p.getUniqueId());
 						Lang.sendMsg(p, Lang.AUTO_USE_SUCCESS);
@@ -114,6 +126,9 @@ public class EventListener implements Listener {
 					// plugin.getConfig().getInt("Cost.PlayerPoint");
 					if (mc != 0 && mn >= mc) {
 						plugin.getEconomy().depositPlayer(p, mc);
+						if(p.hasPermission("ServerChat.Color")){
+							message = message.replace("&", "¡ì");
+						}
 						BungeeUtil.sendServerChat(plugin, p, message);
 						updateChatCoolTime(p.getUniqueId());
 						Lang.sendMsg(p, Lang.AUTO_COST_MONEY.replace("%money%", mc+""));

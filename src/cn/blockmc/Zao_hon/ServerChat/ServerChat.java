@@ -2,11 +2,8 @@ package cn.blockmc.Zao_hon.ServerChat;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -26,7 +23,6 @@ import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.ConfigUpdater;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
-import cn.blockmc.Zao_hon.ServerChat.old.Message;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -65,9 +61,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 		if (Config.AUTO_UPDATE_CHECK)
 			this.checkUpdate();
 
-		//
-		ConfigUpdater.configUpdate();
-		//
 	}
 
 	private void checkUpdate() {
@@ -142,8 +135,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public void sendServerChat(String servername, String playername, String msg) {
 
 		if (Config.BOSS_BAR_ENABLE) {
-			String message = ChatColor.translateAlternateColorCodes('&', Config.BOSS_BAR_MESSAGE
-					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
+			String message = Config.BOSS_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
+					.replaceAll("%player%", playername);
 
 			BarColor color = BarColor.valueOf(Config.BOSS_BAR_COLOR);
 			BarStyle style = BarStyle.valueOf(Config.BOSS_BAR_STYLE);
@@ -167,8 +160,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 
 		if (Config.CHAT_ENABLE) {
-			String message = ChatColor.translateAlternateColorCodes('&', Config.CHAT_MESSAGE
-					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
+			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
+					.replaceAll("%player%", playername);
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
 					p.sendMessage(shieldReplace(message));
@@ -176,8 +169,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 
 		if (Config.ACTION_BAR_ENABLE) {
-			String message = ChatColor.translateAlternateColorCodes('&', Config.ACTION_BAR_MESSAGE
-					.replace("%message%", msg).replaceAll("%server%", servername).replaceAll("%player%", playername));
+			String message = Config.ACTION_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
+					.replaceAll("%player%", playername);
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
 					NMSUtils.sendActionBar(p, shieldReplace(message));
@@ -210,7 +203,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	private String shieldReplace(String msg) {
 		String r = Config.SHILED_REPLACES;
-		for (String s :Config.SHIELD_MESSAGES) {
+		for (String s : Config.SHIELD_MESSAGES) {
 			if (msg.contains(s)) {
 				msg = msg.replaceAll(s, copy(r, s.length()));
 			}

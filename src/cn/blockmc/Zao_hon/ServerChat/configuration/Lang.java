@@ -22,11 +22,11 @@ public class Lang {
 	public static String COMMAND_BUY_COST_FAILED;
 	public static String COMMAND_RELOAD;
 	public static String COMMAND_RELOAD_COMPLETELY;
+	public static String COMMAND_SEND;
 	public static String CHAT_LENTH_ERROR;
 	public static String CHAT_MSG_EMPTY;
 	public static String IGNORE_SERVERCHAT_ON;
 	public static String IGNORE_SERVERCHAT_OFF;
-//	public static String RELOAD_COMPLETELY;
 	public static String RECEIVE_HORN;
 	public static String GIVE_PLAYER_HORN;
 	public static String SUCCESS_SET_HORN;
@@ -66,11 +66,12 @@ public class Lang {
 		COMMAND_BUY_COST_POINT = config.getString("Command_buy_cost_point","§a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券");
 		COMMAND_BUY_COST_FAILED = config.getString("Command_buy_cost_failed","§c购买失败,钱不足");
 		COMMAND_RELOAD = config.getString("Command_reload: ", "§2/sc reload   §6--重载插件配置");
+		COMMAND_RELOAD_COMPLETELY = config.getString("Command_reload_completely", "§2ServerChat重载完成");
+		COMMAND_SEND = config.getString("Command_send","§2发送一条跨服消息");
 		CHAT_LENTH_ERROR = config.getString("ChatLenthError", "§c你说的话太长或者太短了");
 		CHAT_MSG_EMPTY = config.getString("ChatMsgEmpty", "§c消息不能为空");
 		IGNORE_SERVERCHAT_ON = config.getString("Ignore_ServerChat_On", "§e忽略所有跨服消息");
 		IGNORE_SERVERCHAT_OFF = config.getString("Ignore_ServerChat_Off", "§e接收所有跨服消息");
-		COMMAND_RELOAD_COMPLETELY = config.getString("Command_reload_completely", "§2ServerChat重载完成");
 		RECEIVE_HORN = config.getString("ReceiveAHorn", "§b你收到了§e%number%§b个跨服喇叭");
 		GIVE_PLAYER_HORN = config.getString("GivePlayerHorn", "§b已给予玩家§a%player%§e%number%§b跨服喇叭");
 		SUCCESS_SET_HORN = config.getString("SuccessSetHornItem", "§b设置跨服喇叭成功");
@@ -91,6 +92,7 @@ public class Lang {
 		AUTO_COST_FAILED_POINT = config.getString("Auto_Cost_Failed_Point", "§c你需要§e%point%§c点券才能发送跨服消息");
 		AUTO_USE_SUCCESS = config.getString("Auto_USE_HORN", "§a喊话成功,消耗一个跨服喇叭");
 		AUTO_USE_FAILED = config.getString("Auto_Use_Failed", "§c缺少跨服喇叭");
+		
 
 	}
 	public static void sendMsg(CommandSender sender,String msg){
