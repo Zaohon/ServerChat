@@ -1,0 +1,35 @@
+Command_heading: §2---ServerChat---
+Command_setitem: §2/sc setitem   §6--Set the item in your hand to horn item
+Command_giveplayer: §2/sc give §d[player] [number]  §6--Give the player horn item , or empty to give yourself
+Command_ignored: §2/sc ignore §6--Toggle ignore serverchat or not
+Command_buy: §2/sc buy §d[number] §6--Buy horn items
+Command_buy_cost_money: §aYou have successfully bought §b%number% §a horn items , cost §e%money%§a money.
+Command_buy_cost_point: §aYou have successfully bought §b%number% §a horn items , cost §e%point%§a money.
+Command_buy_cost_failed: §cYou don't have enough money to buy horn items
+Command_reload: §2/sc reload   §6--Reload config and lang
+Command_reload_completely: §2ServerChat has reloaded successfully
+Command_send: §2/sc send   §6--Send a sereverchat
+ChatLenthError: §cYou says too long or too short
+ChatMsgEmpty: §cMessage can't be empty
+IgnoredServerChat_On: §eYou are now ignoring all server chat
+IgnoredServerChat_Off: §eYou are now receiving all server chat
+ReceiveHorn: §aYou have received §e%number% §bhorn item
+GivePlayerHorn: §bYou have give §a%player% §e%number%§b horn items
+SuccessSetHornItem: §bYou have successfully set the item in your hand to horn item
+HornCantBeAir: §cHorn item can't be air !
+NoPermissionBuy: §cYou don't have permissions to buy horn item
+NoPermissionIgnore: §cYou don't have permissions to ignore serverchat
+NoPermission: §cYou don't have permissions to do that
+OnlyPlayerUseCommand: §2This command can only be used by player
+WithoutAuthenticated: §cPlease login to the server first !
+ChatInCoolTime: §cYou can only send serverchat after §e%cooltime%§cseconds
+HornInCoolTime: §cYou can only use horn after §e%cooltime%§cseconds
+Hint_OvertimeUseHorn: §aYou don't use horn too long 
+Hint_WhenUsingHorn: §dEnter your message
+AlreadyUsingHorn: §6You have already one using horn
+Auto_Cost_Money: §a已自动购买跨服喇叭,花费§e%money%§a金钱  
+Auto_Cost_Point: §a已自动购买跨服喇叭,花费§d%point%点券
+Auto_Cost_Failed_Money: §c你需要§e%money%§c金币才能发送跨服消息
+Auto_Cost_Failed_Point: §c你需要§e%point%§c点券才能发送跨服消息
+Auto_Use_Success: §a喊话成功,消耗一个跨服喇叭
+Auto_Use_Failed: §c缺少跨服喇叭

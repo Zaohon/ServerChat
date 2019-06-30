@@ -51,7 +51,7 @@ public class Config {
 		FileConfiguration config = plugin.getConfig();
 		LANG = config.getString("Lang", "zh_cn");
 		CONFIG_VERSION = config.getInt("Config_Version", 1);
-		THIS_SERVER_NAME = config.getString("This_Server_Name", "NoneServerName");
+		THIS_SERVER_NAME = config.getString("ThisServerName", "NoneServerName");
 		CHAT_PREFIX_ENABLE = config.getBoolean("ChatPrefixEnable", true);
 		CHAT_PREFIX = config.getString("ChatPrefix", "!");
 		CHAT_COOL_TIME = config.getInt("ChatCoolTime", 30);

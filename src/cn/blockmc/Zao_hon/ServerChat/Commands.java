@@ -133,7 +133,7 @@ public class Commands implements CommandExecutor {
 					plugin.getServer().getPluginManager().callEvent(e);
 					return true;
 				}else{
-					plugin.sendServerChat(Config.THIS_SERVER_NAME, "Server", msg);
+					plugin.sendServerChat(Config.THIS_SERVER_NAME, "¡ìeServer", msg);
 					return true;
 				}
 			}
@@ -142,6 +142,7 @@ public class Commands implements CommandExecutor {
 		Lang.sendMsg(sender, Lang.COMMAND_SETITEM);
 		Lang.sendMsg(sender, Lang.COMMAND_GIVEPLAYER);
 		Lang.sendMsg(sender, Lang.COMMAND_IGNORED);
+		Lang.sendMsg(sender, Lang.COMMAND_SEND);
 		Lang.sendMsg(sender, Lang.COMMAND_RELOAD);
 		if (Config.COST_ENABLE)
 			Lang.sendMsg(sender, Lang.COMMAND_BUY);

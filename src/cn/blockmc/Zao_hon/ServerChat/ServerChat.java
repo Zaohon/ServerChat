@@ -21,10 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
-import cn.blockmc.Zao_hon.ServerChat.configuration.ConfigUpdater;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 import fr.xephi.authme.api.v3.AuthMeApi;
-import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {

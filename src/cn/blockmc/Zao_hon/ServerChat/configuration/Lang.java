@@ -62,12 +62,12 @@ public class Lang {
 		COMMAND_GIVEPLAYER = config.getString("Command_giveplayer", "§2/sc give [玩家]   §6--给予玩家一个喇叭,留空则给自己");
 		COMMAND_IGNORED = config.getString("Command_ignored", "§2/sc ignore --§6无视所有跨服消息");
 		COMMAND_BUY = config.getString("Command_buy","/sc buy [数量] --购买跨服喇叭");
+		COMMAND_SEND = config.getString("Command_send","§2/sc send   §6--发送一条跨服消息");
 		COMMAND_BUY_COST_MONEY = config.getString("Command_buy_cost_money","§a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币");
 		COMMAND_BUY_COST_POINT = config.getString("Command_buy_cost_point","§a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券");
 		COMMAND_BUY_COST_FAILED = config.getString("Command_buy_cost_failed","§c购买失败,钱不足");
 		COMMAND_RELOAD = config.getString("Command_reload: ", "§2/sc reload   §6--重载插件配置");
 		COMMAND_RELOAD_COMPLETELY = config.getString("Command_reload_completely", "§2ServerChat重载完成");
-		COMMAND_SEND = config.getString("Command_send","§2发送一条跨服消息");
 		CHAT_LENTH_ERROR = config.getString("ChatLenthError", "§c你说的话太长或者太短了");
 		CHAT_MSG_EMPTY = config.getString("ChatMsgEmpty", "§c消息不能为空");
 		IGNORE_SERVERCHAT_ON = config.getString("Ignore_ServerChat_On", "§e忽略所有跨服消息");

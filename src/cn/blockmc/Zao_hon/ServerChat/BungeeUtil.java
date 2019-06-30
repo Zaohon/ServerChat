@@ -10,10 +10,12 @@ import org.bukkit.entity.Player;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
+
 public class BungeeUtil {
 	public static void sendServerChat(ServerChat plugin, Player p, String msg) {
 		try {
-			String servername = ChatColor.translateAlternateColorCodes('&',plugin.getConfig().getString("ThisServerName"));
+			String servername = ChatColor.translateAlternateColorCodes('&',Config.THIS_SERVER_NAME);
 			String name = p.getName();
 			plugin.sendServerChat(servername, name, msg);
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
