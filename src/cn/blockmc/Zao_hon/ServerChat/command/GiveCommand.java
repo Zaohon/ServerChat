@@ -1,0 +1,80 @@
+package cn.blockmc.Zao_hon.ServerChat.command;
+
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+
+public class GiveCommand implements ICommand{
+	private ServerChat plugin;
+	public GiveCommand(ServerChat plugin) {
+		this.plugin = plugin;
+	}
+
+	@Override
+	public String getName() {
+		return "give";
+	}
+
+	@Override
+	public String[] getAliases() {
+		return null;
+	}
+
+	@Override
+	public String getPermission() {
+		return "ServerChat.Admin";
+	}
+
+	@Override
+	public String[] getUsageString(String label, CommandSender sender) {
+		return new String[] {Lang.COMMAND_GIVEPLAYER};
+	}
+
+	@Override
+	public String getDescription() {
+		return Lang.COMMAND_GIVEPLAYER;
+	}
+
+	@Override
+	public boolean canBeConsole() {
+		return false;
+	}
+
+	@Override
+	public boolean canBeCommandBlock() {
+		return false;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, String label, String[] args) {
+		Player p =  (Player) sender;
+		Player gp = args.length == 0 ? p : Bukkit.getPlayer(args[0]);
+		int number = 1;
+		try {
+			number = Integer.valueOf(args[1]);
+		} catch (Exception e) {
+			// ignore
+		}
+		ItemStack horn = plugin.getHorn().clone();
+		horn.setAmount(number);
+		gp.getInventory().addItem(horn);
+		if (gp != p) {
+			Lang.sendMsg(p,
+					Lang.GIVE_PLAYER_HORN.replace("%player%", p.getName()).replace("%number%", number + ""));
+		}
+		Lang.sendMsg(p, Lang.RECEIVE_HORN.replace("%number%", number + ""));
+		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, String label, String[] args) {
+		return null;
+	}
+
+}
