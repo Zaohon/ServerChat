@@ -18,21 +18,31 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
+import cn.blockmc.Zao_hon.ServerChat.command.BuyCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.CommandDispatcher;
+//import cn.blockmc.Zao_hon.ServerChat.command.Commands;
+import cn.blockmc.Zao_hon.ServerChat.command.GiveCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.ReloadCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
+
+//import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
-import fr.xephi.authme.api.v3.AuthMeApi;
+//import fr.xephi.authme.api.v3.AuthMeApi;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
 	private File itemfile;
 	private Economy economy;
-	private LoginSecurity loginsecurity;
-	private AuthMeApi authmeapi;
+//	private LoginSecurity loginsecurity;
+//	private AuthMeApi authmeapi;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private boolean outdate = true;
+	private CommandDispatcher commandDispatcher;
 	// public Message Message;
 
 	@Override
@@ -45,7 +55,16 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
-		this.getCommand("ServerChat").setExecutor(new Commands());
+//		this.getCommand("ServerChat").setExecutor(new Commands());
+	
+		commandDispatcher = new CommandDispatcher(this,"ServerChat","在群组服中发送跨服消息");
+		this.getCommand("ServerChat").setExecutor(commandDispatcher);
+		commandDispatcher.registerCommand(new SetItemCommand(this));
+		commandDispatcher.registerCommand(new GiveCommand(this));
+		commandDispatcher.registerCommand(new SendCommand(this));
+		commandDispatcher.registerCommand(new IgnoreCommand(this));
+		commandDispatcher.registerCommand(new BuyCommand(this));
+		commandDispatcher.registerCommand(new ReloadCommand(this));
 
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Bungee"));
@@ -74,14 +93,14 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	private void loadDepends() {
-		if (getServer().getPluginManager().getPlugin("Authme") != null) {
-			authmeapi = AuthMeApi.getInstance();
-			PR("检测到登录插件Authme");
-		}
-		if (getServer().getPluginManager().getPlugin("LoginSecurity") != null) {
-			loginsecurity = (LoginSecurity) getServer().getPluginManager().getPlugin("LoginSecurity");
-			PR("检测到登录插件Authme");
-		}
+//		if (getServer().getPluginManager().getPlugin("Authme") != null) {
+//			authmeapi = AuthMeApi.getInstance();
+//			PR("检测到登录插件Authme");
+//		}
+//		if (getServer().getPluginManager().getPlugin("LoginSecurity") != null) {
+//			loginsecurity = (LoginSecurity) getServer().getPluginManager().getPlugin("LoginSecurity");
+//			PR("检测到登录插件Authme");
+//		}
 		if (setupEconomy()) {
 			PR("已加载经济插件Vault");
 		}
@@ -148,6 +167,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 			}
 			BossBar bar = Bukkit.createBossBar(shieldReplace(message), color, style, flags);
 
+			
 			Bukkit.getServer().getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
 					bar.addPlayer(p);
@@ -182,13 +202,13 @@ public class ServerChat extends JavaPlugin implements Listener {
 		return economy;
 	}
 
-	public AuthMeApi getAuthMeApi() {
-		return authmeapi;
-	}
-
-	public LoginSecurity getLoginSecurity() {
-		return loginsecurity;
-	}
+//	public AuthMeApi getAuthMeApi() {
+//		return authmeapi;
+//	}
+//
+//	public LoginSecurity getLoginSecurity() {
+//		return loginsecurity;
+//	}
 
 	public boolean changePlayerIgnored(UUID uuid) {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);

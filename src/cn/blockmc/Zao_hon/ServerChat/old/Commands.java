@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.ServerChat;
+package cn.blockmc.Zao_hon.ServerChat.old;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 

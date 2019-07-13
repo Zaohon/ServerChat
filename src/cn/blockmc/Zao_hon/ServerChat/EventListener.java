@@ -14,7 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
+//import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
@@ -46,11 +46,12 @@ public class EventListener implements Listener {
 			return;
 		}
 		Player p = e.getPlayer();
-		if (!isAuthenticated(p)) {
-			Lang.sendMsg(p,Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
-			return;
-		}
+//		if (!isAuthenticated(p)) {
+//			Lang.sendMsg(p,Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
+//			return;
+//		}
 
+		if(e.isCancelled())return;
 		String message = e.getMessage();
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
@@ -147,10 +148,11 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void useTrumpet(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if (!isAuthenticated(p)) {
-			Lang.sendMsg(p,Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
-			return;
-		}
+//		if (!isAuthenticated(p)) {
+//			Lang.sendMsg(p,Lang.WITHOUT_AUTHENTICATED.replace("&", "¡ì"));
+//			return;
+//		}
+		if(e.isCancelled())return;
 		ItemStack hand = e.getItem();
 		// ItemStack hand = p.getItemInHand();
 
@@ -189,17 +191,17 @@ public class EventListener implements Listener {
 		}
 
 	}
-
-	private boolean isAuthenticated(Player player) {
-		if (plugin.getAuthMeApi() != null && !plugin.getAuthMeApi().isAuthenticated(player)) {
-			return false;
-		}
-		if (plugin.getLoginSecurity() != null
-				&& !LoginSecurity.getSessionManager().getPlayerSession(player).isAuthorized()) {
-			return false;
-		}
-		return true;
-	}
+//
+//	private boolean isAuthenticated(Player player) {
+//		if (plugin.getAuthMeApi() != null && !plugin.getAuthMeApi().isAuthenticated(player)) {
+//			return false;
+//		}
+//		if (plugin.getLoginSecurity() != null
+//				&& !LoginSecurity.getSessionManager().getPlayerSession(player).isAuthorized()) {
+//			return false;
+//		}
+//		return true;
+//	}
 
 	private int remainChatCoolTime(UUID uuid) {
 		int cooltime = 0;

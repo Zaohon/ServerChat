@@ -2,11 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="F:/Server_1.13/Bungee/BungeeCord.jar"/>
-	<classpathentry kind="lib" path="F:/Server_1.13/AuthMe-5.4.0.jar"/>
-	<classpathentry kind="lib" path="F:/Server_1.13/LoginSecurity-2.1.7-Spigot.jar"/>
-	<classpathentry kind="lib" path="F:/Server_1.13/Lobby/spigot-1.13.jar"/>
-	<classpathentry kind="lib" path="F:/Server_1.13/Lobby/plugins/Vault-1.6.7.jar"/>
-	<classpathentry kind="lib" path="F:/新建文件夹/我的世界/服-测试插件3.0/plugins/PlaceholderAPI-2.9.2.jar"/>
+	<classpathentry kind="lib" path="C:/E/MC/Build/spigot-1.14.jar"/>
+	<classpathentry kind="lib" path="C:/E/MC/plugin/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
