@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/E/MC/Build/spigot-1.14.jar"/>
-	<classpathentry kind="lib" path="C:/E/MC/plugin/Vault.jar"/>
+	<classpathentry kind="lib" path="F:/Server_1.14/1_14Survival/spigot-1.14.3.jar"/>
+	<classpathentry kind="lib" path="F:/Server_1.14/RPGSurvival/plugins/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

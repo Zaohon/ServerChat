@@ -2,10 +2,12 @@ package cn.blockmc.Zao_hon.ServerChat.command;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import cn.blockmc.Zao_hon.ServerChat.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
@@ -60,7 +62,11 @@ public class SendCommand implements ICommand{
 			plugin.getServer().getPluginManager().callEvent(e);
 			return true;
 		}else{
-			plugin.sendServerChat(Config.THIS_SERVER_NAME, "§eServer", msg);
+			if(plugin.getServer().getOnlinePlayers().isEmpty()){
+			sender.sendMessage("服务器需至少有一个人才能发送跨服消息");	
+			}else{
+				BungeeUtil.sendServerChat(plugin, sender, msg);
+			}
 			return true;
 		}
 	}

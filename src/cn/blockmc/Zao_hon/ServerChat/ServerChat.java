@@ -13,6 +13,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -37,8 +38,8 @@ import net.milkbowl.vault.economy.Economy;
 public class ServerChat extends JavaPlugin implements Listener {
 	private File itemfile;
 	private Economy economy;
-//	private LoginSecurity loginsecurity;
-//	private AuthMeApi authmeapi;
+	// private LoginSecurity loginsecurity;
+	// private AuthMeApi authmeapi;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private boolean outdate = true;
@@ -55,9 +56,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
-//		this.getCommand("ServerChat").setExecutor(new Commands());
-	
-		commandDispatcher = new CommandDispatcher(this,"ServerChat","在群组服中发送跨服消息");
+		// this.getCommand("ServerChat").setExecutor(new Commands());
+
+		commandDispatcher = new CommandDispatcher(this, "ServerChat", "在群组服中发送跨服消息");
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
 		commandDispatcher.registerCommand(new SetItemCommand(this));
 		commandDispatcher.registerCommand(new GiveCommand(this));
@@ -93,14 +94,16 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	private void loadDepends() {
-//		if (getServer().getPluginManager().getPlugin("Authme") != null) {
-//			authmeapi = AuthMeApi.getInstance();
-//			PR("检测到登录插件Authme");
-//		}
-//		if (getServer().getPluginManager().getPlugin("LoginSecurity") != null) {
-//			loginsecurity = (LoginSecurity) getServer().getPluginManager().getPlugin("LoginSecurity");
-//			PR("检测到登录插件Authme");
-//		}
+		// if (getServer().getPluginManager().getPlugin("Authme") != null) {
+		// authmeapi = AuthMeApi.getInstance();
+		// PR("检测到登录插件Authme");
+		// }
+		// if (getServer().getPluginManager().getPlugin("LoginSecurity") !=
+		// null) {
+		// loginsecurity = (LoginSecurity)
+		// getServer().getPluginManager().getPlugin("LoginSecurity");
+		// PR("检测到登录插件Authme");
+		// }
 		if (setupEconomy()) {
 			PR("已加载经济插件Vault");
 		}
@@ -158,16 +161,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 			BarColor color = BarColor.valueOf(Config.BOSS_BAR_COLOR);
 			BarStyle style = BarStyle.valueOf(Config.BOSS_BAR_STYLE);
 			List<String> sflags = Config.BOSS_BAR_FLAGS;
-			// String[] sflags = (String[])
-			// getConfig().getStringList("BossBarFlags").toArray();
-
 			BarFlag[] flags = new BarFlag[sflags.size()];
 			for (int i = 0; i < sflags.size(); i++) {
 				flags[i] = BarFlag.valueOf(sflags.get(i));
 			}
 			BossBar bar = Bukkit.createBossBar(shieldReplace(message), color, style, flags);
 
-			
 			Bukkit.getServer().getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
 					bar.addPlayer(p);
@@ -180,6 +179,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		if (Config.CHAT_ENABLE) {
 			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
 					.replaceAll("%player%", playername);
+
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
 					p.sendMessage(shieldReplace(message));
@@ -202,13 +202,13 @@ public class ServerChat extends JavaPlugin implements Listener {
 		return economy;
 	}
 
-//	public AuthMeApi getAuthMeApi() {
-//		return authmeapi;
-//	}
-//
-//	public LoginSecurity getLoginSecurity() {
-//		return loginsecurity;
-//	}
+	// public AuthMeApi getAuthMeApi() {
+	// return authmeapi;
+	// }
+	//
+	// public LoginSecurity getLoginSecurity() {
+	// return loginsecurity;
+	// }
 
 	public boolean changePlayerIgnored(UUID uuid) {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);

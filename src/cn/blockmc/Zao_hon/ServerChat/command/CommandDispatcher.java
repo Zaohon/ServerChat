@@ -160,12 +160,12 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 		@Override
 		public String[] getUsageString(String label, CommandSender sender) {
-			return new String[] { label };
+			return new String[] {"§asc help §e--查看本页面"};
 		}
 
 		@Override
 		public String getDescription() {
-			return "help";
+			return "§asc help §e--查看本页面";
 		}
 
 		@Override

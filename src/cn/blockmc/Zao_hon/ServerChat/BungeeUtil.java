@@ -3,8 +3,11 @@ package cn.blockmc.Zao_hon.ServerChat;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.common.io.ByteArrayDataOutput;
@@ -13,10 +16,10 @@ import com.google.common.io.ByteStreams;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 
 public class BungeeUtil {
-	public static void sendServerChat(ServerChat plugin, Player p, String msg) {
+	public static void sendServerChat(ServerChat plugin, CommandSender sender, String msg) {
 		try {
-			String servername = ChatColor.translateAlternateColorCodes('&',Config.THIS_SERVER_NAME);
-			String name = p.getName();
+			String servername = ChatColor.translateAlternateColorCodes('&', Config.THIS_SERVER_NAME);
+			String name = sender instanceof Player ? sender.getName() : "Server";
 			plugin.sendServerChat(servername, name, msg);
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Forward");
@@ -29,12 +32,12 @@ public class BungeeUtil {
 			msgout.writeUTF(msg);
 			out.writeShort(msgbytes.toByteArray().length);
 			out.write(msgbytes.toByteArray());
-			p.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+			plugin.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		
 	}
-	
+
 }
