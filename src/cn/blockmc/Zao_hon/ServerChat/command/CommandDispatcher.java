@@ -161,7 +161,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 		@Override
 		public String[] getUsageString(String label, CommandSender sender) {
-			return new String[] {"§asc help §e--查看本页面"};
+			return new String[] {"§2/sc help §6--查看帮助页面"};
 		}
 
 		@Override
