@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -27,12 +26,19 @@ public class MessageListener implements PluginMessageListener {
 		String channel = in.readUTF();
 
 		if (channel.equals("ServerChat")) {
+
 			short len = in.readShort();
 			byte[] msgbytes = new byte[len];
 			in.readFully(msgbytes);
 
 			DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
 			try {
+				//
+				Long time = msgin.readLong();
+				if(time>System.currentTimeMillis()-5000){
+					return;
+				}
+				//
 				String servername = msgin.readUTF();
 				String name = msgin.readUTF();
 				String msg = msgin.readUTF();

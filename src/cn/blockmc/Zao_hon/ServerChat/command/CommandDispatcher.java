@@ -15,12 +15,13 @@ import org.bukkit.command.TabCompleter;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
-
+@SuppressWarnings("unused")
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 	private ServerChat plugin;
 
 	private HashMap<String, ICommand> mCommands;
 	private String mRootCommandName;
+
 	private String mRootCommandDescription;
 
 	public CommandDispatcher(ServerChat plugin, String commandName, String description) {
