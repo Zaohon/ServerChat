@@ -8,6 +8,7 @@ import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 
 public class ReloadCommand implements ICommand{
+	@SuppressWarnings("unused")
 	private ServerChat plugin;
 	public ReloadCommand(ServerChat plugin) {
 		this.plugin = plugin;
