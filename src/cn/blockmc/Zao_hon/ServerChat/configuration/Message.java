@@ -46,8 +46,7 @@ public class Message {
 		for (String source : sources) {
 			File dest = new File(folder, source);
 			if (!dest.exists()) {
-				Bukkit.getServer().getConsoleSender()
-						.sendMessage(PREFIX + "创建初始语言文件" + source);
+				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "创建初始语言文件" + source);
 				plugin.saveResource("Lang/" + source, false);
 			} else {
 				if (!injectChanges(plugin.getResource("Lang/" + source),
@@ -151,7 +150,7 @@ public class Message {
 	}
 
 	public void setLanguage(String lang) {
-		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + lang+".lang");
+		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + lang + ".lang");
 		if (!file.exists()) {
 			plugin.PR(lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
 			try {
@@ -184,6 +183,29 @@ public class Message {
 		}
 
 		return key;
+
+	}
+
+	public static String getString(String key, Object... objects) {
+		String value = mTranslationTable.get(key);
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		String k = null;
+		for (Object obj : objects) {
+			if (k == null) {
+				k = (String) obj;
+			} else {
+				map.put(key, (String) obj);
+				k = null;
+			}
+		}
+
+		for (Entry<String, String> entry : map.entrySet()) {
+			value = value.replace(entry.getKey(), entry.getValue());
+		}
+
+		return value;
 
 	}
 

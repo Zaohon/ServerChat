@@ -28,7 +28,6 @@ import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 import net.milkbowl.vault.economy.Economy;
 
@@ -56,7 +55,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.message = new Message(this);
 		message.setLanguage(Config.LANG);
 
-		commandDispatcher = new CommandDispatcher(this, "ServerChat", "在群组服中发送跨服消息");
+		commandDispatcher = new CommandDispatcher(this, "ServerChat", Message.getString("command_description_plugin"));
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
 		commandDispatcher.registerCommand(new SetItemCommand(this));
 		commandDispatcher.registerCommand(new GiveCommand(this));
@@ -195,6 +194,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 	public Plugin getPlaceholderAPI() {
 		return placeholderAPI;
+	}
+	public Message getMessage() {
+		return message;
 	}
 
 	public boolean changePlayerIgnored(UUID uuid) {

@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 
 public class Commands implements CommandExecutor {
 	private ServerChat plugin;

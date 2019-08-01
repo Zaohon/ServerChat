@@ -3,7 +3,6 @@ package cn.blockmc.Zao_hon.ServerChat;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,10 +13,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-//import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
-
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class EventListener implements Listener {
 	private ServerChat plugin;
@@ -51,7 +49,8 @@ public class EventListener implements Listener {
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
 			if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
-				Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
+//				Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
+				Message.playerSendMessage(p, Message.getString("chat_error_length"));
 				return;
 			}
 			usingtrumple.put(p.getUniqueId(), false);
@@ -70,19 +69,22 @@ public class EventListener implements Listener {
 				e.setCancelled(true);
 				message = message.substring(1);
 				if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
-					Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
+//					Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
+					Message.playerSendMessage(p, Message.getString("chat_error_length"));
 					return;
 				}
 				if (message.length() == 0) {
-					Lang.sendMsg(p, Lang.CHAT_MSG_EMPTY);
+//					Lang.sendMsg(p, Lang.CHAT_MSG_EMPTY);
+					Message.playerSendMessage(p, Message.getString("chat_error_empty"));
 					return;
 				}
 
 				if (Config.FREE_CHAT) {
 					int cooltime = remainChatCoolTime(p.getUniqueId());
 					if (cooltime > 0) {
-						Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&',
-								Lang.CHAT_IN_COOL_TIME.replace("%cooltime%", cooltime + "")));
+//						Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&',
+//								Lang.CHAT_IN_COOL_TIME.replace("%cooltime%", cooltime + "")));
+						Message.playerSendMessage(p, Message.getString("chat_error_incool","%cooltime%", cooltime));
 						return;
 					}
 					if (p.hasPermission("ServerChat.Color")) {
@@ -96,8 +98,9 @@ public class EventListener implements Listener {
 				if (Config.AUTO_USE) {
 					int horncooltime = remainHornCoolTime(p.getUniqueId());
 					if (horncooltime > 0) {
-						Lang.sendMsg(p,
-								Lang.HORN_IN_COOL_TIME.replace("&", "¡ì").replace("%cooltime%", horncooltime + ""));
+//						Lang.sendMsg(p,
+//								Lang.HORN_IN_COOL_TIME.replace("&", "¡ì").replace("%cooltime%", horncooltime + ""));
+						Message.playerSendMessage(p, Message.getString("horn_error_incool","%cooltime%", horncooltime));
 						return;
 					}
 					if (this.consumeItemStack(p.getInventory(), plugin.getHorn())) {
@@ -106,11 +109,13 @@ public class EventListener implements Listener {
 						}
 						BungeeUtil.sendServerChat(plugin, p, message);
 						updateHornCoolTime(p.getUniqueId());
-						Lang.sendMsg(p, Lang.AUTO_USE_SUCCESS);
+//						Lang.sendMsg(p, Lang.AUTO_USE_SUCCESS);
+						Message.playerSendMessage(p, Message.getString("chat_auto_use_success"));
 						return;
 					} else {
 						if (!Config.AUTO_COST) {
-							Lang.sendMsg(p, Lang.AUTO_USE_FAILED);
+//							Lang.sendMsg(p, Lang.AUTO_USE_FAILED);
+							Message.playerSendMessage(p, Message.getString("chat_auto_use_failed"));
 							return;
 						}
 					}
@@ -147,18 +152,21 @@ public class EventListener implements Listener {
 		if (hand != null && hand.isSimilar(plugin.getHorn())) {
 			e.setCancelled(true);
 			if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
-				Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.ALREADY_USING_HORN));
+//				Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.ALREADY_USING_HORN));
+				Message.playerSendMessage(p, Message.getString("horn_error_already_use"));
 				return;
 			}
 
 			int cooltime = remainHornCoolTime(p.getUniqueId());
 			if (cooltime > 0) {
-				Lang.sendMsg(p, Lang.HORN_IN_COOL_TIME.replace("&", "¡ì").replace("%cooltime%", cooltime + ""));
+//				Lang.sendMsg(p, Lang.HORN_IN_COOL_TIME.replace("&", "¡ì").replace("%cooltime%", cooltime + ""));
+				Message.playerSendMessage(p, Message.getString("horn_error_incool","%cooltime%", cooltime));
 				return;
 			}
 
 			usingtrumple.put(p.getUniqueId(), true);
-			Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_WHEN_USING_HORN));
+//			Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_WHEN_USING_HORN));
+			Message.playerSendMessage(p, Message.getString("horn_tip_using"));
 			int amount = hand.getAmount();
 			if (amount <= 1) {
 				p.getInventory().remove(hand);
@@ -169,7 +177,8 @@ public class EventListener implements Listener {
 				@Override
 				public void run() {
 					usingtrumple.put(p.getUniqueId(), false);
-					Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_OVERTIME_USEHORN));
+//					Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_OVERTIME_USEHORN));
+					Message.playerSendMessage(p, Message.getString("horn_tip_overtime"));
 					p.getInventory().addItem(plugin.getHorn());
 				}
 			};

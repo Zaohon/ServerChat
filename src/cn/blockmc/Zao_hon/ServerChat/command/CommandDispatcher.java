@@ -14,7 +14,9 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import cn.blockmc.Zao_hon.ServerChat.old.Lang;
+
 @SuppressWarnings("unused")
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 	private ServerChat plugin;
@@ -81,23 +83,27 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 		// Check that the sender is correct
 		if (!com.canBeConsole()
 				&& (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) {
-			Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+//			Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+			Message.senderSendMessage(sender, Message.getString("command_error_player_only"));
 			return true;
 		}
 		if (!com.canBeCommandBlock() && sender instanceof BlockCommandSender) {
-			Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+//			Lang.sendMsg(sender, Lang.ONLY_PLAYER_USE_COMMAND);
+			Message.senderSendMessage(sender, Message.getString("command_error_player_only"));
 			return true;
 		}
 
 		// Check that they have permission
 		if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
-			Lang.sendMsg(sender, Lang.NO_PERMISSION);
+//			Lang.sendMsg(sender, Lang.NO_PERMISSION);
+			Message.senderSendMessage(sender, "command_no_permission");
 			return true;
 		}
 
 		if (!com.onCommand(sender, subCommand, subArgs)) {
 			String[] lines = com.getUsageString(subCommand, sender);
-			sender.sendMessage("语法错误");
+//			sender.sendMessage("语法错误");
+			Message.senderSendMessage(sender, Message.getString("command_error_grammar"));
 			sender.sendMessage(lines);
 		}
 
@@ -127,14 +133,18 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 	private void displayUsage(CommandSender sender, String label, String subcommand) {
 
 		if (subcommand != null) {
-			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
-			sender.sendMessage("指令错误:" + subcommand);
+//			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
+			Message.senderSendMessage(sender, Message.getString("command_heading"));
+			Message.senderSendMessage(sender, Message.getString("command_error_command") + ":" + subcommand);
+//			sender.sendMessage("指令错误:" + subcommand);
 			for (ICommand command : mCommands.values()) {
 				sender.sendMessage(command.getDescription());
 			}
 		} else {
-			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
-			sender.sendMessage("缺少参数");
+//			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
+			Message.senderSendMessage(sender, Message.getString("command_heading"));
+//			sender.sendMessage("缺少参数");
+			Message.senderSendMessage(sender, Message.getString("command_error_invalid"));
 			for (ICommand command : mCommands.values()) {
 				sender.sendMessage(command.getDescription());
 			}
@@ -161,12 +171,12 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 		@Override
 		public String[] getUsageString(String label, CommandSender sender) {
-			return new String[] {"§2/sc help §6--查看帮助页面"};
+			return new String[] { "§2/sc help §6--查看帮助页面" };
 		}
 
 		@Override
 		public String getDescription() {
-			return "§asc help §e--查看本页面";
+			return Message.getString("command_description_help");
 		}
 
 		@Override
@@ -184,7 +194,8 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 			if (args.length != 0)
 				return false;
 
-			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
+//			Lang.sendMsg(sender, Lang.COMMAND_HEADING);
+			Message.senderSendMessage(sender, Message.getString("command_heading"));
 			for (ICommand command : mCommands.values()) {
 				// Dont show commands that are irrelevant
 				if (!command.canBeCommandBlock() && sender instanceof BlockCommandSender)
@@ -195,7 +206,8 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 				if (command.getPermission() != null && !sender.hasPermission(command.getPermission()))
 					continue;
-				sender.sendMessage(command.getDescription());
+//				sender.sendMessage(command.getDescription());
+				Message.senderSendMessage(sender, command.getDescription());
 			}
 			return true;
 		}

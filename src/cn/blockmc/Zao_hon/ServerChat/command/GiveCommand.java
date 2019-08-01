@@ -8,10 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
-public class GiveCommand implements ICommand{
+public class GiveCommand implements ICommand {
 	private ServerChat plugin;
+
 	public GiveCommand(ServerChat plugin) {
 		this.plugin = plugin;
 	}
@@ -33,12 +35,12 @@ public class GiveCommand implements ICommand{
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] {Lang.COMMAND_GIVEPLAYER};
+		return new String[] { Lang.COMMAND_GIVEPLAYER };
 	}
 
 	@Override
 	public String getDescription() {
-		return Lang.COMMAND_GIVEPLAYER;
+		return Message.getString("command_description_giveplayer");
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class GiveCommand implements ICommand{
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-		Player p =  (Player) sender;
+		Player p = (Player) sender;
 		Player gp = args.length == 0 ? p : Bukkit.getPlayer(args[0]);
 		int number = 1;
 		try {
@@ -65,10 +67,13 @@ public class GiveCommand implements ICommand{
 		horn.setAmount(number);
 		gp.getInventory().addItem(horn);
 		if (gp != p) {
-			Lang.sendMsg(p,
-					Lang.GIVE_PLAYER_HORN.replace("%player%", p.getName()).replace("%number%", number + ""));
+			Message.playerSendMessage(p,
+					Message.getString("command_tip_giveplayer_give", "%player%", gp.getName(), "%number%", number));
+//			Lang.sendMsg(p,
+//					Lang.GIVE_PLAYER_HORN.replace("%player%", p.getName()).replace("%number%", number + ""));
 		}
-		Lang.sendMsg(p, Lang.RECEIVE_HORN.replace("%number%", number + ""));
+//		Lang.sendMsg(p, Lang.RECEIVE_HORN.replace("%number%", number + ""));
+		Message.playerSendMessage(p, Message.getString("command_tip_giveplayer_recieve", "%number%", number));
 		return true;
 	}
 

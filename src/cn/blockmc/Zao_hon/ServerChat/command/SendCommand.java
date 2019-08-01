@@ -9,7 +9,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import cn.blockmc.Zao_hon.ServerChat.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class SendCommand implements ICommand{
 	private ServerChat plugin;
@@ -39,7 +40,7 @@ public class SendCommand implements ICommand{
 
 	@Override
 	public String getDescription() {
-		return Lang.COMMAND_SEND;
+		return Message.getString("command_description_send");
 	}
 
 	@Override
@@ -62,7 +63,8 @@ public class SendCommand implements ICommand{
 			return true;
 		}else{
 			if(plugin.getServer().getOnlinePlayers().isEmpty()){
-			sender.sendMessage("服务器需至少有一个人才能发送跨服消息");	
+//			sender.sendMessage("服务器需至少有一个人才能发送跨服消息");	
+			Message.senderSendMessage(sender, Message.getString("command_error_at_least_one_player"));
 			}else{
 				BungeeUtil.sendServerChat(plugin, sender, msg);
 			}

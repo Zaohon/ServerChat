@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.ServerChat.configuration;
+package cn.blockmc.Zao_hon.ServerChat.old;
 
 import java.io.File;
 
@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Lang {

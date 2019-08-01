@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
 public class IgnoreCommand implements ICommand{
 	private ServerChat plugin;
@@ -31,12 +31,12 @@ public class IgnoreCommand implements ICommand{
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] {Lang.COMMAND_IGNORED};
+		return new String[] {Message.getString("command_description_ignore")};
 	}
 
 	@Override
 	public String getDescription() {
-		return Lang.COMMAND_IGNORED;
+		return Message.getString("command_description_ignore");
 	}
 
 	@Override
@@ -51,11 +51,13 @@ public class IgnoreCommand implements ICommand{
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-		Player p = (Player) sender;
-		if (!plugin.changePlayerIgnored(p.getUniqueId())) {
-			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_ON);
+		Player player = (Player) sender;
+		if (!plugin.changePlayerIgnored(player.getUniqueId())) {
+//			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_ON);
+			Message.playerSendMessage(player, Message.getString("command_tip_ignore_on"));
 		} else {
-			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_OFF);
+//			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_OFF);?
+			Message.playerSendMessage(player, Message.getString("command_tip_ignore_off"));
 		}
 		return true;
 	}

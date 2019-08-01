@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
-import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
 public class SetItemCommand implements ICommand{
 	private ServerChat plugin;
@@ -38,7 +38,7 @@ public class SetItemCommand implements ICommand{
 
 	@Override
 	public String getDescription() {
-		return Lang.COMMAND_SETITEM;
+		return Message.getString("command_description_setitem");
 	}
 
 	@Override
@@ -53,14 +53,16 @@ public class SetItemCommand implements ICommand{
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-		Player p =  (Player) sender;
-		ItemStack trumple = p.getInventory().getItemInMainHand();
+		Player player =  (Player) sender;
+		ItemStack trumple = player.getInventory().getItemInMainHand();
 		if (trumple == null || trumple.getType() == Material.AIR) {
-			Lang.sendMsg(p, Lang.HORN_CANT_BE_AIR);
+//			Lang.sendMsg(p, Lang.HORN_CANT_BE_AIR);
+			Message.playerSendMessage(player, Message.getString("command_tip_setitem_air"));
 			return true;
 		}
 		plugin.setHorn(trumple);
-		Lang.sendMsg(p, Lang.SUCCESS_SET_HORN);
+//		Lang.sendMsg(p, Lang.SUCCESS_SET_HORN);
+		Message.playerSendMessage(player, Message.getString("command_tip_setitem_success"));
 		return true;
 	}
 
