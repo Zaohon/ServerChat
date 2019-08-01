@@ -26,12 +26,12 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 
 public class Message {
-	private ServerChat plugin;
 	// Quote from Mobhunting , author Rocologo
+	private ServerChat plugin;
 	private static String PREFIX = "[ServerChat]";
 	private static Map<String, String> mTranslationTable;
 	private static String[] sources = new String[] { "zh_cn.lang", "en_us.lang" };
-	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
+	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" ,"GBK"};
 
 	public Message(ServerChat plugin) {
 		this.plugin = plugin;
@@ -89,6 +89,7 @@ public class Message {
 	}
 
 	public static Map<String, String> loadLang(File file) {
+
 		Map<String, String> map = null;
 		try {
 			FileInputStream instream = new FileInputStream(file);
@@ -99,7 +100,6 @@ public class Message {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return map;
 	}
 
@@ -115,7 +115,6 @@ public class Message {
 				continue;
 			String key = line.substring(0, index).trim();
 			String value = line.substring(index + 1).trim();
-
 			map.put(key, value);
 		}
 		reader.close();
@@ -171,7 +170,6 @@ public class Message {
 		if (mTranslationTable == null) {
 			mTranslationTable = new HashMap<String, String>();
 			plugin.PR("已创建一个空翻译表");
-			;
 		}
 	}
 
@@ -181,8 +179,7 @@ public class Message {
 			Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "翻译表缺少" + key);
 			throw new MissingResourceException("", "", key);
 		}
-
-		return key;
+		return value;
 
 	}
 
@@ -212,14 +209,19 @@ public class Message {
 	public static void playerSendMessage(Player player, String message) {
 		if (isEmpty(message))
 			return;
-		player.sendMessage(PlaceholderAPI.setPlaceholders(player, message));
+		player.sendMessage(
+				ServerChat.getInstance().getPlaceholderAPI() != null ? PlaceholderAPI.setPlaceholders(player, message)
+						: message);
+
 	}
 
 	public static void senderSendMessage(CommandSender sender, String message) {
 		if (isEmpty(message))
 			return;
 		if (sender instanceof Player)
-			((Player) sender).sendMessage(PlaceholderAPI.setPlaceholders((Player) sender, message));
+			((Player) sender).sendMessage(ServerChat.getInstance().getPlaceholderAPI() != null
+					? PlaceholderAPI.setPlaceholders((Player) sender, message)
+					: message);
 		else
 			sender.sendMessage(message);
 	}

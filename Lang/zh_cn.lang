@@ -1,40 +1,37 @@
-command_heading: ¡ì2---ServerChat---
-command_description_plugin: ÔÚÈº×é·şÖĞ·¢ËÍ¿ç·şÏûÏ¢
-command_description_help: ¡ì2/sc help ¡ì6--²é¿´°ïÖúÒ³Ãæ
-command_description_setitem: ¡ì2/sc setitem   ¡ì6--½«ÊÖÉÏÄÃ×ÅµÄÎïÆ·ÉèÖÃÎªÀ®°È
-command_description_giveplayer: ¡ì2/sc give ¡ìd[Íæ¼Ò] [ÊıÁ¿]  ¡ì6--¸øÓèÍæ¼ÒÀ®°È,Áô¿ÕÔò¸ø×Ô¼º
-command_description_send: ¡ì2/sc send   ¡ì6--·¢ËÍÒ»Ìõ¿ç·şÏûÏ¢
-command_description_ignored: ¡ì2/sc ignore ¡ì6--ÎŞÊÓËùÓĞ¿ç·şÏûÏ¢
-command_description_buy: ¡ì2/sc buy ¡ìd[ÊıÁ¿] ¡ì6--¹ºÂò¿ç·şÀ®°È
-command_description_reload: ¡ì2/sc reload   ¡ì6--ÖØÔØ²å¼şÅäÖÃ
-command_tip_setitem_success:  ¡ìbÉèÖÃ¿ç·şÀ®°È³É¹¦
-command_tip_setitem_air:  ¡ìcÀ®°È²»ÄÜÎª¿ÕÆø£¡
-command_tip_giveplayer_give: ¡ìbÒÑ¸øÓèÍæ¼Ò¡ìa%player%¡ìe%number%¡ìb¸ö¿ç·şÀ®°È
-command_tip_giveplayer_recieve: ¡ìbÄãÊÕµ½ÁË¡ìe%number%¡ìb¸ö¿ç·şÀ®°È
-command_tip_send_success: ""
-command_tip_ignore_on: ¡ìb½ÓÊÕ¿ç·şÏûÏ¢
-command_tip_ignore_off: ¡ìbºöÂÔ¿ç·şÏûÏ¢
-command_tip_buy_money: ¡ìa³É¹¦¹ºÂò¡ìb%number%¡ìa¸ö¿ç·şÀ®°È,»¨·Ñ¡ìe%money%¡ìa½ğ±Ò
-command_tip_buy_failed: ¡ìc¹ºÂòÊ§°Ü,Ç®²»×ã
-command_tip_reload_success: ¡ì2ServerChatÖØÔØÍê³É
-command_no_permission_ignore: ¡ìcÄãÃ»ÓĞÈ¨ÏŞºöÂÔ¿ç·şÏûÏ¢
-command_no_permission_buy: ¡ìcÄãÃ»ÓĞÈ¨ÏŞ¹ºÂò¿ç·şÀ®°È
-command_no_permission: ¡ìcÈ¨ÏŞ²»×ã
-command_error_command: ¡ìcÖ¸Áî´íÎó
-command_error_invalid: ¡ìcÎŞĞ§²ÎÊı
-command_error_grammar: ¡ìcÓï·¨´íÎó
-command_error_player_offline: ¡ìcÍæ¼Ò%player%²»ÔÚÏß
-command_error_at_least_one_player: ·¢ËÍÊ§°Ü,·şÎñÆ÷ĞèÖÁÉÙÓĞÒ»¸öÈË²ÅÄÜ·¢ËÍ¿ç·şÏûÏ¢
-command_error_player_only: ¡ì2¸ÃÖ¸ÁîÖ»ÄÜÍæ¼ÒÊ¹ÓÃ
-chat_auto_use_success: ¡ìaº°»°³É¹¦,ÏûºÄÒ»¸ö¿ç·şÀ®°È
-chat_auto_use_failed: ¡ìcÀ®°È²»×ã
-chat_error_length: ¡ìcÄãËµµÄ»°Ì«³¤»òÕßÌ«¶ÌÁË
-chat_error_empty: ¡ìcÏûÏ¢²»ÄÜÎª¿Õ
-chat_error_incool: ¡ìcÄã»¹ÒªÔÙµÈ¡ìe%cooltime%¡ìcÃë²ÅÄÜÔÙ´Î·¢ËÍ¿ç·şÏûÏ¢
-horn_error_incool: ¡ìcÄã»¹ÒªÔÙµÈ¡ìe%cooltime%¡ìcÃë²ÅÄÜÔÙ´ÎÊ¹ÓÃ¿ç·şÀ®°È
-horn_error_already_use: ¡ì6ÄãÒÑ¾­ÓĞÒ»¸öÕıÔÚÊ¹ÓÃµÄ¿ç·şÀ®°ÈÁË
-horn_tip_using: ¡ìdÇëÊäÈëÄãÒª·¢ËÍµÄÀ®°ÈÄÚÈİ
-horn_tip_overtime: ¡ìaÓÉÓÚ³¤Ê±¼äÃ»ÓĞÊ¹ÓÃ£¬¿ç·şÀ®°ÈÒÑ×Ô¶¯ÍË»Ø
-
-
-
+command_heading=Â§2---ServerChat---
+command_description_plugin=åœ¨ç¾¤ç»„æœä¸­å‘é€è·¨æœæ¶ˆæ¯
+command_description_help=Â§2/sc help Â§6--æŸ¥çœ‹å¸®åŠ©é¡µé¢
+command_description_setitem=Â§2/sc setitem   Â§6--å°†æ‰‹ä¸Šæ‹¿ç€çš„ç‰©å“è®¾ç½®ä¸ºå–‡å­
+command_description_giveplayer=Â§2/sc give Â§d[ç©å®¶] [æ•°é‡]  Â§6--ç»™äºˆç©å®¶å–‡å­,ç•™ç©ºåˆ™ç»™è‡ªå·±
+command_description_send=Â§2/sc send   Â§6--å‘é€ä¸€æ¡è·¨æœæ¶ˆæ¯
+command_description_ignore=Â§2/sc ignore Â§6--æ— è§†æ‰€æœ‰è·¨æœæ¶ˆæ¯
+command_description_buy=Â§2/sc buy Â§d[æ•°é‡] Â§6--è´­ä¹°è·¨æœå–‡å­
+command_description_reload=Â§2/sc reload   Â§6--é‡è½½æ’ä»¶é…ç½®
+command_tip_setitem_success= Â§bè®¾ç½®è·¨æœå–‡å­æˆåŠŸ
+command_tip_setitem_air= Â§cå–‡å­ä¸èƒ½ä¸ºç©ºæ°”ï¼
+command_tip_giveplayer_give=Â§bå·²ç»™äºˆç©å®¶Â§a%player%Â§e%number%Â§bä¸ªè·¨æœå–‡å­
+command_tip_giveplayer_recieve=Â§bä½ æ”¶åˆ°äº†Â§e%number%Â§bä¸ªè·¨æœå–‡å­
+command_tip_send_success=""
+command_tip_ignore_on=Â§bæ¥æ”¶è·¨æœæ¶ˆæ¯
+command_tip_ignore_off=Â§bå¿½ç•¥è·¨æœæ¶ˆæ¯
+command_tip_buy_money=Â§aæˆåŠŸè´­ä¹°Â§b%number%Â§aä¸ªè·¨æœå–‡å­,èŠ±è´¹Â§e%money%Â§aé‡‘å¸
+command_tip_buy_failed=Â§cè´­ä¹°å¤±è´¥,é’±ä¸è¶³
+command_tip_reload_success=Â§2ServerChaté‡è½½å®Œæˆ
+command_no_permission_ignore=Â§cä½ æ²¡æœ‰æƒé™å¿½ç•¥è·¨æœæ¶ˆæ¯
+command_no_permission_buy=Â§cä½ æ²¡æœ‰æƒé™è´­ä¹°è·¨æœå–‡å­
+command_no_permission=Â§cæƒé™ä¸è¶³
+command_error_command=Â§cæŒ‡ä»¤é”™è¯¯
+command_error_invalid=Â§cæ— æ•ˆå‚æ•°
+command_error_grammar=Â§cè¯­æ³•é”™è¯¯
+command_error_player_offline=Â§cç©å®¶%player%ä¸åœ¨çº¿
+command_error_at_least_one_player=å‘é€å¤±è´¥,æœåŠ¡å™¨éœ€è‡³å°‘æœ‰ä¸€ä¸ªäººæ‰èƒ½å‘é€è·¨æœæ¶ˆæ¯
+command_error_player_only=Â§2è¯¥æŒ‡ä»¤åªèƒ½ç©å®¶ä½¿ç”¨
+chat_auto_use_success=Â§aå–Šè¯æˆåŠŸ,æ¶ˆè€—ä¸€ä¸ªè·¨æœå–‡å­
+chat_auto_use_failed=Â§cå–‡å­ä¸è¶³
+chat_error_length=Â§cä½ è¯´çš„è¯å¤ªé•¿æˆ–è€…å¤ªçŸ­äº†
+chat_error_empty=Â§cæ¶ˆæ¯ä¸èƒ½ä¸ºç©º
+chat_error_incool=Â§cä½ è¿˜è¦å†ç­‰Â§e%cooltime%Â§cç§’æ‰èƒ½å†æ¬¡å‘é€è·¨æœæ¶ˆæ¯
+horn_error_incool=Â§cä½ è¿˜è¦å†ç­‰Â§e%cooltime%Â§cç§’æ‰èƒ½å†æ¬¡ä½¿ç”¨è·¨æœå–‡å­
+horn_error_already_use=Â§6ä½ å·²ç»æœ‰ä¸€ä¸ªæ­£åœ¨ä½¿ç”¨çš„è·¨æœå–‡å­äº†
+horn_tip_using=Â§dè¯·è¾“å…¥ä½ è¦å‘é€çš„å–‡å­å†…å®¹
+horn_tip_overtime=Â§aç”±äºé•¿æ—¶é—´æ²¡æœ‰ä½¿ç”¨ï¼Œè·¨æœå–‡å­å·²è‡ªåŠ¨é€€å›
