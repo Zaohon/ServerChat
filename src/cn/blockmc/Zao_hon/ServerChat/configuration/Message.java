@@ -30,7 +30,7 @@ public class Message {
 	// Quote from Mobhunting , author Rocologo
 	private static String PREFIX = "[ServerChat]";
 	private static Map<String, String> mTranslationTable;
-	private static String[] sources = new String[] { "zh_cn.Lang", "en_us.Lang" };
+	private static String[] sources = new String[] { "zh_cn.lang", "en_us.lang" };
 	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
 
 	public Message(ServerChat plugin) {
@@ -47,7 +47,7 @@ public class Message {
 			File dest = new File(folder, source);
 			if (!dest.exists()) {
 				Bukkit.getServer().getConsoleSender()
-						.sendMessage(PREFIX + " Creating Language file " + source + " from JAR.");
+						.sendMessage(PREFIX + "创建初始语言文件" + source);
 				plugin.saveResource("Lang/" + source, false);
 			} else {
 				if (!injectChanges(plugin.getResource("Lang/" + source),
@@ -150,10 +150,10 @@ public class Message {
 		return "UTF-8";
 	}
 
-	public void setLanguage(String Lang) {
-		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + Lang);
+	public void setLanguage(String lang) {
+		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + lang+".lang");
 		if (!file.exists()) {
-			plugin.PR(Lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
+			plugin.PR(lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
@@ -162,11 +162,11 @@ public class Message {
 		}
 
 		if (file.exists()) {
-			InputStream resource = plugin.getResource("Lang/zh_cn.Lang");
+			InputStream resource = plugin.getResource("Lang/zh_cn.lang");
 			injectChanges(resource, file);
 			mTranslationTable = loadLang(file);
 		} else {
-			plugin.PR("无法加载" + Lang + "文件,或许出了什么大问题");
+			plugin.PR("无法加载" + lang + "文件,或许出了什么大问题");
 		}
 
 		if (mTranslationTable == null) {

@@ -46,7 +46,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public void onEnable() {
 		instance = this;
 		Config.reload();
-		Lang.reload();
+//		Lang.reload();
 		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
