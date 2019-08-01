@@ -15,25 +15,21 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.blockmc.Zao_hon.ServerChat.command.BuyCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.CommandDispatcher;
-//import cn.blockmc.Zao_hon.ServerChat.command.Commands;
 import cn.blockmc.Zao_hon.ServerChat.command.GiveCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.ReloadCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 
-//import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
-
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import me.clip.placeholderapi.PlaceholderAPI;
-//import fr.xephi.authme.api.v3.AuthMeApi;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
@@ -44,7 +40,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private boolean outdate = true;
 	private CommandDispatcher commandDispatcher;
-	private PlaceholderAPI placeholderAPI = null;
+	private Plugin placeholderAPI = null;
 
 	@Override
 	public void onEnable() {
@@ -102,7 +98,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
 			PR("已加载前置插件PlaceholderAPI");
-			placeholderAPI = (PlaceholderAPI) getServer().getPluginManager().getPlugin("PlaceholderAPI");
+			placeholderAPI =getServer().getPluginManager().getPlugin("PlaceholderAPI");
 		}
 	}
 
@@ -197,7 +193,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public Economy getEconomy() {
 		return economy;
 	}
-	public PlaceholderAPI getPlaceholderAPI() {
+	public Plugin getPlaceholderAPI() {
 		return placeholderAPI;
 	}
 
