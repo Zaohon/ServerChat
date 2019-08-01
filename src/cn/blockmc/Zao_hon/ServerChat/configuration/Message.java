@@ -30,7 +30,7 @@ public class Message {
 	// Quote from Mobhunting , author Rocologo
 	private static String PREFIX = "[ServerChat]";
 	private static Map<String, String> mTranslationTable;
-	private static String[] sources = new String[] { "zh_cn.lang", "en_us.lang" };
+	private static String[] sources = new String[] { "zh_cn.Lang", "en_us.Lang" };
 	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
 
 	public Message(ServerChat plugin) {
@@ -39,7 +39,7 @@ public class Message {
 	}
 
 	public static void exportDefaultLanguage(ServerChat plugin) {
-		File folder = new File(plugin.getDataFolder(), "lang");
+		File folder = new File(plugin.getDataFolder(), "Lang");
 		if (!folder.exists())
 			folder.mkdirs();
 
@@ -47,12 +47,12 @@ public class Message {
 			File dest = new File(folder, source);
 			if (!dest.exists()) {
 				Bukkit.getServer().getConsoleSender()
-						.sendMessage(PREFIX + " Creating language file " + source + " from JAR.");
-				plugin.saveResource("lang/" + source, false);
+						.sendMessage(PREFIX + " Creating Language file " + source + " from JAR.");
+				plugin.saveResource("Lang/" + source, false);
 			} else {
-				if (!injectChanges(plugin.getResource("lang/" + source),
-						new File(plugin.getDataFolder(), "lang/" + source))) {
-					plugin.saveResource("lang/" + source, true);
+				if (!injectChanges(plugin.getResource("Lang/" + source),
+						new File(plugin.getDataFolder(), "Lang/" + source))) {
+					plugin.saveResource("Lang/" + source, true);
 				}
 			}
 			mTranslationTable = loadLang(dest);
@@ -150,10 +150,10 @@ public class Message {
 		return "UTF-8";
 	}
 
-	public void setLanguage(String lang) {
-		File file = new File(ServerChat.getInstance().getDataFolder(), "lang/" + lang);
+	public void setLanguage(String Lang) {
+		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + Lang);
 		if (!file.exists()) {
-			plugin.PR(lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
+			plugin.PR(Lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
@@ -162,11 +162,11 @@ public class Message {
 		}
 
 		if (file.exists()) {
-			InputStream resource = plugin.getResource("lang/zh_cn.lang");
+			InputStream resource = plugin.getResource("Lang/zh_cn.Lang");
 			injectChanges(resource, file);
 			mTranslationTable = loadLang(file);
 		} else {
-			plugin.PR("无法加载" + lang + "文件,或许出了什么大问题");
+			plugin.PR("无法加载" + Lang + "文件,或许出了什么大问题");
 		}
 
 		if (mTranslationTable == null) {
