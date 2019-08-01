@@ -32,19 +32,20 @@ import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Lang;
+import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import me.clip.placeholderapi.PlaceholderAPI;
 //import fr.xephi.authme.api.v3.AuthMeApi;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
-	private File itemfile;
+	private File itemFile;
 	private Economy economy;
-	// private LoginSecurity loginsecurity;
-	// private AuthMeApi authmeapi;
+	private Message message;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private boolean outdate = true;
 	private CommandDispatcher commandDispatcher;
-	// public Message Message;
+	private PlaceholderAPI placeholderAPI = null;
 
 	@Override
 	public void onEnable() {
@@ -56,7 +57,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
-		// this.getCommand("ServerChat").setExecutor(new Commands());
+		
+		this.message = new Message(this);
+		message.setLanguage(Config.LANG);
 
 		commandDispatcher = new CommandDispatcher(this, "ServerChat", "在群组服中发送跨服消息");
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
@@ -94,20 +97,14 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	private void loadDepends() {
-		// if (getServer().getPluginManager().getPlugin("Authme") != null) {
-		// authmeapi = AuthMeApi.getInstance();
-		// PR("检测到登录插件Authme");
-		// }
-		// if (getServer().getPluginManager().getPlugin("LoginSecurity") !=
-		// null) {
-		// loginsecurity = (LoginSecurity)
-		// getServer().getPluginManager().getPlugin("LoginSecurity");
-		// PR("检测到登录插件Authme");
-		// }
 		if (setupEconomy()) {
 			PR("已加载经济插件Vault");
 		}
 
+		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+			PR("已加载前置插件PlaceholderAPI");
+			placeholderAPI = (PlaceholderAPI) getServer().getPluginManager().getPlugin("PlaceholderAPI");
+		}
 	}
 
 	private boolean setupEconomy() {
@@ -123,15 +120,15 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	public boolean loadHorn() {
-		if (itemfile == null) {
-			itemfile = new File(this.getDataFolder(), "Item.yml");
+		if (itemFile == null) {
+			itemFile = new File(this.getDataFolder(), "Item.yml");
 		}
-		if (!itemfile.exists()) {
+		if (!itemFile.exists()) {
 			this.setHorn(DefaultItem.getHorn());
 			return true;
 		}
 
-		horn = YamlConfiguration.loadConfiguration(itemfile).getItemStack("Item");
+		horn = YamlConfiguration.loadConfiguration(itemFile).getItemStack("Item");
 		return true;
 	}
 
@@ -141,10 +138,10 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	public boolean setHorn(ItemStack item) {
 		horn = item;
-		FileConfiguration config = YamlConfiguration.loadConfiguration(itemfile);
+		FileConfiguration config = YamlConfiguration.loadConfiguration(itemFile);
 		try {
 			config.set("Item", item);
-			config.save(itemfile);
+			config.save(itemFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -201,14 +198,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public Economy getEconomy() {
 		return economy;
 	}
-
-	// public AuthMeApi getAuthMeApi() {
-	// return authmeapi;
-	// }
-	//
-	// public LoginSecurity getLoginSecurity() {
-	// return loginsecurity;
-	// }
+	public PlaceholderAPI getPlaceholderAPI() {
+		return placeholderAPI;
+	}
 
 	public boolean changePlayerIgnored(UUID uuid) {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);

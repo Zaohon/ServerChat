@@ -1,14 +1,9 @@
 package cn.blockmc.Zao_hon.ServerChat;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +12,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 //import com.lenis0012.bukkit.loginsecurity.LoginSecurity;
@@ -53,8 +47,6 @@ public class EventListener implements Listener {
 			return;
 		}
 		Player p = e.getPlayer();
-		if (e.isCancelled())
-			return;
 		String message = e.getMessage();
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
@@ -187,20 +179,6 @@ public class EventListener implements Listener {
 		}
 
 	}
-	//
-	// private boolean isAuthenticated(Player player) {
-	// if (plugin.getAuthMeApi() != null &&
-	// !plugin.getAuthMeApi().isAuthenticated(player)) {
-	// return false;
-	// }
-	// if (plugin.getLoginSecurity() != null
-	// &&
-	// !LoginSecurity.getSessionManager().getPlayerSession(player).isAuthorized())
-	// {
-	// return false;
-	// }
-	// return true;
-	// }
 
 	private int remainChatCoolTime(UUID uuid) {
 		int cooltime = 0;

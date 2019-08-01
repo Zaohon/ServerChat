@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Lang {
 	private static ServerChat plugin;
@@ -50,7 +51,7 @@ public class Lang {
 
 	public static void reload() {
 		plugin = ServerChat.getInstance();
-		String langfile = plugin.getConfig().getString("Lang") + ".yml";
+		String langfile = Config.LANG + ".yml";
 		File langFile = new File(plugin.getDataFolder(), langfile);
 		if (!langFile.exists()) {
 			plugin.saveResource(langfile, false);
@@ -61,11 +62,11 @@ public class Lang {
 		COMMAND_SETITEM = config.getString("Command_setitem", "§2/sc setitem   §6--将手上拿着的物品设置为喇叭");
 		COMMAND_GIVEPLAYER = config.getString("Command_giveplayer", "§2/sc give [玩家]   §6--给予玩家一个喇叭,留空则给自己");
 		COMMAND_IGNORED = config.getString("Command_ignored", "§2/sc ignore --§6无视所有跨服消息");
-		COMMAND_BUY = config.getString("Command_buy","/sc buy [数量] --购买跨服喇叭");
-		COMMAND_SEND = config.getString("Command_send","§2/sc send   §6--发送一条跨服消息");
-		COMMAND_BUY_COST_MONEY = config.getString("Command_buy_cost_money","§a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币");
-		COMMAND_BUY_COST_POINT = config.getString("Command_buy_cost_point","§a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券");
-		COMMAND_BUY_COST_FAILED = config.getString("Command_buy_cost_failed","§c购买失败,钱不足");
+		COMMAND_BUY = config.getString("Command_buy", "/sc buy [数量] --购买跨服喇叭");
+		COMMAND_SEND = config.getString("Command_send", "§2/sc send   §6--发送一条跨服消息");
+		COMMAND_BUY_COST_MONEY = config.getString("Command_buy_cost_money", "§a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币");
+		COMMAND_BUY_COST_POINT = config.getString("Command_buy_cost_point", "§a成功购买§b%number%§a个跨服喇叭,花费§d%money%§a点券");
+		COMMAND_BUY_COST_FAILED = config.getString("Command_buy_cost_failed", "§c购买失败,钱不足");
 		COMMAND_RELOAD = config.getString("Command_reload: ", "§2/sc reload   §6--重载插件配置");
 		COMMAND_RELOAD_COMPLETELY = config.getString("Command_reload_completely", "§2ServerChat重载完成");
 		CHAT_LENTH_ERROR = config.getString("ChatLenthError", "§c你说的话太长或者太短了");
@@ -76,7 +77,7 @@ public class Lang {
 		GIVE_PLAYER_HORN = config.getString("GivePlayerHorn", "§b已给予玩家§a%player%§e%number%§b跨服喇叭");
 		SUCCESS_SET_HORN = config.getString("SuccessSetHornItem", "§b设置跨服喇叭成功");
 		HORN_CANT_BE_AIR = config.getString("HornCantBeAir", " §c喇叭不能为空气！");
-		NO_PERMISSION_BUY = config.getString("NoPermissionBuy","§c你没有权限购买跨服喇叭");
+		NO_PERMISSION_BUY = config.getString("NoPermissionBuy", "§c你没有权限购买跨服喇叭");
 		NO_PERMISSION_IGNORE = config.getString("NoPermissionIgnore", "§c缺少屏蔽跨服聊天的权限");
 		NO_PERMISSION = config.getString("NoPermission", "§c权限不足");
 		ONLY_PLAYER_USE_COMMAND = config.getString("OnlyPlayerUseCommand", "§2该指令只能玩家使用");
@@ -92,12 +93,16 @@ public class Lang {
 		AUTO_COST_FAILED_POINT = config.getString("Auto_Cost_Failed_Point", "§c你需要§e%point%§c点券才能发送跨服消息");
 		AUTO_USE_SUCCESS = config.getString("Auto_USE_HORN", "§a喊话成功,消耗一个跨服喇叭");
 		AUTO_USE_FAILED = config.getString("Auto_Use_Failed", "§c缺少跨服喇叭");
-		
 
 	}
-	public static void sendMsg(CommandSender sender,String msg){
-		if(msg!=null&&!msg.equals("")){
-			if(sender instanceof Player){
+
+	public static void sendMsg(CommandSender sender, String msg) {
+
+		if (msg != null && !msg.equals("")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				if (plugin.getPlaceholderAPI() != null)
+					msg = PlaceholderAPI.setPlaceholders(player, msg);
 				msg = msg.replaceAll("&", "§");
 			}
 			sender.sendMessage(msg);
