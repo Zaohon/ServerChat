@@ -1,0 +1,40 @@
+command_heading: §2---ServerChat---
+command_description_plugin: 在群组服中发送跨服消息
+command_description_help: §2/sc help §6--查看帮助页面
+command_description_setitem: §2/sc setitem   §6--将手上拿着的物品设置为喇叭
+command_description_giveplayer: §2/sc give §d[玩家] [数量]  §6--给予玩家喇叭,留空则给自己
+command_description_send: §2/sc send   §6--发送一条跨服消息
+command_description_ignored: §2/sc ignore §6--无视所有跨服消息
+command_description_buy: §2/sc buy §d[数量] §6--购买跨服喇叭
+command_description_reload: §2/sc reload   §6--重载插件配置
+command_tip_setitem_success:  §b设置跨服喇叭成功
+command_tip_setitem_air:  §c喇叭不能为空气！
+command_tip_giveplayer_give: §b已给予玩家§a%player%§e%number%§b个跨服喇叭
+command_tip_giveplayer_recieve: §b你收到了§e%number%§b个跨服喇叭
+command_tip_send_success: ""
+command_tip_ignore_on: §b接收跨服消息
+command_tip_ignore_off: §b忽略跨服消息
+command_tip_buy_money: §a成功购买§b%number%§a个跨服喇叭,花费§e%money%§a金币
+command_tip_buy_failed: §c购买失败,钱不足
+command_tip_reload_success: §2ServerChat重载完成
+command_no_permission_ignore: §c你没有权限忽略跨服消息
+command_no_permission_buy: §c你没有权限购买跨服喇叭
+command_no_permission: §c权限不足
+command_error_command: §c指令错误
+command_error_invalid: §c无效参数
+command_error_grammar: §c语法错误
+command_error_player_offline: §c玩家%player%不在线
+command_error_at_least_one_player: 发送失败,服务器需至少有一个人才能发送跨服消息
+command_error_player_only: §2该指令只能玩家使用
+chat_auto_use_success: §a喊话成功,消耗一个跨服喇叭
+chat_auto_use_failed: §c喇叭不足
+chat_error_length: §c你说的话太长或者太短了
+chat_error_empty: §c消息不能为空
+chat_error_incool: §c你还要再等§e%cooltime%§c秒才能再次发送跨服消息
+horn_error_incool: §c你还要再等§e%cooltime%§c秒才能再次使用跨服喇叭
+horn_error_already_use: §6你已经有一个正在使用的跨服喇叭了
+horn_tip_using: §d请输入你要发送的喇叭内容
+horn_tip_overtime: §a由于长时间没有使用，跨服喇叭已自动退回
+
+
+
