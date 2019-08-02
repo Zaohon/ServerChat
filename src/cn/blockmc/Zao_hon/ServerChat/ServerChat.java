@@ -201,7 +201,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	public boolean changePlayerIgnored(UUID uuid) {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);
-		return ignored.put(uuid, !ignored.get(uuid));
+		return !ignored.put(uuid, !ignored.get(uuid));
 	}
 
 	public boolean isOutdate() {

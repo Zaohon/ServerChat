@@ -96,7 +96,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 		// Check that they have permission
 		if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
 //			Lang.sendMsg(sender, Lang.NO_PERMISSION);
-			Message.senderSendMessage(sender, "command_no_permission");
+			Message.senderSendMessage(sender,Message.getString( "command_no_permission"));
 			return true;
 		}
 
@@ -171,7 +171,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 		@Override
 		public String[] getUsageString(String label, CommandSender sender) {
-			return new String[] { "¡ì2/sc help ¡ì6--²é¿´°ïÖúÒ³Ãæ" };
+			return new String[] { Message.getString("command_description_help") };
 		}
 
 		@Override

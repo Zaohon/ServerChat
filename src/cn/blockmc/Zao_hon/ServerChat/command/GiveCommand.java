@@ -56,7 +56,7 @@ public class GiveCommand implements ICommand {
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		Player p = (Player) sender;
-		Player gp = args.length == 0 ? p : Bukkit.getPlayer(args[0]);
+		Player gp = args.length == 0 ? p : Bukkit.getPlayer(args[0]) == null ? p : Bukkit.getPlayer(args[0]);
 		int number = 1;
 		try {
 			number = Integer.valueOf(args[1]);

@@ -191,9 +191,9 @@ public class Message {
 		String k = null;
 		for (Object obj : objects) {
 			if (k == null) {
-				k = (String) obj;
+				k = String.valueOf(obj);
 			} else {
-				map.put(key, (String) obj);
+				map.put(k, String.valueOf(obj));
 				k = null;
 			}
 		}
