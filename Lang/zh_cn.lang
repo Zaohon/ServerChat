@@ -35,3 +35,5 @@ horn_error_incool=§c你还要再等§e%cooltime%§c秒才能再次使用跨服�
 horn_error_already_use=§6你已经有一个正在使用的跨服喇叭了
 horn_tip_using=§d请输入你要发送的喇叭内容
 horn_tip_overtime=§a由于长时间没有使用，跨服喇叭已自动退回
+update_player=发现新版本%version_latest%快前往http://www.mcbbs.net/thread-704339-1-1.html下载!
+at_tip=§b%player%@了你一下

@@ -125,14 +125,14 @@ public class Commands implements CommandExecutor {
 					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_FAILED);
 				}
 				return true;
-			}
-			else if(a1.equals("send")){
-				String msg = lenth>=2?args[1]:"";
-				if (sender instanceof Player){
-					AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false,(Player)sender,(Config.CHAT_PREFIX_ENABLE?Config.CHAT_PREFIX:"")+msg,null);
+			} else if (a1.equals("send")) {
+				String msg = lenth >= 2 ? args[1] : "";
+				if (sender instanceof Player) {
+					AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false, (Player) sender,
+							(Config.CHAT_PREFIX_ENABLE ? Config.CHAT_PREFIX : "") + msg, null);
 					plugin.getServer().getPluginManager().callEvent(e);
 					return true;
-				}else{
+				} else {
 					plugin.sendServerChat(Config.THIS_SERVER_NAME, "¡ìeServer", msg);
 					return true;
 				}

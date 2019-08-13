@@ -12,10 +12,11 @@ ChatPrefix: "!"
 FreeChat: false
 #免费发送跨服消息的冷却时间(/秒)
 ChatCoolTime: 30
-#是否会在发送跨服消息的时候自动消耗背包里的喇叭(若FreeChat为true则无效)
+#发送跨服消息的时候自动消耗背包里的喇叭(若FreeChat为true则无效)
 AutoUse: true
-#是否在背包里的喇叭不足时自动花费金币或点券购买(若FreeChat为true则无效)
+#背包里的喇叭不足时自动花费金币或点券购买(若FreeChat为true则无效)
 AutoCost: false
+
 
 Cost:
   Enable: true
@@ -28,6 +29,10 @@ HornSet:
   ResponTime: 30
   #喇叭冷却时间(/秒)
   HornCoolTime: 10
+
+#开启@功能
+ATEnable: true  
+  
 ###########################################
 ###############BOSS血条配置################
 ###########################################
@@ -46,7 +51,7 @@ BossBarFlags: []
 #BossBar持续时间(/秒)
 BossBarContinued: 6
 
-BossBarMessage: "%server% §a§l%player% §7如此说道: §r%message%"
+BossBarMessage: "%server% §a§l%player% §7shout: §r%message%"
 
 
 ###############################################
@@ -84,8 +89,6 @@ ShieldMessages:
   - "干你妈"
   - "有病"
   - "畜生"
-  - "禽兽"
-  - "人兽"
   - "你妈"
   - "他妈"
   - "脑残"

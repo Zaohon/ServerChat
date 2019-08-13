@@ -10,8 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
-public class SetItemCommand implements ICommand{
+public class SetItemCommand implements ICommand {
 	private ServerChat plugin;
+
 	public SetItemCommand(ServerChat plugin) {
 		this.plugin = plugin;
 	}
@@ -23,7 +24,7 @@ public class SetItemCommand implements ICommand{
 
 	@Override
 	public String[] getAliases() {
-		return new String[] {"si"};
+		return new String[] { "si" };
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class SetItemCommand implements ICommand{
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-		Player player =  (Player) sender;
+		Player player = (Player) sender;
 		ItemStack trumple = player.getInventory().getItemInMainHand();
 		if (trumple == null || trumple.getType() == Material.AIR) {
 //			Lang.sendMsg(p, Lang.HORN_CANT_BE_AIR);

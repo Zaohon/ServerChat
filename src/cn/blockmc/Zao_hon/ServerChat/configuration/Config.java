@@ -1,14 +1,23 @@
 package cn.blockmc.Zao_hon.ServerChat.configuration;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class Config {
+	private static ServerChat plugin;
+
 	public static String LANG = "zh_cn";
 	public static int CONFIG_VERSION = 1;
 	public static String THIS_SERVER_NAME = "NoneServerName";
@@ -22,7 +31,6 @@ public class Config {
 	public static boolean COST_ENABLE = true;
 	public static int COST_MONEY = 50;
 	public static int COST_PLAYER_POINT = 10;
-//	public static boolean HORNSET_ALLOW_COOMAND_BUY = true;
 	public static boolean HORNSET_BUY_MENU = true;
 	public static int HORNSET_RESPON_TIME = 30;
 	public static int HORNSET_COOL_TIME = 10;
@@ -31,7 +39,7 @@ public class Config {
 	public static String BOSS_BAR_STYLE = "SOLID";
 	public static List<String> BOSS_BAR_FLAGS = new ArrayList<String>();
 	public static int BOSS_BAR_CONTINUED = 6;
-	public static String BOSS_BAR_MESSAGE = "%server% §a§l%player% §7如此说道: §r%message%";
+	public static String BOSS_BAR_MESSAGE = "%server% §a§l%player% §7shout: §r%message%";
 	public static boolean ACTION_BAR_ENABLE = true;
 	public static String ACTION_BAR_MESSAGE = "§a§l%player% : %message%";
 	public static boolean CHAT_ENABLE = true;
@@ -40,15 +48,24 @@ public class Config {
 	public static int LENTH_LIMIT_MAX = 40;
 	public static List<String> SHIELD_MESSAGES = new ArrayList<String>();
 	public static String SHILED_REPLACES = "♥";
-	public static Boolean AUTO_UPDATE_CHECK = true;
-	
-	public static HashMap<String,String> CONFIG_PATH = new HashMap<String,String>();
+	public static boolean AUTO_UPDATE_CHECK = true;
+	public static boolean AT_ENABLE = true;
+
+	public static HashMap<String, String> CONFIG_PATH = new HashMap<String, String>();
+
+	public static void init(ServerChat plugin) {
+		Config.plugin = plugin;
+		plugin.saveDefaultConfig();
+		File configFile = new File(plugin.getDataFolder(), "config.yml");
+		if (injectChanges(plugin.getResource("config.yml"), configFile)) {
+			plugin.PR("检测到Config缺少部分内容，以自动补上");
+		}
+		reload();
+	}
 
 	public static void reload() {
-		ServerChat plugin = ServerChat.getInstance();
-		plugin.saveDefaultConfig();
-		plugin.reloadConfig();
-		FileConfiguration config = plugin.getConfig();
+		File configFile = new File(plugin.getDataFolder(), "config.yml");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		LANG = config.getString("Lang", "zh_cn");
 		CONFIG_VERSION = config.getInt("Config_Version", 1);
 		THIS_SERVER_NAME = config.getString("ThisServerName", "NoneServerName");
@@ -71,7 +88,7 @@ public class Config {
 		BOSS_BAR_STYLE = config.getString("BossBarStyle", "SOLID");
 		BOSS_BAR_FLAGS = config.getStringList("BossBarFlags");
 		BOSS_BAR_CONTINUED = config.getInt("BossBarContinued", 6);
-		BOSS_BAR_MESSAGE = config.getString("BossBarMessage", "%server% §a§l%player% §7如此说道: §r%message%");
+		BOSS_BAR_MESSAGE = config.getString("BossBarMessage", "%server% §a§l%player% §7shout: §r%message%");
 		ACTION_BAR_ENABLE = config.getBoolean("ActionBar", true);
 		ACTION_BAR_MESSAGE = config.getString("ActionBarMessage", "§a§l%player% : %message%");
 		CHAT_ENABLE = config.getBoolean("Chat", true);
@@ -80,11 +97,45 @@ public class Config {
 		LENTH_LIMIT_MAX = config.getInt("LenthLimit.Max", 40);
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
 		SHILED_REPLACES = config.getString("ShieldReplaces", " ♥");
-		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck",true);
-		//Config Update Check
-//		if(CONFIG_VERSION!=ConfigUpdater.CONFIG_VERSION){
-//			ConfigUpdater.configUpdate();
-//		}
+		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck", true);
+		AT_ENABLE = config.getBoolean("ATEnable", true);
+	}
+
+	private static boolean injectChanges(InputStream instream, File configFile) {
+		if (!configFile.exists()) {
+			try {
+				configFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		YamlConfiguration configFull = YamlConfiguration.loadConfiguration(new InputStreamReader(instream));
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+		Map<String, Object> injectMap = new HashMap<String, Object>();
+
+		for (String key : configFull.getKeys(false)) {
+			if (!config.contains(key)) {
+				injectMap.put(key, configFull.get(key));
+			}
+		}
+
+		boolean different = injectMap.isEmpty();
+		if (!different) {
+			for (Entry<String, Object> entry : injectMap.entrySet()) {
+				config.set(entry.getKey(), entry.getValue());
+			}
+			try {
+				config.save(configFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+
+		}
+
+		return different;
+
 	}
 
 }

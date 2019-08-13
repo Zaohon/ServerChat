@@ -11,7 +11,8 @@ public class UpdateChecker {
 			URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=43494");
 			URLConnection conn = url.openConnection();
 			return new BufferedReader(new InputStreamReader(conn.getInputStream())).readLine();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return ServerChat.getInstance().getDescription().getVersion();
 	}
 }

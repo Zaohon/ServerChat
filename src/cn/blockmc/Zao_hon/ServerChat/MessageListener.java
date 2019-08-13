@@ -35,7 +35,7 @@ public class MessageListener implements PluginMessageListener {
 			try {
 				//
 				Long time = msgin.readLong();
-				if(time<System.currentTimeMillis()-5000){
+				if (time < System.currentTimeMillis() - 5000) {
 					return;
 				}
 				//

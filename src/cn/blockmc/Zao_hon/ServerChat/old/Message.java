@@ -70,7 +70,7 @@ public class Message {
 				e.printStackTrace();
 			}
 		}
-		if(update){
+		if (update) {
 			this.saveToFile();
 		}
 		//
@@ -91,7 +91,8 @@ public class Message {
 		// HintWhenUsingHorn = config.getString("HintWhenUsingHorn");
 		// AlreadyUsingHorn = config.getString("AlreadyUsingHorn");
 	}
-	private void saveToFile(){
+
+	private void saveToFile() {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(msgfile);
 		Field[] msgfields = this.getClass().getFields();
 		for (int i = 0; i < msgfields.length; i++) {

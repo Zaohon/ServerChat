@@ -35,3 +35,5 @@ horn_error_incool=§cYou have to wait §e%cooltime%§c seconds to be able to use
 horn_error_already_use=§6You are already using a horn
 horn_tip_using=§dEnter your serverchat message
 horn_tip_overtime=§aDue to long time no use , your horn has been returned back
+update_player=Found a new version %version_latest%,download it at https://www.spigotmc.org/resources/serverchat.43494/
+at_tip=§b%player%@you

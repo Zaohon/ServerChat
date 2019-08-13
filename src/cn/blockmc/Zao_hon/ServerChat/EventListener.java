@@ -24,18 +24,18 @@ public class EventListener implements Listener {
 	private HashMap<UUID, Boolean> usingtrumple = new HashMap<UUID, Boolean>();
 	private HashMap<UUID, BukkitRunnable> playerrunnable = new HashMap<UUID, BukkitRunnable>();
 
-	public EventListener() {
-		this.plugin = ServerChat.getInstance();
+	public EventListener(ServerChat plugin) {
+		this.plugin = plugin;
 	}
 
 	@EventHandler
 	public void updateCheck(PlayerLoginEvent e) {
 		Player p = e.getPlayer();
-		if (p.isOp()) {
-			if (plugin.isOutdate()) {
-				String latest = UpdateChecker.getLatestVersion();
-				p.sendMessage("[ServerChat]发现新版本" + latest + ",快前往http://www.mcbbs.net/thread-704339-1-1.html下载!");
-			}
+		if (p.isOp() && plugin.isOutdate()) {
+			String latest = UpdateChecker.getLatestVersion();
+			String old = plugin.getDescription().getVersion();
+			Message.playerSendMessage(p,
+					Message.getString("update_player", "%version%", old, "version_latest", latest));
 		}
 	}
 
@@ -49,7 +49,6 @@ public class EventListener implements Listener {
 		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
 			if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
-//				Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
 				Message.playerSendMessage(p, Message.getString("chat_error_length"));
 				return;
 			}
@@ -65,16 +64,15 @@ public class EventListener implements Listener {
 		}
 		if (Config.CHAT_PREFIX_ENABLE) {
 			String prefix = Config.CHAT_PREFIX;
-			if (message.startsWith(prefix)) {
+			boolean emptyPrefix = prefix == "";
+			if (emptyPrefix || message.startsWith(prefix)) {
 				e.setCancelled(true);
-				message = message.substring(1);
+				message = emptyPrefix ? message : message.substring(1);
 				if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
-//					Lang.sendMsg(p, Lang.CHAT_LENTH_ERROR);
 					Message.playerSendMessage(p, Message.getString("chat_error_length"));
 					return;
 				}
 				if (message.length() == 0) {
-//					Lang.sendMsg(p, Lang.CHAT_MSG_EMPTY);
 					Message.playerSendMessage(p, Message.getString("chat_error_empty"));
 					return;
 				}
@@ -82,9 +80,7 @@ public class EventListener implements Listener {
 				if (Config.FREE_CHAT) {
 					int cooltime = remainChatCoolTime(p.getUniqueId());
 					if (cooltime > 0) {
-//						Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&',
-//								Lang.CHAT_IN_COOL_TIME.replace("%cooltime%", cooltime + "")));
-						Message.playerSendMessage(p, Message.getString("chat_error_incool","%cooltime%", cooltime));
+						Message.playerSendMessage(p, Message.getString("chat_error_incool", "%cooltime%", cooltime));
 						return;
 					}
 					if (p.hasPermission("ServerChat.Color")) {
@@ -98,9 +94,8 @@ public class EventListener implements Listener {
 				if (Config.AUTO_USE) {
 					int horncooltime = remainHornCoolTime(p.getUniqueId());
 					if (horncooltime > 0) {
-//						Lang.sendMsg(p,
-//								Lang.HORN_IN_COOL_TIME.replace("&", "§").replace("%cooltime%", horncooltime + ""));
-						Message.playerSendMessage(p, Message.getString("horn_error_incool","%cooltime%", horncooltime));
+						Message.playerSendMessage(p,
+								Message.getString("horn_error_incool", "%cooltime%", horncooltime));
 						return;
 					}
 					if (this.consumeItemStack(p.getInventory(), plugin.getHorn())) {
@@ -109,12 +104,10 @@ public class EventListener implements Listener {
 						}
 						BungeeUtil.sendServerChat(plugin, p, message);
 						updateHornCoolTime(p.getUniqueId());
-//						Lang.sendMsg(p, Lang.AUTO_USE_SUCCESS);
 						Message.playerSendMessage(p, Message.getString("chat_auto_use_success"));
 						return;
 					} else {
 						if (!Config.AUTO_COST) {
-//							Lang.sendMsg(p, Lang.AUTO_USE_FAILED);
 							Message.playerSendMessage(p, Message.getString("chat_auto_use_failed"));
 							return;
 						}
@@ -123,8 +116,6 @@ public class EventListener implements Listener {
 				if (Config.AUTO_COST) {
 					int mc = Config.COST_MONEY;
 					double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
-					// int ppc =
-					// plugin.getConfig().getInt("Cost.PlayerPoint");
 					if (mc != 0 && mn >= mc) {
 						plugin.getEconomy().depositPlayer(p, mc);
 						if (p.hasPermission("ServerChat.Color")) {
@@ -152,20 +143,17 @@ public class EventListener implements Listener {
 		if (hand != null && hand.isSimilar(plugin.getHorn())) {
 			e.setCancelled(true);
 			if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
-//				Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.ALREADY_USING_HORN));
 				Message.playerSendMessage(p, Message.getString("horn_error_already_use"));
 				return;
 			}
 
 			int cooltime = remainHornCoolTime(p.getUniqueId());
 			if (cooltime > 0) {
-//				Lang.sendMsg(p, Lang.HORN_IN_COOL_TIME.replace("&", "§").replace("%cooltime%", cooltime + ""));
-				Message.playerSendMessage(p, Message.getString("horn_error_incool","%cooltime%", cooltime));
+				Message.playerSendMessage(p, Message.getString("horn_error_incool", "%cooltime%", cooltime));
 				return;
 			}
 
 			usingtrumple.put(p.getUniqueId(), true);
-//			Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_WHEN_USING_HORN));
 			Message.playerSendMessage(p, Message.getString("horn_tip_using"));
 			int amount = hand.getAmount();
 			if (amount <= 1) {

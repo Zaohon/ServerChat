@@ -8,8 +8,9 @@ import org.bukkit.entity.Player;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
-public class IgnoreCommand implements ICommand{
+public class IgnoreCommand implements ICommand {
 	private ServerChat plugin;
+
 	public IgnoreCommand(ServerChat plugin) {
 		this.plugin = plugin;
 	}
@@ -31,7 +32,7 @@ public class IgnoreCommand implements ICommand{
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] {Message.getString("command_description_ignore")};
+		return new String[] { Message.getString("command_description_ignore") };
 	}
 
 	@Override

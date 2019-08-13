@@ -15,7 +15,6 @@ import org.bukkit.command.TabCompleter;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 @SuppressWarnings("unused")
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
@@ -96,7 +95,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 		// Check that they have permission
 		if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
 //			Lang.sendMsg(sender, Lang.NO_PERMISSION);
-			Message.senderSendMessage(sender,Message.getString( "command_no_permission"));
+			Message.senderSendMessage(sender, Message.getString("command_no_permission"));
 			return true;
 		}
 

@@ -11,8 +11,9 @@ import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
-public class BuyCommand implements ICommand{
+public class BuyCommand implements ICommand {
 	private ServerChat plugin;
+
 	public BuyCommand(ServerChat plugin) {
 		this.plugin = plugin;
 	}
@@ -34,7 +35,7 @@ public class BuyCommand implements ICommand{
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] {Lang.COMMAND_BUY};
+		return new String[] { Lang.COMMAND_BUY };
 	}
 
 	@Override
@@ -67,8 +68,8 @@ public class BuyCommand implements ICommand{
 			plugin.getEconomy().depositPlayer(p, mc);
 //			Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
 //					mc * number + ""));
-			Message.playerSendMessage(p, Message.getString("command_tip_buy_money","%number%",number,"%money%",
-					mc * number));
+			Message.playerSendMessage(p,
+					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc * number));
 			ItemStack horn = plugin.getHorn().clone();
 			horn.setAmount(number);
 			p.getInventory().addItem(horn);

@@ -31,7 +31,8 @@ public class Message {
 	private static String PREFIX = "[ServerChat]";
 	private static Map<String, String> mTranslationTable;
 	private static String[] sources = new String[] { "zh_cn.lang", "en_us.lang" };
-	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" ,"GBK"};
+	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US",
+			"GBK" };
 
 	public Message(ServerChat plugin) {
 		this.plugin = plugin;

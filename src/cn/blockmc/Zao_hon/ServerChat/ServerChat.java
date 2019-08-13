@@ -26,7 +26,6 @@ import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.ReloadCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
-
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 import net.milkbowl.vault.economy.Economy;
@@ -45,13 +44,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public void onEnable() {
 		instance = this;
 		Config.reload();
-//		Lang.reload();
 		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
-		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
-		
+		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
+
 		this.message = new Message(this);
 		message.setLanguage(Config.LANG);
 
@@ -97,7 +95,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
 			PR("已加载前置插件PlaceholderAPI");
-			placeholderAPI =getServer().getPluginManager().getPlugin("PlaceholderAPI");
+			placeholderAPI = getServer().getPluginManager().getPlugin("PlaceholderAPI");
 		}
 	}
 
@@ -192,9 +190,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public Economy getEconomy() {
 		return economy;
 	}
+
 	public Plugin getPlaceholderAPI() {
 		return placeholderAPI;
 	}
+
 	public Message getMessage() {
 		return message;
 	}
