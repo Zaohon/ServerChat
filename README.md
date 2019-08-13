@@ -1,0 +1,2 @@
+# ServerChat
+Bungee Server Chat
