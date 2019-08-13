@@ -156,16 +156,11 @@ public class EventListener implements Listener {
 			usingtrumple.put(p.getUniqueId(), true);
 			Message.playerSendMessage(p, Message.getString("horn_tip_using"));
 			int amount = hand.getAmount();
-			if (amount <= 1) {
-				p.getInventory().remove(hand);
-			} else {
-				hand.setAmount(amount - 1);
-			}
+			hand.setAmount(amount - 1);
 			BukkitRunnable runable = new BukkitRunnable() {
 				@Override
 				public void run() {
 					usingtrumple.put(p.getUniqueId(), false);
-//					Lang.sendMsg(p, ChatColor.translateAlternateColorCodes('&', Lang.HINT_OVERTIME_USEHORN));
 					Message.playerSendMessage(p, Message.getString("horn_tip_overtime"));
 					p.getInventory().addItem(plugin.getHorn());
 				}
