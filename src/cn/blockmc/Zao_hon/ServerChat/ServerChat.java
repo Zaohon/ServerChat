@@ -5,14 +5,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -43,7 +47,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Config.reload();
+		Config.init(this);
 		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -165,16 +169,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 					getConfig().getInt("BossBarContinued") * 20);
 		}
 
-		if (Config.CHAT_ENABLE) {
-			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
-					.replaceAll("%player%", playername);
-
-			Bukkit.getOnlinePlayers().forEach(p -> {
-				if (!ignored.getOrDefault(p.getUniqueId(), false))
-					p.sendMessage(shieldReplace(message));
-			});
-		}
-
 		if (Config.ACTION_BAR_ENABLE) {
 			String message = Config.ACTION_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
 					.replaceAll("%player%", playername);
@@ -182,6 +176,32 @@ public class ServerChat extends JavaPlugin implements Listener {
 				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
 					NMSUtils.sendActionBar(p, shieldReplace(message));
 				}
+			});
+		}
+		
+		if (Config.AT_ENABLE) {
+			Pattern p = Pattern.compile("@(.+)\\s");
+			Matcher m = p.matcher(msg);
+			while (m.find()) {
+				String name = m.group(1);
+				Player target = Bukkit.getServer().getPlayerExact(name);
+				if (target != null && target.isOnline()) {
+					Message.playerSendMessage(target, Message.getString("at_tip","%player%",playername));
+					target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 1, 1);
+					msg = msg.replace(m.group(0), "¡ìb"+m.group(0)+"¡ìr");
+				}
+
+			}
+
+		}
+
+		if (Config.CHAT_ENABLE) {
+			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
+					.replaceAll("%player%", playername);
+
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				if (!ignored.getOrDefault(p.getUniqueId(), false))
+					p.sendMessage(shieldReplace(message));
 			});
 		}
 		PR("<" + servername + "> " + playername + " : " + msg);

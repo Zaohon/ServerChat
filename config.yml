@@ -32,6 +32,7 @@ HornSet:
 
 #开启@功能
 ATEnable: true  
+ATSound: ENTITY_EXPERIENCE_ORB_PICKUP
   
 ###########################################
 ###############BOSS血条配置################

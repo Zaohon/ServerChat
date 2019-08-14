@@ -64,7 +64,7 @@ public class EventListener implements Listener {
 		}
 		if (Config.CHAT_PREFIX_ENABLE) {
 			String prefix = Config.CHAT_PREFIX;
-			boolean emptyPrefix = prefix == "";
+			boolean emptyPrefix = prefix.equals("");
 			if (emptyPrefix || message.startsWith(prefix)) {
 				e.setCancelled(true);
 				message = emptyPrefix ? message : message.substring(1);

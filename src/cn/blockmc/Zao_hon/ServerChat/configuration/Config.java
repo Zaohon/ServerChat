@@ -50,6 +50,7 @@ public class Config {
 	public static String SHILED_REPLACES = "♥";
 	public static boolean AUTO_UPDATE_CHECK = true;
 	public static boolean AT_ENABLE = true;
+	public static String AT_SOUND = "ENTITY_EXPERIENCE_ORB_PICKUP";
 
 	public static HashMap<String, String> CONFIG_PATH = new HashMap<String, String>();
 
@@ -96,9 +97,10 @@ public class Config {
 		LENTH_LIMIT_MIN = config.getInt("LenthLimit.Min", 0);
 		LENTH_LIMIT_MAX = config.getInt("LenthLimit.Max", 40);
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
-		SHILED_REPLACES = config.getString("ShieldReplaces", " ♥");
+		SHILED_REPLACES = config.getString("ShieldReplaces", "♥");
 		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck", true);
 		AT_ENABLE = config.getBoolean("ATEnable", true);
+		AT_SOUND = config.getString("ATSound","ENTITY_EXPERIENCE_ORB_PICKUP");
 	}
 
 	private static boolean injectChanges(InputStream instream, File configFile) {
@@ -121,8 +123,8 @@ public class Config {
 			}
 		}
 
-		boolean different = injectMap.isEmpty();
-		if (!different) {
+		boolean different =! injectMap.isEmpty();
+		if (different) {
 			for (Entry<String, Object> entry : injectMap.entrySet()) {
 				config.set(entry.getKey(), entry.getValue());
 			}
