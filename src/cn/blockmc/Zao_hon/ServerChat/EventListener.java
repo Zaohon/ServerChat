@@ -34,7 +34,7 @@ public class EventListener implements Listener {
 		if (p.isOp() && plugin.isOutdate()) {
 			String latest = UpdateChecker.getLatestVersion();
 			String old = plugin.getDescription().getVersion();
-			Message.playerSendMessage(p,
+			Message.playerSendMessage(p,"¡ìb[ServerChat]"+
 					Message.getString("update_player", "%version%", old, "version_latest", latest));
 		}
 	}

@@ -46,7 +46,7 @@ public class MessageListener implements PluginMessageListener {
 				plugin.sendServerChat(servername, name, msg);
 
 			} catch (IOException e) {
-				plugin.getLogger().info("接收消息时失败，请上报mcbbs");
+				plugin.getLogger().info("接收消息时失败，请上报mcbbs . Message transport error, report it to spigotmc!");
 				e.printStackTrace();
 			}
 		}

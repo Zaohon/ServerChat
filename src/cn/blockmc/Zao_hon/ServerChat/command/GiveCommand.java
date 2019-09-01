@@ -69,10 +69,7 @@ public class GiveCommand implements ICommand {
 		if (gp != p) {
 			Message.playerSendMessage(p,
 					Message.getString("command_tip_giveplayer_give", "%player%", gp.getName(), "%number%", number));
-//			Lang.sendMsg(p,
-//					Lang.GIVE_PLAYER_HORN.replace("%player%", p.getName()).replace("%number%", number + ""));
 		}
-//		Lang.sendMsg(p, Lang.RECEIVE_HORN.replace("%number%", number + ""));
 		Message.playerSendMessage(p, Message.getString("command_tip_giveplayer_recieve", "%number%", number));
 		return true;
 	}

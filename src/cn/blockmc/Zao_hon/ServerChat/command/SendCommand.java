@@ -65,7 +65,6 @@ public class SendCommand implements ICommand {
 			return true;
 		} else {
 			if (plugin.getServer().getOnlinePlayers().isEmpty()) {
-//			sender.sendMessage("服务器需至少有一个人才能发送跨服消息");	
 				Message.senderSendMessage(sender, Message.getString("command_error_at_least_one_player"));
 			} else {
 				BungeeUtil.sendServerChat(plugin, sender, msg);

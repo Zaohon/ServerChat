@@ -54,7 +54,6 @@ public class ReloadCommand implements ICommand {
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		Config.reload();
 		plugin.getMessage().setLanguage(Config.LANG);
-//		Lang.sendMsg(sender, Lang.COMMAND_RELOAD_COMPLETELY);
 		Message.senderSendMessage(sender, Message.getString("command_tip_reload_success"));
 		return true;
 	}

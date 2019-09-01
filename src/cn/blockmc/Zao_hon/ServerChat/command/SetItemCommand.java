@@ -57,12 +57,10 @@ public class SetItemCommand implements ICommand {
 		Player player = (Player) sender;
 		ItemStack trumple = player.getInventory().getItemInMainHand();
 		if (trumple == null || trumple.getType() == Material.AIR) {
-//			Lang.sendMsg(p, Lang.HORN_CANT_BE_AIR);
 			Message.playerSendMessage(player, Message.getString("command_tip_setitem_air"));
 			return true;
 		}
 		plugin.setHorn(trumple);
-//		Lang.sendMsg(p, Lang.SUCCESS_SET_HORN);
 		Message.playerSendMessage(player, Message.getString("command_tip_setitem_success"));
 		return true;
 	}

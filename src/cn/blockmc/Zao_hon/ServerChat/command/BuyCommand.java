@@ -62,19 +62,16 @@ public class BuyCommand implements ICommand {
 		} catch (Exception e) {
 			// ignore
 		}
-		int mc = Config.COST_MONEY;
+		int mc = Config.COST_MONEY*number;
 		double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
 		if (mc != 0 && mn >= mc) {
-			plugin.getEconomy().depositPlayer(p, mc);
-//			Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
-//					mc * number + ""));
+			plugin.getEconomy().withdrawPlayer(p, mc);
 			Message.playerSendMessage(p,
-					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc * number));
+					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc));
 			ItemStack horn = plugin.getHorn().clone();
 			horn.setAmount(number);
 			p.getInventory().addItem(horn);
 		} else {
-//			Lang.sendMsg(p, Lang.COMMAND_BUY_COST_FAILED);
 			Message.playerSendMessage(p, Message.getString("command_tip_buy_failed"));
 		}
 		return true;

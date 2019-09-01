@@ -54,10 +54,8 @@ public class IgnoreCommand implements ICommand {
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		Player player = (Player) sender;
 		if (!plugin.changePlayerIgnored(player.getUniqueId())) {
-//			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_ON);
 			Message.playerSendMessage(player, Message.getString("command_tip_ignore_on"));
 		} else {
-//			Lang.sendMsg(p, Lang.IGNORE_SERVERCHAT_OFF);?
 			Message.playerSendMessage(player, Message.getString("command_tip_ignore_off"));
 		}
 		return true;
