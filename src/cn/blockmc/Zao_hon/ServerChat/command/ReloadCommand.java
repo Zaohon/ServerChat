@@ -32,12 +32,12 @@ public class ReloadCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { Message.getString("command_description_reload") };
+		return new String[] { Message.getString("command_description_update") };
 	}
 
 	@Override
 	public String getDescription() {
-		return Message.getString("command_description_reload");
+		return Message.getString("command_description_update");
 	}
 
 	@Override

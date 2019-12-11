@@ -8,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,17 +25,6 @@ public class EventListener implements Listener {
 
 	public EventListener(ServerChat plugin) {
 		this.plugin = plugin;
-	}
-
-	@EventHandler
-	public void updateCheck(PlayerLoginEvent e) {
-		Player p = e.getPlayer();
-		if (p.isOp() && plugin.isOutdate()) {
-			String latest = UpdateChecker.getLatestVersion();
-			String old = plugin.getDescription().getVersion();
-			Message.playerSendMessage(p,"¡ìb[ServerChat]"+
-					Message.getString("update_player", "%version%", old, "version_latest", latest));
-		}
 	}
 
 	@EventHandler

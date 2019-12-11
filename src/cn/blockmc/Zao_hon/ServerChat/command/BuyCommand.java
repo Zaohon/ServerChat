@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class BuyCommand implements ICommand {
 	private ServerChat plugin;
@@ -35,7 +34,7 @@ public class BuyCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { Lang.COMMAND_BUY };
+		return new String[] { Message.getString("command_description_buy")};
 	}
 
 	@Override

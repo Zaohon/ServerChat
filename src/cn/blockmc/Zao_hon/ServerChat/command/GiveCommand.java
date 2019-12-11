@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class GiveCommand implements ICommand {
 	private ServerChat plugin;
@@ -35,7 +34,7 @@ public class GiveCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { Lang.COMMAND_GIVEPLAYER };
+		return new String[] { Message.getString("command_description_giveplayer") };
 	}
 
 	@Override

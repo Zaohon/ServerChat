@@ -10,7 +10,6 @@ import cn.blockmc.Zao_hon.ServerChat.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class SendCommand implements ICommand {
 	private ServerChat plugin;
@@ -36,7 +35,7 @@ public class SendCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { Lang.COMMAND_SEND };
+		return new String[] { Message.getString("command_description_send") };
 	}
 
 	@Override

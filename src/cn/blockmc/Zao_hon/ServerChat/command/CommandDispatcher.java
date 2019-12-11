@@ -16,7 +16,6 @@ import org.bukkit.command.TabCompleter;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
-@SuppressWarnings("unused")
 public class CommandDispatcher implements CommandExecutor, TabCompleter {
 	private ServerChat plugin;
 
