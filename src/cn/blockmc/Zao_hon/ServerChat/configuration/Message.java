@@ -27,7 +27,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Message {
 	// Quote from Mobhunting , author Rocologo
-	private ServerChat plugin;
+	private static ServerChat plugin;
 	private static String PREFIX = "[ServerChat]";
 	private static Map<String, String> mTranslationTable;
 	private static String[] sources = new String[] { "zh_cn.lang", "en_us.lang" };
@@ -35,7 +35,7 @@ public class Message {
 			"GBK" };
 
 	public Message(ServerChat plugin) {
-		this.plugin = plugin;
+		Message.plugin = plugin;
 		exportDefaultLanguage(plugin);
 	}
 
@@ -150,7 +150,7 @@ public class Message {
 	}
 
 	public void setLanguage(String lang) {
-		File file = new File(ServerChat.getInstance().getDataFolder(), "Lang/" + lang + ".lang");
+		File file = new File(plugin.getDataFolder(), "Lang/" + lang + ".lang");
 		if (!file.exists()) {
 			plugin.PR(lang + "不存在,已创建一个默认语言文件,可自行翻译成本国语言");
 			try {
@@ -211,7 +211,7 @@ public class Message {
 		if (isEmpty(message))
 			return;
 		player.sendMessage(
-				ServerChat.getInstance().getPlaceholderAPI() != null ? PlaceholderAPI.setPlaceholders(player, message)
+				plugin.getPlaceholderAPI() != null ? PlaceholderAPI.setPlaceholders(player, message)
 						: message);
 
 	}
@@ -220,7 +220,7 @@ public class Message {
 		if (isEmpty(message))
 			return;
 		if (sender instanceof Player)
-			((Player) sender).sendMessage(ServerChat.getInstance().getPlaceholderAPI() != null
+			((Player) sender).sendMessage(plugin.getPlaceholderAPI() != null
 					? PlaceholderAPI.setPlaceholders((Player) sender, message)
 					: message);
 		else
@@ -231,5 +231,6 @@ public class Message {
 		message = ChatColor.stripColor(message);
 		return message.isEmpty();
 	}
-
+	
+	
 }

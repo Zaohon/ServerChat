@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -30,24 +31,26 @@ import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.ReloadCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.UpdateCommand;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
+	public static final String PREFIX = ChatColor.GREEN + "[ServerChat]" + ChatColor.RESET;
 	private File itemFile;
 	private Economy economy;
 	private Message message;
 	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
-	private boolean outdate = true;
 	private CommandDispatcher commandDispatcher;
 	private Plugin placeholderAPI = null;
+	private Updater updater = null;
 
 	@Override
 	public void onEnable() {
-		instance = this;
 		Config.init(this);
+
 		this.loadDepends();
 		this.loadHorn();
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -57,6 +60,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.message = new Message(this);
 		message.setLanguage(Config.LANG);
 
+		updater = new Updater(this);
+		updater.hourlyUpdateCheck(getServer().getConsoleSender(), Config.AUTO_UPDATE_CHECK, false);
+
 		commandDispatcher = new CommandDispatcher(this, "ServerChat", Message.getString("command_description_plugin"));
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
 		commandDispatcher.registerCommand(new SetItemCommand(this));
@@ -65,9 +71,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 		commandDispatcher.registerCommand(new IgnoreCommand(this));
 		commandDispatcher.registerCommand(new BuyCommand(this));
 		commandDispatcher.registerCommand(new ReloadCommand(this));
+		commandDispatcher.registerCommand(new UpdateCommand(this));
 
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Bungee"));
+
+		updater = new Updater(this);
 
 		PR("========================");
 		PR("      ServerChat          ");
@@ -75,21 +84,12 @@ public class ServerChat extends JavaPlugin implements Listener {
 		PR("     Author:Zao_hon           ");
 		PR("========================");
 
-		if (Config.AUTO_UPDATE_CHECK)
-			this.checkUpdate();
-
 	}
 
-	private void checkUpdate() {
-		String latest = UpdateChecker.getLatestVersion();
-		String now = this.getDescription().getVersion();
-		if (now.equals(latest)) {
-			outdate = false;
-		} else {
-			outdate = true;
-			PR("发现一个新版本v" + latest + "!,而你还在用旧版本v" + now);
-			PR("快去MCBBS下载最新版本吧!http://www.mcbbs.net/thread-704339-1-1.html");
-		}
+	@Override
+	public void onDisable() {
+//		this.updateChecker.stop();
+		PR("ServerChat Disabled");
 	}
 
 	private void loadDepends() {
@@ -178,7 +178,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 				}
 			});
 		}
-		
+
 		if (Config.AT_ENABLE) {
 			Pattern p = Pattern.compile("@(.+)\\s");
 			Matcher m = p.matcher(msg);
@@ -186,9 +186,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 				String name = m.group(1);
 				Player target = Bukkit.getServer().getPlayerExact(name);
 				if (target != null && target.isOnline()) {
-					Message.playerSendMessage(target, Message.getString("at_tip","%player%",playername));
+					Message.playerSendMessage(target, Message.getString("at_tip", "%player%", playername));
 					target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 1, 1);
-					msg = msg.replace(m.group(0), "§b"+m.group(0)+"§r");
+					msg = msg.replace(m.group(0), "§b" + m.group(0) + "§r");
 				}
 
 			}
@@ -207,6 +207,10 @@ public class ServerChat extends JavaPlugin implements Listener {
 		PR("<" + servername + "> " + playername + " : " + msg);
 	}
 
+	public Updater getUpdater() {
+		return updater;
+	}
+
 	public Economy getEconomy() {
 		return economy;
 	}
@@ -222,10 +226,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public boolean changePlayerIgnored(UUID uuid) {
 		ignored.putIfAbsent(uuid, Boolean.FALSE);
 		return !ignored.put(uuid, !ignored.get(uuid));
-	}
-
-	public boolean isOutdate() {
-		return outdate;
 	}
 
 	private String shieldReplace(String msg) {
@@ -250,9 +250,4 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.getLogger().info(str);
 	}
 
-	private static ServerChat instance = null;
-
-	public static ServerChat getInstance() {
-		return instance;
-	}
 }
