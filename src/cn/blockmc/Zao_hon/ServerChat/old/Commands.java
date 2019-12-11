@@ -12,12 +12,13 @@ import org.bukkit.inventory.ItemStack;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 
+@Deprecated
 public class Commands implements CommandExecutor {
 	private ServerChat plugin;
 
-	public Commands() {
-		this.plugin = ServerChat.getInstance();
-	}
+//	public Commands() {
+//		this.plugin = ServerChat.getInstance();
+//	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

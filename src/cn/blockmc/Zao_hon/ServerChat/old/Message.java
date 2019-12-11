@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
+@Deprecated
 public class Message {
 	private File msgfile = null;
 	private ServerChat plugin;

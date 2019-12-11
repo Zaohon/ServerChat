@@ -11,6 +11,7 @@ import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
 
+@Deprecated
 public class Lang {
 	private static ServerChat plugin;
 	public static String COMMAND_HEADING;
@@ -51,7 +52,7 @@ public class Lang {
 	public static String AUTO_USE_FAILED;
 
 	public static void reload() {
-		plugin = ServerChat.getInstance();
+//		plugin = ServerChat.getInstance();
 		String langfile = Config.LANG + ".yml";
 		File langFile = new File(plugin.getDataFolder(), langfile);
 		if (!langFile.exists()) {
