@@ -10,7 +10,7 @@ import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 public class UpdateCommand implements ICommand {
 	private ServerChat plugin;
 
-	public UpdateCommand(ServerChat plugin0) {
+	public UpdateCommand(ServerChat plugin) {
 		this.plugin = plugin;
 	}
 

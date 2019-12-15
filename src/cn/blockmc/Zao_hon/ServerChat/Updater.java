@@ -2,20 +2,10 @@ package cn.blockmc.Zao_hon.ServerChat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
-import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
 public class Updater {
@@ -49,14 +39,14 @@ public class Updater {
 				String nowVersion = plugin.getDescription().getVersion();
 				outdated = !latestVersion.equals(nowVersion);
 				if (outdated) {
-					Message.senderSendMessage(sender, Message.getString("update_player"));
+					Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_found","%version_latest%",latestVersion));
 				}else {
-					Message.senderSendMessage(sender, Message.getString("update_newest_version_already"));
+					Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_newest_version_already"));
 				}
 
 			} catch (Exception exception) {
 				exception.printStackTrace();
-				Message.senderSendMessage(sender, Message.getString("update_error"));
+				Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_error"));
 			}
 		});
 

@@ -78,7 +78,7 @@ public class Message {
 				for (Entry<String, String> entry : newEntries.entrySet())
 					writer.append("\n" + entry.getKey() + "=" + entry.getValue());
 				writer.close();
-				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "已更新" + onDisk.getName() + "中缺失的语言消息");
+				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + " 已更新" + onDisk.getName() + "中缺失的语言消息");
 
 			}
 			return true;

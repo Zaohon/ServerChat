@@ -75,9 +75,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Bungee"));
-
-		updater = new Updater(this);
-
+		
 		PR("========================");
 		PR("      ServerChat          ");
 		PR("     Version: " + this.getDescription().getVersion());
@@ -88,7 +86,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-//		this.updateChecker.stop();
 		PR("ServerChat Disabled");
 	}
 

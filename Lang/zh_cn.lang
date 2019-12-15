@@ -39,5 +39,5 @@ horn_tip_overtime=§a由于长时间没有使用，跨服喇叭已自动退回
 update_latest_version_geting=正在检查新版本...
 update_error=更新信息获取错误
 update_newest_version_already=插件已是最新版本，无需更新
-update_player=发现新版本%version_latest%快前往http://www.mcbbs.net/thread-704339-1-1.html下载!
+update_found=发现新版本%version_latest%快前往http://www.mcbbs.net/thread-704339-1-1.html下载!
 at_tip=§b%player%@了你一下
