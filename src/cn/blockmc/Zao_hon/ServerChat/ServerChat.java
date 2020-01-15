@@ -70,8 +70,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		commandDispatcher.registerCommand(new SendCommand(this));
 		commandDispatcher.registerCommand(new IgnoreCommand(this));
 		commandDispatcher.registerCommand(new BuyCommand(this));
-		commandDispatcher.registerCommand(new ReloadCommand(this));
 		commandDispatcher.registerCommand(new UpdateCommand(this));
+		commandDispatcher.registerCommand(new ReloadCommand(this));
+
 
 		Metrics metrics = new Metrics(this);
 		metrics.addCustomChart(new Metrics.SimplePie("servers", () -> "Bungee"));

@@ -16,27 +16,27 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1565750319101</id>
+			<id>1567327073247</id>
 			<name></name>
-			<type>30</type>
+			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-.classpath</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1565750319188</id>
+			<id>1567327073267</id>
 			<name></name>
-			<type>30</type>
+			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-.project</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1565750319209</id>
+			<id>1567327073288</id>
 			<name></name>
-			<type>30</type>
+			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-.gitignore</arguments>
