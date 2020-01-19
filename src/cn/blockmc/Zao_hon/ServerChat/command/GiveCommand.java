@@ -1,5 +1,6 @@
 package cn.blockmc.Zao_hon.ServerChat.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -75,7 +76,13 @@ public class GiveCommand implements ICommand {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String label, String[] args) {
+		if (args.length == 1) {
+			List<String> list = new ArrayList<String>();
+			((Player) sender).getWorld().getPlayers().forEach(p -> list.add(p.getName()));
+			return list;
+		}
 		return null;
+
 	}
 
 }

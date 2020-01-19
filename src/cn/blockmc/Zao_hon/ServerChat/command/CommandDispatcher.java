@@ -1,5 +1,6 @@
 package cn.blockmc.Zao_hon.ServerChat.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -47,8 +48,10 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if (args.length == 0) {
-			return null;
+		if (args.length == 1) {
+			List<String> list = new ArrayList<String>();
+			mCommands.keySet().forEach(key->list.add(key));
+			return list;
 		}
 		String subCommand = args[0].toLowerCase();
 		String[] subArgs = (args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
