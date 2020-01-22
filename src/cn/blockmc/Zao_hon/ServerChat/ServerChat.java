@@ -190,7 +190,6 @@ public class ServerChat extends JavaPlugin implements Listener {
 				}
 
 			}
-
 		}
 
 		if (Config.CHAT_ENABLE) {

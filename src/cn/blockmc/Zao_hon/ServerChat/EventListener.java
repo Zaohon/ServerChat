@@ -2,10 +2,10 @@ package cn.blockmc.Zao_hon.ServerChat;
 
 import java.util.HashMap;
 import java.util.UUID;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -20,7 +20,7 @@ public class EventListener implements Listener {
 	private ServerChat plugin;
 	private HashMap<UUID, Long> horncooltime = new HashMap<UUID, Long>();
 	private HashMap<UUID, Long> chatcooltime = new HashMap<UUID, Long>();
-	private HashMap<UUID, Boolean> usingtrumple = new HashMap<UUID, Boolean>();
+	private HashMap<UUID, Boolean> usingTrumple = new HashMap<UUID, Boolean>();
 	private HashMap<UUID, BukkitRunnable> playerrunnable = new HashMap<UUID, BukkitRunnable>();
 
 	public EventListener(ServerChat plugin) {
@@ -34,13 +34,13 @@ public class EventListener implements Listener {
 		}
 		Player p = e.getPlayer();
 		String message = e.getMessage();
-		if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
+		if (usingTrumple.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
 			if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
 				Message.playerSendMessage(p, Message.getString("chat_error_length"));
 				return;
 			}
-			usingtrumple.put(p.getUniqueId(), false);
+			usingTrumple.put(p.getUniqueId(), false);
 			playerrunnable.get(p.getUniqueId()).cancel();
 
 			if (p.hasPermission("ServerChat.Color")) {
@@ -125,12 +125,19 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
+	public void onPlayerInteractInv(InventoryInteractEvent event) {
+		if (!usingTrumple.containsKey(event.getWhoClicked().getUniqueId()))
+			return;
+
+	}
+
+	@EventHandler
 	public void useTrumpet(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		ItemStack hand = e.getItem();
 		if (hand != null && hand.isSimilar(plugin.getHorn())) {
 			e.setCancelled(true);
-			if (usingtrumple.getOrDefault(p.getUniqueId(), false)) {
+			if (usingTrumple.getOrDefault(p.getUniqueId(), false)) {
 				Message.playerSendMessage(p, Message.getString("horn_error_already_use"));
 				return;
 			}
@@ -141,14 +148,14 @@ public class EventListener implements Listener {
 				return;
 			}
 
-			usingtrumple.put(p.getUniqueId(), true);
+			usingTrumple.put(p.getUniqueId(), true);
 			Message.playerSendMessage(p, Message.getString("horn_tip_using"));
 			int amount = hand.getAmount();
 			hand.setAmount(amount - 1);
 			BukkitRunnable runable = new BukkitRunnable() {
 				@Override
 				public void run() {
-					usingtrumple.put(p.getUniqueId(), false);
+					usingTrumple.put(p.getUniqueId(), false);
 					Message.playerSendMessage(p, Message.getString("horn_tip_overtime"));
 					p.getInventory().addItem(plugin.getHorn());
 				}

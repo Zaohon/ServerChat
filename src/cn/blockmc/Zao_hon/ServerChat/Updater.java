@@ -45,7 +45,6 @@ public class Updater {
 				}
 
 			} catch (Exception exception) {
-				exception.printStackTrace();
 				Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_error"));
 			}
 		});
