@@ -20,10 +20,9 @@ public class Updater {
 	}
 
 	public void hourlyUpdateCheck(final CommandSender sender, boolean update, boolean silent) {
-		if (update) {
+		if (update)
 			plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> checkForUpdate(sender, silent),
 					20, PERIOD);
-		}
 
 	}
 
@@ -39,16 +38,17 @@ public class Updater {
 				String nowVersion = plugin.getDescription().getVersion();
 				outdated = !latestVersion.equals(nowVersion);
 				if (outdated) {
-					Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_found","%version_latest%",latestVersion));
-				}else {
-					Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_newest_version_already"));
+					Message.senderSendMessage(sender,
+							ServerChat.PREFIX + Message.getString("update_found", "%version_latest%", latestVersion));
+				} else {
+					Message.senderSendMessage(sender,
+							ServerChat.PREFIX + Message.getString("update_newest_version_already"));
 				}
 
 			} catch (Exception exception) {
-				Message.senderSendMessage(sender, ServerChat.PREFIX+ Message.getString("update_error"));
+				Message.senderSendMessage(sender, ServerChat.PREFIX + Message.getString("update_error"));
 			}
 		});
-
 	}
 
 }
