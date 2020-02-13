@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
@@ -60,7 +61,7 @@ public class SetItemCommand implements ICommand {
 			Message.playerSendMessage(player, Message.getString("command_tip_setitem_air"));
 			return true;
 		}
-		plugin.setHorn(trumple);
+		HornItem.setHornItem(trumple);
 		Message.playerSendMessage(player, Message.getString("command_tip_setitem_success"));
 		return true;
 	}

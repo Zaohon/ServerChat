@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import cn.blockmc.Zao_hon.ServerChat.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 

@@ -210,9 +210,7 @@ public class Message {
 	public static void playerSendMessage(Player player, String message) {
 		if (isEmpty(message))
 			return;
-		player.sendMessage(
-				plugin.getPlaceholderAPI() != null ? PlaceholderAPI.setPlaceholders(player, message)
-						: message);
+		player.sendMessage(replacePlayceHolders(player, message));
 
 	}
 
@@ -220,17 +218,18 @@ public class Message {
 		if (isEmpty(message))
 			return;
 		if (sender instanceof Player)
-			((Player) sender).sendMessage(plugin.getPlaceholderAPI() != null
-					? PlaceholderAPI.setPlaceholders((Player) sender, message)
-					: message);
+			((Player) sender).sendMessage(replacePlayceHolders((Player) sender, message));
 		else
 			sender.sendMessage(message);
+	}
+
+	public static String replacePlayceHolders(Player player, String message) {
+		return plugin.getPlaceholderAPI() != null ? PlaceholderAPI.setPlaceholders(player, message) : message;
 	}
 
 	private static boolean isEmpty(String message) {
 		message = ChatColor.stripColor(message);
 		return message.isEmpty();
 	}
-	
-	
+
 }

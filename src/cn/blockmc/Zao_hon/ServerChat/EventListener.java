@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 import cn.blockmc.Zao_hon.ServerChat.old.Lang;
@@ -20,7 +21,7 @@ public class EventListener implements Listener {
 	private ServerChat plugin;
 	private HashMap<UUID, Long> horncooltime = new HashMap<UUID, Long>();
 	private HashMap<UUID, Long> chatcooltime = new HashMap<UUID, Long>();
-	private HashMap<UUID, Boolean> usingTrumple = new HashMap<UUID, Boolean>();
+	private HashMap<UUID, Boolean> usinghorn = new HashMap<UUID, Boolean>();
 	private HashMap<UUID, BukkitRunnable> playerrunnable = new HashMap<UUID, BukkitRunnable>();
 
 	public EventListener(ServerChat plugin) {
@@ -34,20 +35,16 @@ public class EventListener implements Listener {
 		}
 		Player p = e.getPlayer();
 		String message = e.getMessage();
-		if (usingTrumple.getOrDefault(p.getUniqueId(), false)) {
+		if (usinghorn.getOrDefault(p.getUniqueId(), false)) {
 			e.setCancelled(true);
 			if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
 				Message.playerSendMessage(p, Message.getString("chat_error_length"));
 				return;
 			}
-			usingTrumple.put(p.getUniqueId(), false);
-			playerrunnable.get(p.getUniqueId()).cancel();
-
-			if (p.hasPermission("ServerChat.Color")) {
-				message = message.replace("&", "¡ì");
-			}
-
+			colorMessage(p, message);
 			BungeeUtil.sendServerChat(plugin, p, message);
+			usinghorn.put(p.getUniqueId(), false);
+			playerrunnable.get(p.getUniqueId()).cancel();
 			return;
 		}
 		if (Config.CHAT_PREFIX_ENABLE) {
@@ -64,6 +61,7 @@ public class EventListener implements Listener {
 					Message.playerSendMessage(p, Message.getString("chat_error_empty"));
 					return;
 				}
+				colorMessage(p, message);
 
 				if (Config.FREE_CHAT) {
 					int cooltime = remainChatCoolTime(p.getUniqueId());
@@ -71,9 +69,7 @@ public class EventListener implements Listener {
 						Message.playerSendMessage(p, Message.getString("chat_error_incool", "%cooltime%", cooltime));
 						return;
 					}
-					if (p.hasPermission("ServerChat.Color")) {
-						message = message.replace("&", "¡ì");
-					}
+
 					BungeeUtil.sendServerChat(plugin, p, message);
 					updateChatCoolTime(p.getUniqueId());
 					return;
@@ -86,10 +82,7 @@ public class EventListener implements Listener {
 								Message.getString("horn_error_incool", "%cooltime%", horncooltime));
 						return;
 					}
-					if (this.consumeItemStack(p.getInventory(), plugin.getHorn())) {
-						if (p.hasPermission("ServerChat.Color")) {
-							message = message.replace("&", "¡ì");
-						}
+					if (this.consumeItemStack(p.getInventory(), HornItem.getHornItem())) {
 						BungeeUtil.sendServerChat(plugin, p, message);
 						updateHornCoolTime(p.getUniqueId());
 						Message.playerSendMessage(p, Message.getString("chat_auto_use_success"));
@@ -101,23 +94,23 @@ public class EventListener implements Listener {
 						}
 					}
 				}
-				if (Config.AUTO_COST) {
-					int mc = Config.COST_MONEY;
-					double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
-					if (mc != 0 && mn >= mc) {
-						plugin.getEconomy().depositPlayer(p, mc);
-						if (p.hasPermission("ServerChat.Color")) {
-							message = message.replace("&", "¡ì");
-						}
-						BungeeUtil.sendServerChat(plugin, p, message);
-						updateChatCoolTime(p.getUniqueId());
-						Lang.sendMsg(p, Lang.AUTO_COST_MONEY.replace("%money%", mc + ""));
-					} else {
-						Lang.sendMsg(p, Lang.AUTO_COST_FAILED_MONEY.replace("%money%", mc + ""));
-						return;
-					}
-					// TODO playerpoint
-				}
+//				if (Config.AUTO_COST) {
+//					int mc = Config.COST_MONEY;
+//					double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
+//					if (mc != 0 && mn >= mc) {
+//						plugin.getEconomy().depositPlayer(p, mc);
+//						if (p.hasPermission("ServerChat.Color")) {
+//							message = message.replace("&", "¡ì");
+//						}
+//						BungeeUtil.sendServerChat(plugin, p, message);
+//						updateChatCoolTime(p.getUniqueId());
+//						Lang.sendMsg(p, Lang.AUTO_COST_MONEY.replace("%money%", mc + ""));
+//					} else {
+//						Lang.sendMsg(p, Lang.AUTO_COST_FAILED_MONEY.replace("%money%", mc + ""));
+//						return;
+//					}
+//					// TODO playerpoint
+//				}
 			}
 
 		}
@@ -126,7 +119,7 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteractInv(InventoryInteractEvent event) {
-		if (!usingTrumple.containsKey(event.getWhoClicked().getUniqueId()))
+		if (!usinghorn.containsKey(event.getWhoClicked().getUniqueId()))
 			return;
 
 	}
@@ -135,9 +128,9 @@ public class EventListener implements Listener {
 	public void useTrumpet(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		ItemStack hand = e.getItem();
-		if (hand != null && hand.isSimilar(plugin.getHorn())) {
+		if (hand != null && HornItem.isHornItem(hand)) {
 			e.setCancelled(true);
-			if (usingTrumple.getOrDefault(p.getUniqueId(), false)) {
+			if (usinghorn.getOrDefault(p.getUniqueId(), false)) {
 				Message.playerSendMessage(p, Message.getString("horn_error_already_use"));
 				return;
 			}
@@ -148,16 +141,17 @@ public class EventListener implements Listener {
 				return;
 			}
 
-			usingTrumple.put(p.getUniqueId(), true);
+			usinghorn.put(p.getUniqueId(), true);
 			Message.playerSendMessage(p, Message.getString("horn_tip_using"));
 			int amount = hand.getAmount();
 			hand.setAmount(amount - 1);
+
 			BukkitRunnable runable = new BukkitRunnable() {
 				@Override
 				public void run() {
-					usingTrumple.put(p.getUniqueId(), false);
+					usinghorn.put(p.getUniqueId(), false);
 					Message.playerSendMessage(p, Message.getString("horn_tip_overtime"));
-					p.getInventory().addItem(plugin.getHorn());
+					p.getInventory().addItem(HornItem.getHornItem());
 				}
 			};
 			runable.runTaskLater(plugin, Config.HORNSET_RESPON_TIME * 20);
@@ -205,5 +199,9 @@ public class EventListener implements Listener {
 			}
 		}
 		return false;
+	}
+
+	private String colorMessage(Player player, String message) {
+		return player.hasPermission("ServerChat.Color") ? message.replace("&", "¡ì") : message;
 	}
 }

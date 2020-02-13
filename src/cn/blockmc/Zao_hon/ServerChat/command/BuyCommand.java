@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
@@ -34,7 +35,7 @@ public class BuyCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { Message.getString("command_description_buy")};
+		return new String[] { Message.getString("command_description_buy") };
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class BuyCommand implements ICommand {
 			plugin.getEconomy().withdrawPlayer(p, mc);
 			Message.playerSendMessage(p,
 					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc));
-			ItemStack horn = plugin.getHorn().clone();
+			ItemStack horn = HornItem.getHornItem();
 			horn.setAmount(number);
 			p.getInventory().addItem(horn);
 		} else {

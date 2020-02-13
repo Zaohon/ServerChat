@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
+import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 
@@ -41,7 +42,7 @@ public class Commands implements CommandExecutor {
 					Lang.sendMsg(p, Lang.HORN_CANT_BE_AIR);
 					return true;
 				}
-				plugin.setHorn(trumple);
+				// plugin.setHorn(trumple);
 				Lang.sendMsg(p, Lang.SUCCESS_SET_HORN);
 				return true;
 			} else if (a1.equals("give")) {
@@ -61,7 +62,7 @@ public class Commands implements CommandExecutor {
 				} catch (Exception e) {
 					// ignore
 				}
-				ItemStack horn = plugin.getHorn().clone();
+				ItemStack horn = HornItem.getHornItem();
 				horn.setAmount(number);
 				gp.getInventory().addItem(horn);
 				if (gp != p) {
@@ -119,7 +120,7 @@ public class Commands implements CommandExecutor {
 					plugin.getEconomy().depositPlayer(p, mc);
 					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
 							mc * number + ""));
-					ItemStack horn = plugin.getHorn().clone();
+					ItemStack horn = HornItem.getHornItem();
 					horn.setAmount(number);
 					p.getInventory().addItem(horn);
 				} else {
@@ -134,7 +135,7 @@ public class Commands implements CommandExecutor {
 					plugin.getServer().getPluginManager().callEvent(e);
 					return true;
 				} else {
-					plugin.sendServerChat(Config.THIS_SERVER_NAME, "¡ìeServer", msg);
+//					plugin.sendServerChat(Config.THIS_SERVER_NAME, "¡ìeServer", msg);
 					return true;
 				}
 			}

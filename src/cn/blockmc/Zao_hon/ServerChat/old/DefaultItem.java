@@ -1,8 +1,11 @@
-package cn.blockmc.Zao_hon.ServerChat;
+package cn.blockmc.Zao_hon.ServerChat.old;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import cn.blockmc.Zao_hon.ServerChat.MaterialManager;
+
+@Deprecated
 public class DefaultItem {
 	private static ItemStack horn;
 

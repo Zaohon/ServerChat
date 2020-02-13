@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.ServerChat;
+package cn.blockmc.Zao_hon.ServerChat.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -9,6 +9,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+
+import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 
 public class MessageListener implements PluginMessageListener {
 	private ServerChat plugin;
@@ -26,30 +28,26 @@ public class MessageListener implements PluginMessageListener {
 		String channel = in.readUTF();
 
 		if (channel.equals("ServerChat")) {
-
+			String msgType = in.readUTF();
+			MessageType type = MessageType.valueOf(msgType);
 			short len = in.readShort();
 			byte[] msgbytes = new byte[len];
 			in.readFully(msgbytes);
-
 			DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
 			try {
-				//
 				Long time = msgin.readLong();
 				if (time < System.currentTimeMillis() - 5000) {
 					return;
 				}
-				//
-				String servername = msgin.readUTF();
-				String name = msgin.readUTF();
 				String msg = msgin.readUTF();
-
-				plugin.sendServerChat(servername, name, msg);
-
+				plugin.sendMsg(msg, type);
 			} catch (IOException e) {
 				plugin.getLogger().info("接收消息时失败，请上报mcbbs . Message transport error, report it to spigotmc!");
 				e.printStackTrace();
 			}
 		}
 	}
+	
+
 
 }

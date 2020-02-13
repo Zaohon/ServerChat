@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
@@ -63,7 +64,7 @@ public class GiveCommand implements ICommand {
 		} catch (Exception e) {
 			// ignore
 		}
-		ItemStack horn = plugin.getHorn().clone();
+		ItemStack horn = HornItem.getHornItem();
 		horn.setAmount(number);
 		gp.getInventory().addItem(horn);
 		if (gp != p) {
