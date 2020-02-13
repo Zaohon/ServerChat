@@ -86,10 +86,10 @@ public class BungeeUtil {
 			out.writeUTF("Forward");
 			out.writeUTF("ALL");
 			out.writeUTF("ServerChat");
-			out.writeUTF(type.name());
 			ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
 			DataOutputStream msgout = new DataOutputStream(msgbytes);
 			msgout.writeLong(System.currentTimeMillis());
+			msgout.writeUTF(type.name());
 			msgout.writeUTF(msg);
 			out.writeShort(msgbytes.toByteArray().length);
 			out.write(msgbytes.toByteArray());

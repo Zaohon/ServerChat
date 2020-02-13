@@ -28,14 +28,14 @@ public class MessageListener implements PluginMessageListener {
 		String channel = in.readUTF();
 
 		if (channel.equals("ServerChat")) {
-			String msgType = in.readUTF();
-			MessageType type = MessageType.valueOf(msgType);
 			short len = in.readShort();
 			byte[] msgbytes = new byte[len];
 			in.readFully(msgbytes);
 			DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
 			try {
 				Long time = msgin.readLong();
+				String msgType = msgin.readUTF();
+				MessageType type = MessageType.valueOf(msgType);
 				if (time < System.currentTimeMillis() - 5000) {
 					return;
 				}
