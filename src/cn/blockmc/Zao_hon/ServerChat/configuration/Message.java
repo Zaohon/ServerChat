@@ -221,6 +221,7 @@ public class Message {
 			((Player) sender).sendMessage(replacePlayceHolders((Player) sender, message));
 		else
 			sender.sendMessage(message);
+		
 	}
 
 	public static String replacePlayceHolders(Player player, String message) {

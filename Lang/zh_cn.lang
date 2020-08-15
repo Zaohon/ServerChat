@@ -1,6 +1,7 @@
 command_heading=§2---ServerChat---
 command_description_plugin=在群组服中发送跨服消息
 command_description_help=§2/sc help §6--查看帮助页面
+command_description_info=§2/sc info §6--查看插件信息
 command_description_setitem=§2/sc setitem   §6--将手上拿着的物品设置为喇叭
 command_description_giveplayer=§2/sc give §d[玩家] [数量]  §6--给予玩家喇叭,留空则给自己
 command_description_send=§2/sc send   §6--发送一条跨服消息

@@ -21,25 +21,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.Utils.MessageListener;
-import cn.blockmc.Zao_hon.ServerChat.Utils.MessageType;
+import cn.blockmc.Zao_hon.ServerChat.Utils.CorrespondMessage;
 import cn.blockmc.Zao_hon.ServerChat.command.BuyCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.CommandDispatcher;
 import cn.blockmc.Zao_hon.ServerChat.command.GiveCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
+import cn.blockmc.Zao_hon.ServerChat.command.InfoCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.ReloadCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SendCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.UpdateCommand;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
 	public static final String PREFIX = ChatColor.GREEN + "[ServerChat]" + ChatColor.RESET;
-//	private File itemFile;
 	private Economy economy;
 	private Message message;
-//	private ItemStack horn = null;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private CommandDispatcher commandDispatcher;
 	private Plugin placeholderAPI = null;
@@ -63,7 +66,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		updater.hourlyUpdateCheck(getServer().getConsoleSender(), Config.AUTO_UPDATE_CHECK, false);
 
 		commandDispatcher = new CommandDispatcher(this, "ServerChat", Message.getString("command_description_plugin"));
-		this.getCommand("ServerChat").setExecutor(commandDispatcher);
+		commandDispatcher.registerCommand(new InfoCommand(this));
 		commandDispatcher.registerCommand(new SetItemCommand(this));
 		commandDispatcher.registerCommand(new GiveCommand(this));
 		commandDispatcher.registerCommand(new SendCommand(this));
@@ -71,6 +74,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		commandDispatcher.registerCommand(new BuyCommand(this));
 		commandDispatcher.registerCommand(new UpdateCommand(this));
 		commandDispatcher.registerCommand(new ReloadCommand(this));
+		this.getCommand("ServerChat").setExecutor(commandDispatcher);
 
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
@@ -111,101 +115,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 		return economy != null;
 	}
 
-//	public boolean loadHorn() {
-//		if (itemFile == null) {
-//			itemFile = new File(this.getDataFolder(), "Item.yml");
-//		}
-//		if (!itemFile.exists()) {
-//			this.setHorn(DefaultItem.getHorn());
-//			return true;
-//		}
-//
-//		horn = YamlConfiguration.loadConfiguration(itemFile).getItemStack("Item");
-//		return true;
-//	}
+	public void sendMsg(CorrespondMessage message) {
 
-//	public ItemStack getHorn() {
-//		return horn;
-//	}
-
-//	public boolean setHorn(ItemStack item) {
-//		horn = item;
-//		FileConfiguration config = YamlConfiguration.loadConfiguration(itemFile);
-//		try {
-//			config.set("Item", item);
-//			config.save(itemFile);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
-
-//	public void sendServerChat(String servername, String playername, String msg) {
-//
-//		if (Config.BOSS_BAR_ENABLE) {
-//			String message = Config.BOSS_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
-//					.replaceAll("%player%", playername);
-//
-//			BarColor color = BarColor.valueOf(Config.BOSS_BAR_COLOR);
-//			BarStyle style = BarStyle.valueOf(Config.BOSS_BAR_STYLE);
-//			List<String> sflags = Config.BOSS_BAR_FLAGS;
-//			BarFlag[] flags = new BarFlag[sflags.size()];
-//			for (int i = 0; i < sflags.size(); i++) {
-//				flags[i] = BarFlag.valueOf(sflags.get(i));
-//			}
-//			BossBar bar = Bukkit.createBossBar(shieldReplace(message), color, style, flags);
-//
-//			Bukkit.getServer().getOnlinePlayers().forEach(p -> {
-//				if (!ignored.getOrDefault(p.getUniqueId(), false))
-//					bar.addPlayer(p);
-//			});
-//			bar.setVisible(true);
-//			Bukkit.getScheduler().runTaskLater(this, () -> bar.removeAll(),
-//					getConfig().getInt("BossBarContinued") * 20);
-//		}
-//
-//		if (Config.ACTION_BAR_ENABLE) {
-//			String message = Config.ACTION_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
-//					.replaceAll("%player%", playername);
-//			Bukkit.getOnlinePlayers().forEach(p -> {
-//				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
-//					NMSUtils.sendActionBar(p, shieldReplace(message));
-//				}
-//			});
-//		}
-//
-//		if (Config.AT_ENABLE) {
-//			Pattern p = Pattern.compile("@(.+)\\s");
-//			Matcher m = p.matcher(msg);
-//			while (m.find()) {
-//				String name = m.group(1);
-//				Player target = Bukkit.getServer().getPlayerExact(name);
-//				if (target != null && target.isOnline()) {
-//					Message.playerSendMessage(target, Message.getString("at_tip", "%player%", playername));
-//					target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 1, 1);
-//					msg = msg.replace(m.group(0), "¡ìb" + m.group(0) + "¡ìr");
-//				}
-//
-//			}
-//		}
-//
-//		if (Config.CHAT_ENABLE) {
-//			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", servername)
-//					.replaceAll("%player%", playername);
-//
-//			Bukkit.getOnlinePlayers().forEach(p -> {
-//				if (!ignored.getOrDefault(p.getUniqueId(), false))
-//					p.sendMessage(shieldReplace(message));
-//			});
-//		}
-//		PR("<" + servername + "> " + playername + " : " + msg);
-//	}
-
-	public void sendMsg(String message, MessageType type) {
-		switch (type) {
+		switch (message.getMessageType()) {
 		case CHAT:
-			String msg = message;
+			String msg = message.getMessage();
 
 			if (Config.AT_ENABLE) {
 				Pattern p = Pattern.compile("@(.+)\\s");
@@ -214,17 +128,29 @@ public class ServerChat extends JavaPlugin implements Listener {
 					String name = m.group(1);
 					Player target = Bukkit.getServer().getPlayerExact(name);
 					if (target != null && target.isOnline()) {
-						// Message.playerSendMessage(target, Message.getString("at_tip", "%player%",
-						// playername));
-						target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 1, 1);
+
+						Message.playerSendMessage(target,
+								Message.getString("at_tip", "%player%", message.getSenderName()));
+						target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 10, 10);
 						msg = msg.replace(m.group(0), "¡ìb" + m.group(0) + "¡ìr");
 					}
-
 				}
 			}
+			TextComponent text = new TextComponent(msg);
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ">>" + message.getSenderName()+" "));
+
+			if (!message.getHoverTexts().isEmpty()) {
+				int size = message.getHoverTexts().size();
+				BaseComponent[] hovers = new BaseComponent[size];
+				for (int i = 0; i < size; i++) {
+					hovers[i] = new TextComponent(message.getHoverTexts().get(i) + "\n");
+				}
+				text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hovers));
+			}
+
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (!ignored.getOrDefault(player.getUniqueId(), false))
-					player.sendMessage(msg);
+					player.spigot().sendMessage(text);
 			}
 
 			break;
@@ -236,7 +162,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 			for (int i = 0; i < sflags.size(); i++) {
 				flags[i] = BarFlag.valueOf(sflags.get(i));
 			}
-			BossBar bar = Bukkit.createBossBar(message, color, style, flags);
+			BossBar bar = Bukkit.createBossBar(message.getMessage(), color, style, flags);
 			Bukkit.getServer().getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false))
 					bar.addPlayer(p);
@@ -248,7 +174,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		case ACTION_BAR:
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
-					NMSUtils.sendActionBar(p, message);
+					NMSUtils.sendActionBar(p, message.getMessage());
 				}
 			});
 			break;

@@ -17,7 +17,7 @@ public class NMSUtils {
 		try {
 			packet = PACKET_PLAY_OUT_CHAT.getConstructor(new Class[] { getNMSClass("IChatBaseComponent"), byte.class })
 					.newInstance(CHAT_COMPONENT_TEXT.getConstructor(String.class).newInstance(message), (byte) 2);
-
+			sendPacket(p, packet);
 		} catch (IllegalArgumentException | SecurityException | InstantiationException | IllegalAccessException
 				| InvocationTargetException | NoSuchMethodException e) {
 			try {
@@ -30,7 +30,7 @@ public class NMSUtils {
 				e1.printStackTrace();
 			}
 		}
-		sendPacket(p, packet);
+
 	}
 
 	public static void sendPacket(Player p, Object packet) {

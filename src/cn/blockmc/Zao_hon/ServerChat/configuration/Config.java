@@ -44,6 +44,7 @@ public class Config {
 	public static String ACTION_BAR_MESSAGE = "§a§l%player% : %message%";
 	public static boolean CHAT_ENABLE = true;
 	public static String CHAT_MESSAGE = "§7<%server%§7> §a§l%player% §7says §r%message%";
+	public static List<String> CHAT_HOVER_MESSAGES = new ArrayList<String>();
 	public static int LENTH_LIMIT_MIN = 0;
 	public static int LENTH_LIMIT_MAX = 40;
 	public static List<String> SHIELD_MESSAGES = new ArrayList<String>();
@@ -51,6 +52,7 @@ public class Config {
 	public static boolean AUTO_UPDATE_CHECK = true;
 	public static boolean AT_ENABLE = true;
 	public static String AT_SOUND = "ENTITY_EXPERIENCE_ORB_PICKUP";
+	public static boolean SPY_ENABLE = true;
 
 	public static HashMap<String, String> CONFIG_PATH = new HashMap<String, String>();
 
@@ -94,6 +96,7 @@ public class Config {
 		ACTION_BAR_MESSAGE = config.getString("ActionBarMessage", "§a§l%player% : %message%");
 		CHAT_ENABLE = config.getBoolean("Chat", true);
 		CHAT_MESSAGE = config.getString("ChatMessage", "§7<%server%§7> §a§l%player% §7says §r%message%");
+		CHAT_HOVER_MESSAGES = config.getStringList("HoverMessages");
 		LENTH_LIMIT_MIN = config.getInt("LenthLimit.Min", 0);
 		LENTH_LIMIT_MAX = config.getInt("LenthLimit.Max", 40);
 		SHIELD_MESSAGES = config.getStringList("ShieldMessages");
@@ -101,6 +104,7 @@ public class Config {
 		AUTO_UPDATE_CHECK = config.getBoolean("AutoUpdateCheck", true);
 		AT_ENABLE = config.getBoolean("ATEnable", true);
 		AT_SOUND = config.getString("ATSound","ENTITY_EXPERIENCE_ORB_PICKUP");
+		SPY_ENABLE = config.getBoolean("SpyChatEnable",true);
 	}
 
 	private static boolean injectChanges(InputStream instream, File configFile) {
@@ -123,7 +127,7 @@ public class Config {
 			}
 		}
 
-		boolean different =! injectMap.isEmpty();
+		boolean different = !injectMap.isEmpty();
 		if (different) {
 			for (Entry<String, Object> entry : injectMap.entrySet()) {
 				config.set(entry.getKey(), entry.getValue());

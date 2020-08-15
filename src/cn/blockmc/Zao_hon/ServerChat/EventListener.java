@@ -2,6 +2,9 @@ package cn.blockmc.Zao_hon.ServerChat;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,9 +16,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
+import cn.blockmc.Zao_hon.ServerChat.Utils.CorrespondMessage;
+import cn.blockmc.Zao_hon.ServerChat.Utils.MessageType;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.Lang;
 
 public class EventListener implements Listener {
 	private ServerChat plugin;
@@ -94,27 +98,22 @@ public class EventListener implements Listener {
 						}
 					}
 				}
-//				if (Config.AUTO_COST) {
-//					int mc = Config.COST_MONEY;
-//					double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
-//					if (mc != 0 && mn >= mc) {
-//						plugin.getEconomy().depositPlayer(p, mc);
-//						if (p.hasPermission("ServerChat.Color")) {
-//							message = message.replace("&", "¡ì");
-//						}
-//						BungeeUtil.sendServerChat(plugin, p, message);
-//						updateChatCoolTime(p.getUniqueId());
-//						Lang.sendMsg(p, Lang.AUTO_COST_MONEY.replace("%money%", mc + ""));
-//					} else {
-//						Lang.sendMsg(p, Lang.AUTO_COST_FAILED_MONEY.replace("%money%", mc + ""));
-//						return;
-//					}
-//					// TODO playerpoint
-//				}
+
 			}
 
 		}
-
+		if(Config.SPY_ENABLE) {
+			Pattern pattern = Pattern.compile(">>(.+)\\s");
+			Matcher matcher = pattern.matcher(message);
+			if(matcher.find()) {
+				String s = matcher.group();
+				String target = s.substring(2);
+				String msg = message.substring(s.length());
+				CorrespondMessage sm = new CorrespondMessage(p.getName(), "", msg, MessageType.SPY_MSG,
+						System.currentTimeMillis(), null);
+				BungeeUtil.sendServerMsg(sm);
+			}
+		}
 	}
 
 	@EventHandler

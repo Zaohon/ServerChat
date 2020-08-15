@@ -4,9 +4,9 @@ Lang: zh_cn
 #该服务器的名字，用于替换%server%
 ThisServerName: "§e§l大厅"
 
-#前缀发送跨服聊天 设置为false禁止,默认为"true"
+#允许使用前缀发送跨服聊天
 ChatPrefixEnable: true
-#跨服说话的前缀
+#前缀
 ChatPrefix: "!"
 #是否能发送免费的跨服消息(不消耗喇叭，也不花钱)
 FreeChat: false
@@ -16,7 +16,6 @@ ChatCoolTime: 30
 AutoUse: true
 #背包里的喇叭不足时自动花费金币或点券购买(若FreeChat为true则无效)
 AutoCost: false
-
 
 Cost:
   Enable: true
@@ -29,16 +28,19 @@ HornSet:
   ResponTime: 30
   #喇叭冷却时间(/秒)
   HornCoolTime: 10
-
-#开启@功能
-ATEnable: true  
-ATSound: ENTITY_EXPERIENCE_ORB_PICKUP
+  
+##跨服说话长度限制
+LenthLimit:
+  #最短
+  Min: 0
+  #最长
+  Max: 40
   
 ###########################################
-###############BOSS血条配置################
+##############BOSS血条消息配置##############
 ###########################################
 
-#设置"false"为禁止.1.9以下请关闭这个！否则会报错
+#使用BOSS血条消息,1.9以下请关闭这个！否则会报错
 BossBar: false
 
 #Boss血条的颜色
@@ -60,7 +62,7 @@ BossBarMessage: "%server% §a§l%player% §7shout: §r%message%"
 ################物品栏上方的消息###############
 ###############################################
 
-#设置"false"为禁止
+#使用ActionBar消息
 ActionBar: true
 
 ActionBarMessage: "§a§l%player% : %message%"
@@ -70,18 +72,24 @@ ActionBarMessage: "§a§l%player% : %message%"
 ###########聊天栏配置################
 #####################################
 
-#在聊天栏中发送跨服消息 设置为"false"禁用
+#使用聊天栏消息
 Chat: true
 
-ChatMessage: "§7<%server%§7> §a§l%player% §7says §r%message%"
-##########################################
+ChatMessage: "&e&l*大喇叭* &a§l%player% : §r%message%"
 
-##跨服说话长度限制
-LenthLimit:
-  #最短
-  Min: 0
-  #最长
-  Max: 40
+HoverMessages:
+  - "--------------------"
+  - "发送者:&a%player%"
+  - "服务器:&a%server%"
+  - " >>&d点击发起私聊<<"
+  - "--------------------"
+  
+#开启@功能
+ATEnable: true  
+ATSound: ENTITY_EXPERIENCE_ORB_PICKUP
+
+#允许跨服私聊
+SpyChatEnable: true
 
 ##脏话屏蔽
 ShieldMessages:

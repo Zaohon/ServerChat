@@ -1,7 +1,5 @@
 package cn.blockmc.Zao_hon.ServerChat.Utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 
 import org.bukkit.entity.Player;
@@ -31,23 +29,33 @@ public class MessageListener implements PluginMessageListener {
 			short len = in.readShort();
 			byte[] msgbytes = new byte[len];
 			in.readFully(msgbytes);
-			DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+
 			try {
-				Long time = msgin.readLong();
-				String msgType = msgin.readUTF();
-				MessageType type = MessageType.valueOf(msgType);
-				if (time < System.currentTimeMillis() - 5000) {
+				CorrespondMessage message = CorrespondMessage.getByBytes(msgbytes);
+				if (message.getSendingTime() < System.currentTimeMillis() - 5000) {
 					return;
 				}
-				String msg = msgin.readUTF();
-				plugin.sendMsg(msg, type);
+				plugin.sendMsg(message);
 			} catch (IOException e) {
 				plugin.getLogger().info("接收消息时失败，请上报mcbbs . Message transport error, report it to spigotmc!");
 				e.printStackTrace();
 			}
+
+//			DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+//			try {
+//				Long time = msgin.readLong();
+//				String msgType = msgin.readUTF();
+//				MessageType type = MessageType.valueOf(msgType);
+//				if (time < System.currentTimeMillis() - 5000) {
+//					return;
+//				}
+//				String msg = msgin.readUTF();
+//				plugin.sendMsg(msg, type);
+//			} catch (IOException e) {
+//				plugin.getLogger().info("接收消息时失败，请上报mcbbs . Message transport error, report it to spigotmc!");
+//				e.printStackTrace();
+//			}
 		}
 	}
-	
-
 
 }

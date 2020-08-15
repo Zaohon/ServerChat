@@ -24,7 +24,6 @@ public class HornItem {
 		if (!hornFile.exists()) {
 			try {
 				hornFile.createNewFile();
-				hornItem = DEFAULT_ITEM.clone();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -36,6 +35,7 @@ public class HornItem {
 		hornItem = YamlConfiguration.loadConfiguration(hornFile).getItemStack("Item");
 		if (hornItem == null) {
 			hornItem = DEFAULT_ITEM.clone();
+			saveHorn();
 		}
 	}
 
