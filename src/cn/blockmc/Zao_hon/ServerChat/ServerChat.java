@@ -21,6 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.Utils.MessageListener;
+import cn.blockmc.Zao_hon.ServerChat.chat.ChatListener;
+import cn.blockmc.Zao_hon.ServerChat.chat.HornListener;
+import cn.blockmc.Zao_hon.ServerChat.chat.ServerChatHandler;
 import cn.blockmc.Zao_hon.ServerChat.Utils.CorrespondMessage;
 import cn.blockmc.Zao_hon.ServerChat.command.BuyCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.CommandDispatcher;
@@ -45,6 +48,8 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private Message message;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private CommandDispatcher commandDispatcher;
+	private ChatListener chatListener;
+	private HornListener hornListener;
 	private Plugin placeholderAPI = null;
 	private Updater updater = null;
 
@@ -57,7 +62,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		BungeeUtil.init(this);
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
-		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
+//		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
 		this.message = new Message(this);
 		message.setLanguage(Config.LANG);
@@ -75,6 +80,15 @@ public class ServerChat extends JavaPlugin implements Listener {
 		commandDispatcher.registerCommand(new UpdateCommand(this));
 		commandDispatcher.registerCommand(new ReloadCommand(this));
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
+
+		this.hornListener = new HornListener(this);
+		this.getServer().getPluginManager().registerEvents(hornListener, this);
+		
+		this.chatListener = new ChatListener(this);
+		this.chatListener.addPrefixHandler(hornListener);
+		if (Config.CHAT_PREFIX_ENABLE)
+			chatListener.addPrefixHandler(new ServerChatHandler(this));
+
 
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
@@ -137,13 +151,14 @@ public class ServerChat extends JavaPlugin implements Listener {
 				}
 			}
 			TextComponent text = new TextComponent(msg);
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ">>" + message.getSenderName()+" "));
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ">>" + message.getSenderName() + " "));
 
 			if (!message.getHoverTexts().isEmpty()) {
 				int size = message.getHoverTexts().size();
 				BaseComponent[] hovers = new BaseComponent[size];
 				for (int i = 0; i < size; i++) {
-					hovers[i] = new TextComponent(message.getHoverTexts().get(i) + "\n");
+					hovers[i] = new TextComponent(
+							message.getHoverTexts().get(i).replaceAll("%server%", message.getServerName()) + "\n");
 				}
 				text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hovers));
 			}

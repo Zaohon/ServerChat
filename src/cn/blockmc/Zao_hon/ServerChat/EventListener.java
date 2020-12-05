@@ -32,7 +32,7 @@ public class EventListener implements Listener {
 		this.plugin = plugin;
 	}
 
-	@EventHandler
+//	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if (e.isCancelled()) {
 			return;
@@ -116,12 +116,7 @@ public class EventListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onPlayerInteractInv(InventoryInteractEvent event) {
-		if (!usinghorn.containsKey(event.getWhoClicked().getUniqueId()))
-			return;
-
-	}
+	
 
 	@EventHandler
 	public void useTrumpet(PlayerInteractEvent e) {

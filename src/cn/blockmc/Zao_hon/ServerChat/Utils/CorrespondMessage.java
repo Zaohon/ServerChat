@@ -58,7 +58,7 @@ public class CorrespondMessage {
 		for (int i = 0; i < size; i++) {
 			list.add(msgin.readUTF());
 		}
-		return new CorrespondMessage(senderName, serverName, msg, type, sendingTime, null);
+		return new CorrespondMessage(senderName, serverName, msg, type, sendingTime, list);
 	}
 
 	public static byte[] toBytes(CorrespondMessage message) throws IOException {
