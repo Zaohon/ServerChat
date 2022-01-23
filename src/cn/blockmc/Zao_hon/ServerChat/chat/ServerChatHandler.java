@@ -1,8 +1,5 @@
 package cn.blockmc.Zao_hon.ServerChat.chat;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +37,6 @@ public class ServerChatHandler implements PrefixChatHandler {
 				Message.playerSendMessage(player, Message.getString("chat_error_incool", "%cooltime%", cooltime));
 				return false;
 			}
-
 			BungeeUtil.sendServerChat(plugin, player, message);
 			CoolTimeManager.updateChatCoolTime(player.getUniqueId());
 			return true;

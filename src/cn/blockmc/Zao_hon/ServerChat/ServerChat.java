@@ -21,11 +21,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.Utils.MessageListener;
+import cn.blockmc.Zao_hon.ServerChat.Utils.NMSUtils;
 import cn.blockmc.Zao_hon.ServerChat.chat.ChatListener;
+import cn.blockmc.Zao_hon.ServerChat.chat.CorrespondMessage;
 import cn.blockmc.Zao_hon.ServerChat.chat.HornListener;
 import cn.blockmc.Zao_hon.ServerChat.chat.ServerChatHandler;
-import cn.blockmc.Zao_hon.ServerChat.Utils.CorrespondMessage;
-import cn.blockmc.Zao_hon.ServerChat.command.BuyCommand;
+import cn.blockmc.Zao_hon.ServerChat.chat.SpyChatListener;
 import cn.blockmc.Zao_hon.ServerChat.command.CommandDispatcher;
 import cn.blockmc.Zao_hon.ServerChat.command.GiveCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.IgnoreCommand;
@@ -36,6 +37,7 @@ import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.UpdateCommand;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
+import cn.blockmc.Zao_hon.ServerChat.old.BuyCommand;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -44,7 +46,7 @@ import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
 	public static final String PREFIX = ChatColor.GREEN + "[ServerChat]" + ChatColor.RESET;
-	private Economy economy;
+//	private Economy economy;
 	private Message message;
 	private HashMap<UUID, Boolean> ignored = new HashMap<UUID, Boolean>();
 	private CommandDispatcher commandDispatcher;
@@ -52,6 +54,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private HornListener hornListener;
 	private Plugin placeholderAPI = null;
 	private Updater updater = null;
+	private Metrics metrics;
+	
+	private String nmsVersion;
 
 	@Override
 	public void onEnable() {
@@ -62,8 +67,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		BungeeUtil.init(this);
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
-//		this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
-
+		
 		this.message = new Message(this);
 		message.setLanguage(Config.LANG);
 
@@ -76,7 +80,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 		commandDispatcher.registerCommand(new GiveCommand(this));
 		commandDispatcher.registerCommand(new SendCommand(this));
 		commandDispatcher.registerCommand(new IgnoreCommand(this));
-		commandDispatcher.registerCommand(new BuyCommand(this));
+//		commandDispatcher.registerCommand(new BuyCommand(this));
 		commandDispatcher.registerCommand(new UpdateCommand(this));
 		commandDispatcher.registerCommand(new ReloadCommand(this));
 		this.getCommand("ServerChat").setExecutor(commandDispatcher);
@@ -88,14 +92,18 @@ public class ServerChat extends JavaPlugin implements Listener {
 		this.chatListener.addPrefixHandler(hornListener);
 		if (Config.CHAT_PREFIX_ENABLE)
 			chatListener.addPrefixHandler(new ServerChatHandler(this));
-
-
-		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this);
+		if (Config.SPY_ENABLE) {
+			chatListener.addPrefixHandler(new SpyChatListener(this));
+		}
+		
+		this.metrics = new Metrics(this);
+		this.nmsVersion = NMSUtils.getVersion();
+		
 
 		PR("========================");
 		PR("      ServerChat          ");
 		PR("     Version: " + this.getDescription().getVersion());
+		PR("     NMS: "+nmsVersion);
 		PR("     Author:Zao_hon           ");
 		PR("========================");
 
@@ -107,9 +115,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 	}
 
 	private void loadDepends() {
-		if (setupEconomy()) {
-			PR("已加载经济插件Vault");
-		}
+//		if (setupEconomy()) {
+//			PR("已加载经济插件Vault");
+//		}
 
 		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
 			PR("已加载前置插件PlaceholderAPI");
@@ -117,17 +125,17 @@ public class ServerChat extends JavaPlugin implements Listener {
 		}
 	}
 
-	private boolean setupEconomy() {
-		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			return false;
-		}
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-		if (rsp == null) {
-			return false;
-		}
-		economy = rsp.getProvider();
-		return economy != null;
-	}
+//	private boolean setupEconomy() {
+//		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+//			return false;
+//		}
+//		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+//		if (rsp == null) {
+//			return false;
+//		}
+//		economy = rsp.getProvider();
+//		return economy != null;
+//	}
 
 	public void sendMsg(CorrespondMessage message) {
 
@@ -151,14 +159,18 @@ public class ServerChat extends JavaPlugin implements Listener {
 				}
 			}
 			TextComponent text = new TextComponent(msg);
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ">>" + message.getSenderName() + " "));
+			
+			if(Config.SPY_ENABLE) {
+				text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ">>" + message.getSenderName() + " "));
+			}
 
-			if (!message.getHoverTexts().isEmpty()) {
+			if (!message.getHoverTexts().isEmpty()&&Config.HOVER_ENABLE) {
 				int size = message.getHoverTexts().size();
 				BaseComponent[] hovers = new BaseComponent[size];
 				for (int i = 0; i < size; i++) {
-					hovers[i] = new TextComponent(
-							message.getHoverTexts().get(i).replaceAll("%server%", message.getServerName()) + "\n");
+					String m = message.getHoverTexts().get(i);
+					m = m.replaceAll("%server%", message.getServerName()).replaceAll("%player%", message.getSenderName());
+					hovers[i] = new TextComponent(m);
 				}
 				text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hovers));
 			}
@@ -184,14 +196,15 @@ public class ServerChat extends JavaPlugin implements Listener {
 			});
 			bar.setVisible(true);
 			Bukkit.getScheduler().runTaskLater(this, () -> bar.removeAll(),
-					getConfig().getInt("BossBarContinued") * 20);
+					Config.BOSS_BAR_CONTINUED * 20);
 			break;
 		case ACTION_BAR:
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				if (!ignored.getOrDefault(p.getUniqueId(), false)) {
-					NMSUtils.sendActionBar(p, message.getMessage());
+					NMSUtils.sendActionBar(p, message.getMessage(), nmsVersion);
 				}
 			});
+
 			break;
 		default:
 			return;
@@ -202,9 +215,9 @@ public class ServerChat extends JavaPlugin implements Listener {
 		return updater;
 	}
 
-	public Economy getEconomy() {
-		return economy;
-	}
+//	public Economy getEconomy() {
+//		return economy;
+//	}
 
 	public Plugin getPlaceholderAPI() {
 		return placeholderAPI;
@@ -226,5 +239,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	public void PR(String str) {
 		this.getLogger().info(str);
 	}
+	
+	
 
 }

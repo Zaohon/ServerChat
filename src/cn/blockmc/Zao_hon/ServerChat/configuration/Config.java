@@ -44,6 +44,7 @@ public class Config {
 	public static String ACTION_BAR_MESSAGE = "§a§l%player% : %message%";
 	public static boolean CHAT_ENABLE = true;
 	public static String CHAT_MESSAGE = "§7<%server%§7> §a§l%player% §7says §r%message%";
+	public static boolean HOVER_ENABLE = true;
 	public static List<String> CHAT_HOVER_MESSAGES = new ArrayList<String>();
 	public static int LENTH_LIMIT_MIN = 0;
 	public static int LENTH_LIMIT_MAX = 40;
@@ -95,6 +96,7 @@ public class Config {
 		ACTION_BAR_ENABLE = config.getBoolean("ActionBar", true);
 		ACTION_BAR_MESSAGE = config.getString("ActionBarMessage", "§a§l%player% : %message%");
 		CHAT_ENABLE = config.getBoolean("Chat", true);
+		HOVER_ENABLE = config.getBoolean("HoverEnable", true);
 		CHAT_MESSAGE = config.getString("ChatMessage", "§7<%server%§7> §a§l%player% §7says §r%message%");
 		CHAT_HOVER_MESSAGES = config.getStringList("HoverMessages");
 		LENTH_LIMIT_MIN = config.getInt("LenthLimit.Min", 0);

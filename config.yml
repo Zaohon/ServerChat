@@ -2,7 +2,7 @@
 Lang: zh_cn
 
 #该服务器的名字，用于替换%server%
-ThisServerName: "§e§l大厅"
+ThisServerName: "&e&l大厅"
 
 #允许使用前缀发送跨服聊天
 ChatPrefixEnable: true
@@ -14,8 +14,6 @@ FreeChat: false
 ChatCoolTime: 30
 #发送跨服消息的时候自动消耗背包里的喇叭(若FreeChat为true则无效)
 AutoUse: true
-#背包里的喇叭不足时自动花费金币或点券购买(若FreeChat为true则无效)
-AutoCost: false
 
 Cost:
   Enable: true
@@ -54,7 +52,7 @@ BossBarFlags: []
 #BossBar持续时间(/秒)
 BossBarContinued: 6
 
-BossBarMessage: "%server% §a§l%player% §7shout: §r%message%"
+BossBarMessage: "%server% &a&l%player% &7shout: &r%message%"
 
 
 ###############################################
@@ -65,7 +63,7 @@ BossBarMessage: "%server% §a§l%player% §7shout: §r%message%"
 #使用ActionBar消息
 ActionBar: true
 
-ActionBarMessage: "§a§l%player% : %message%"
+ActionBarMessage: "&a&l%player% : %message%"
 
 
 #####################################
@@ -74,9 +72,9 @@ ActionBarMessage: "§a§l%player% : %message%"
 
 #使用聊天栏消息
 Chat: true
+ChatMessage: "&e&l*大喇叭* &a&l%player% : &r%message%"
 
-ChatMessage: "&e&l*大喇叭* &a§l%player% : §r%message%"
-
+HoverEnable: true
 HoverMessages:
   - "--------------------"
   - "发送者:&a%player%"

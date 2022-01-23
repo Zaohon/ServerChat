@@ -202,7 +202,6 @@ public class Message {
 		for (Entry<String, String> entry : map.entrySet()) {
 			value = value.replace(entry.getKey(), entry.getValue());
 		}
-
 		return value;
 
 	}

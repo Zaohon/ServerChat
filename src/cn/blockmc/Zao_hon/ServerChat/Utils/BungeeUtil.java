@@ -14,6 +14,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.chat.CorrespondMessage;
+import cn.blockmc.Zao_hon.ServerChat.chat.MessageType;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 

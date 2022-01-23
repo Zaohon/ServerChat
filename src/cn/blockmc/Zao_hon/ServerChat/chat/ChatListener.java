@@ -1,6 +1,5 @@
 package cn.blockmc.Zao_hon.ServerChat.chat;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -8,15 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-
-import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
-import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
 public class ChatListener implements Listener {
+	@SuppressWarnings("unused")
 	private ServerChat plugin;
 	private Set<PrefixChatHandler> handlers = new LinkedHashSet<PrefixChatHandler>();
 
@@ -41,7 +37,8 @@ public class ChatListener implements Listener {
 			int lenth = prefix.length();
 			if (msg.startsWith(prefix)) {
 				String message = msg;
-				if(lenth!=0)message = message.substring(lenth - 1);
+				//if(lenth!=0)message = message.substring(lenth - 1);
+				message = message.substring(lenth);
 				if (message.length() < Config.LENTH_LIMIT_MIN || message.length() > Config.LENTH_LIMIT_MAX) {
 					Message.playerSendMessage(player, Message.getString("chat_error_length"));
 					continue;

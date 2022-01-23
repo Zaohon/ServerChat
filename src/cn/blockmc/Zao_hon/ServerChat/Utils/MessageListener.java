@@ -9,6 +9,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.chat.CorrespondMessage;
 
 public class MessageListener implements PluginMessageListener {
 	private ServerChat plugin;

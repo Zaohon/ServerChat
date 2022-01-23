@@ -115,17 +115,17 @@ public class Commands implements CommandExecutor {
 					// ignore
 				}
 				int mc = Config.COST_MONEY;
-				double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
-				if (mc != 0 && mn >= mc) {
-					plugin.getEconomy().depositPlayer(p, mc);
-					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
-							mc * number + ""));
-					ItemStack horn = HornItem.getHornItem();
-					horn.setAmount(number);
-					p.getInventory().addItem(horn);
-				} else {
-					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_FAILED);
-				}
+//				double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
+//				if (mc != 0 && mn >= mc) {
+//					plugin.getEconomy().depositPlayer(p, mc);
+//					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_MONEY.replace("%number%", number + "").replace("%money%",
+//							mc * number + ""));
+//					ItemStack horn = HornItem.getHornItem();
+//					horn.setAmount(number);
+//					p.getInventory().addItem(horn);
+//				} else {
+//					Lang.sendMsg(p, Lang.COMMAND_BUY_COST_FAILED);
+//				}
 				return true;
 			} else if (a1.equals("send")) {
 				String msg = lenth >= 2 ? args[1] : "";

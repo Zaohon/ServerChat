@@ -1,4 +1,4 @@
-package cn.blockmc.Zao_hon.ServerChat.command;
+package cn.blockmc.Zao_hon.ServerChat.old;
 
 import java.util.List;
 
@@ -8,9 +8,11 @@ import org.bukkit.inventory.ItemStack;
 
 import cn.blockmc.Zao_hon.ServerChat.HornItem;
 import cn.blockmc.Zao_hon.ServerChat.ServerChat;
+import cn.blockmc.Zao_hon.ServerChat.command.ICommand;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
 
+@Deprecated
 public class BuyCommand implements ICommand {
 	private ServerChat plugin;
 
@@ -63,17 +65,17 @@ public class BuyCommand implements ICommand {
 			// ignore
 		}
 		int mc = Config.COST_MONEY*number;
-		double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
-		if (mc != 0 && mn >= mc) {
-			plugin.getEconomy().withdrawPlayer(p, mc);
-			Message.playerSendMessage(p,
-					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc));
-			ItemStack horn = HornItem.getHornItem();
-			horn.setAmount(number);
-			p.getInventory().addItem(horn);
-		} else {
-			Message.playerSendMessage(p, Message.getString("command_tip_buy_failed"));
-		}
+//		double mn = plugin.getEconomy() == null ? -1 : plugin.getEconomy().getBalance(p);
+//		if (mc != 0 && mn >= mc) {
+//			plugin.getEconomy().withdrawPlayer(p, mc);
+//			Message.playerSendMessage(p,
+//					Message.getString("command_tip_buy_money", "%number%", number, "%money%", mc));
+//			ItemStack horn = HornItem.getHornItem();
+//			horn.setAmount(number);
+//			p.getInventory().addItem(horn);
+//		} else {
+//			Message.playerSendMessage(p, Message.getString("command_tip_buy_failed"));
+//		}
 		return true;
 	}
 
