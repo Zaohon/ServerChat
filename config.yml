@@ -14,14 +14,7 @@ FreeChat: false
 ChatCoolTime: 30
 #发送跨服消息的时候自动消耗背包里的喇叭(若FreeChat为true则无效)
 AutoUse: true
-
-Cost:
-  Enable: true
-  Money: 50
-  PlayerPoint: 10
-  
 HornSet:
-  BuyMenu: true
   #喇叭的有效时间(/秒)
   ResponTime: 30
   #喇叭冷却时间(/秒)

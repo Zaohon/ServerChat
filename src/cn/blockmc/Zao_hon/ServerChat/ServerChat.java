@@ -169,7 +169,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 				BaseComponent[] hovers = new BaseComponent[size];
 				for (int i = 0; i < size; i++) {
 					String m = message.getHoverTexts().get(i);
-					m = m.replaceAll("%server%", message.getServerName()).replaceAll("%player%", message.getSenderName());
+					m = m.replaceAll("%server%", message.getServerName()).replaceAll("%player%", message.getSenderName()) + "\n";
 					hovers[i] = new TextComponent(m);
 				}
 				text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hovers));

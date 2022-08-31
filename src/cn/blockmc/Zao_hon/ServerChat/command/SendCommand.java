@@ -1,5 +1,6 @@
 package cn.blockmc.Zao_hon.ServerChat.command;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -58,8 +59,9 @@ public class SendCommand implements ICommand {
 		int lenth = args.length;
 		String msg = lenth >= 1 ? args[0] : "";
 		if (sender instanceof Player) {
-			AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false, (Player) sender,
-					(Config.CHAT_PREFIX_ENABLE ? Config.CHAT_PREFIX : "") + msg, null);
+			Player p = (Player) sender;
+			AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false, p,
+					(Config.CHAT_PREFIX_ENABLE ? Config.CHAT_PREFIX : "") + msg, new HashSet<Player>());
 			plugin.getServer().getPluginManager().callEvent(e);
 			return true;
 		} else {
