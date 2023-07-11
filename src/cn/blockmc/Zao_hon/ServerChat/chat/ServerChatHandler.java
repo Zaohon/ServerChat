@@ -37,7 +37,7 @@ public class ServerChatHandler implements PrefixChatHandler {
 				Message.playerSendMessage(player, Message.getString("chat_error_incool", "%cooltime%", cooltime));
 				return false;
 			}
-			BungeeUtil.sendServerChat(plugin, player, message);
+			BungeeUtil.bungeeMsg(plugin, player, message);
 			CoolTimeManager.updateChatCoolTime(player.getUniqueId());
 			return true;
 		}
@@ -49,7 +49,7 @@ public class ServerChatHandler implements PrefixChatHandler {
 				return true;
 			}
 			if (this.consumeItemStack(player.getInventory(), HornItem.getHornItem())) {
-				BungeeUtil.sendServerChat(plugin, player, message);
+				BungeeUtil.bungeeMsg(plugin, player, message);
 				CoolTimeManager.updateHornCoolTime(player.getUniqueId());
 				Message.playerSendMessage(player, Message.getString("chat_auto_use_success"));
 				return true;

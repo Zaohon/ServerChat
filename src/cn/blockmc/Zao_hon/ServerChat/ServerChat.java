@@ -118,7 +118,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 //		}
 
 		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-			PR("�Ѽ���ǰ�ò��PlaceholderAPI");
+			PR("加载依赖PlaceholderAPI");
 			placeholderAPI = getServer().getPluginManager().getPlugin("PlaceholderAPI");
 		}
 	}

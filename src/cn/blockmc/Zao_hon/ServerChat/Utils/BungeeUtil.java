@@ -26,7 +26,7 @@ public class BungeeUtil {
 		BungeeUtil.plugin = plugin;
 	}
 
-	public static void sendServerChat(ServerChat plugin, CommandSender sender, String msg) {
+	public static void bungeeMsg(ServerChat plugin, CommandSender sender, String msg) {
 		String senderName = sender instanceof Player ? sender.getName() : "Server";
 		String serverName = ChatColor.translateAlternateColorCodes('&', Config.THIS_SERVER_NAME);
 
@@ -86,7 +86,7 @@ public class BungeeUtil {
 			player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
 			plugin.sendMsg(message);
 		} catch (IOException e) {
-			plugin.PR("Bungee通信出错，请上报mcbbs , bungee message error , report it to spigotmc.");
+			plugin.PR("Bungee鍑洪敊,璇风湅mcbbs , bungee message error , report it to spigotmc.");
 			e.printStackTrace();
 		}
 	}

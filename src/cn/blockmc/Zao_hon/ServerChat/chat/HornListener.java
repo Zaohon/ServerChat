@@ -80,7 +80,7 @@ public class HornListener implements Listener, PrefixChatHandler {
 				Message.playerSendMessage(player, Message.getString("chat_error_length"));
 				return false;
 			}
-			BungeeUtil.sendServerChat(plugin, player, message);
+			BungeeUtil.bungeeMsg(plugin, player, message);
 			usinghorn.put(player.getUniqueId(), false);
 			playerrunnable.get(player.getUniqueId()).cancel();
 			return true;

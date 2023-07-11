@@ -47,7 +47,7 @@ public class Message {
 		for (String source : sources) {
 			File dest = new File(folder, source);
 			if (!dest.exists()) {
-				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "´´½¨³õÊ¼ÓïÑÔÎÄ¼ş" + source);
+				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "åˆ›å»ºåˆå§‹è¯­è¨€æ–‡ä»¶" + source);
 				plugin.saveResource("Lang/" + source, false);
 			} else {
 				if (!injectChanges(plugin.getResource("Lang/" + source),
@@ -78,7 +78,7 @@ public class Message {
 				for (Entry<String, String> entry : newEntries.entrySet())
 					writer.append("\n" + entry.getKey() + "=" + entry.getValue());
 				writer.close();
-				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + " ÒÑ¸üĞÂ" + onDisk.getName() + "ÖĞÈ±Ê§µÄÓïÑÔÏûÏ¢");
+				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + " å·²æ›´æ–°" + onDisk.getName() + "ä¸­ç¼ºå¤±çš„è¯­è¨€æ¶ˆæ¯");
 
 			}
 			return true;
@@ -152,7 +152,7 @@ public class Message {
 	public void setLanguage(String lang) {
 		File file = new File(plugin.getDataFolder(), "Lang/" + lang + ".lang");
 		if (!file.exists()) {
-			plugin.PR(lang + "²»´æÔÚ,ÒÑ´´½¨Ò»¸öÄ¬ÈÏÓïÑÔÎÄ¼ş,¿É×ÔĞĞ·­Òë³É±¾¹úÓïÑÔ");
+			plugin.PR(lang + "ä¸å­˜åœ¨,å·²åˆ›å»ºä¸€ä¸ªé»˜è®¤è¯­è¨€æ–‡ä»¶,å¯è‡ªè¡Œç¿»è¯‘æˆæœ¬å›½è¯­è¨€");
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
@@ -165,19 +165,19 @@ public class Message {
 			injectChanges(resource, file);
 			mTranslationTable = loadLang(file);
 		} else {
-			plugin.PR("ÎŞ·¨¼ÓÔØ" + lang + "ÎÄ¼ş,»òĞí³öÁËÊ²Ã´´óÎÊÌâ");
+			plugin.PR("æ— æ³•åŠ è½½" + lang + "æ–‡ä»¶,æˆ–è®¸å‡ºäº†ä»€ä¹ˆå¤§é—®é¢˜");
 		}
 
 		if (mTranslationTable == null) {
 			mTranslationTable = new HashMap<String, String>();
-			plugin.PR("ÒÑ´´½¨Ò»¸ö¿Õ·­Òë±í");
+			plugin.PR("å·²åˆ›å»ºä¸€ä¸ªç©ºç¿»è¯‘è¡¨");
 		}
 	}
 
 	public static String getString(String key) {
 		String value = mTranslationTable.get(key);
 		if (value == null) {
-			Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "·­Òë±íÈ±ÉÙ" + key);
+			Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "ç¿»è¯‘è¡¨ç¼ºå°‘" + key);
 			throw new MissingResourceException("", "", key);
 		}
 		return value;

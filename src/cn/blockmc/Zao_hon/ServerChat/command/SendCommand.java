@@ -68,7 +68,7 @@ public class SendCommand implements ICommand {
 			if (plugin.getServer().getOnlinePlayers().isEmpty()) {
 				Message.senderSendMessage(sender, Message.getString("command_error_at_least_one_player"));
 			} else {
-				BungeeUtil.sendServerChat(plugin, sender, msg);
+				BungeeUtil.bungeeMsg(plugin, sender, msg);
 			}
 			return true;
 		}

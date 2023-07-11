@@ -18,7 +18,7 @@ public class NMSUtils {
 	public static void sendActionBar(Player player,String message,String nmsVersion) {
 	    message = ChatColor.translateAlternateColorCodes('&', message);
 	    try {
-	      if (nmsVersion.contains("v1_17") || nmsVersion.contains("v1_18")) {
+	      if (nmsVersion.contains("v1_17") || nmsVersion.contains("v1_18")||nmsVersion.contains("v1_19") ||nmsVersion.contains("v1_20")) {
 	    	  player.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent)new TextComponent(message));
 	      } else if (nmsVersion.contains("v1_16")) {
 	    	  preSendActionBar(player, message);
@@ -182,7 +182,7 @@ public class NMSUtils {
 	public static void sendPacket(Player p, Object packet) {
 		Object connection = getField("playerConnection", getHandle(p));
 		if (connection == null) {
-			Bukkit.broadcastMessage("Packet 发送错误,请联系作者@Zao_hon");
+			Bukkit.broadcastMessage("Packet send error,contack @Zao_hon");
 			return;
 		}
 		try {
