@@ -16,7 +16,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.blockmc.Zao_hon.ServerChat.Utils.BungeeUtil;
@@ -37,12 +36,10 @@ import cn.blockmc.Zao_hon.ServerChat.command.SetItemCommand;
 import cn.blockmc.Zao_hon.ServerChat.command.UpdateCommand;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Config;
 import cn.blockmc.Zao_hon.ServerChat.configuration.Message;
-import cn.blockmc.Zao_hon.ServerChat.old.BuyCommand;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.Economy;
 
 public class ServerChat extends JavaPlugin implements Listener {
 	public static final String PREFIX = ChatColor.GREEN + "[ServerChat]" + ChatColor.RESET;
@@ -54,6 +51,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 	private HornListener hornListener;
 	private Plugin placeholderAPI = null;
 	private Updater updater = null;
+	@SuppressWarnings("unused")
 	private Metrics metrics;
 	
 	private String nmsVersion;
@@ -116,11 +114,11 @@ public class ServerChat extends JavaPlugin implements Listener {
 
 	private void loadDepends() {
 //		if (setupEconomy()) {
-//			PR("ÒÑ¼ÓÔØ¾­¼Ã²å¼þVault");
+//			PR("ï¿½Ñ¼ï¿½ï¿½Ø¾ï¿½ï¿½Ã²ï¿½ï¿½Vault");
 //		}
 
 		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-			PR("ÒÑ¼ÓÔØÇ°ÖÃ²å¼þPlaceholderAPI");
+			PR("ï¿½Ñ¼ï¿½ï¿½ï¿½Ç°ï¿½Ã²ï¿½ï¿½PlaceholderAPI");
 			placeholderAPI = getServer().getPluginManager().getPlugin("PlaceholderAPI");
 		}
 	}
@@ -154,7 +152,7 @@ public class ServerChat extends JavaPlugin implements Listener {
 						Message.playerSendMessage(target,
 								Message.getString("at_tip", "%player%", message.getSenderName()));
 						target.playSound(target.getLocation(), Sound.valueOf(Config.AT_SOUND), 10, 10);
-						msg = msg.replace(m.group(0), "¡ìb" + m.group(0) + "¡ìr");
+						msg = msg.replace(m.group(0), "ï¿½ï¿½b" + m.group(0) + "ï¿½ï¿½r");
 					}
 				}
 			}

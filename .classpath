@@ -6,8 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/MC/Server1.17/spigot-1.17.jar"/>
-	<classpathentry kind="lib" path="E:/MC/plugin/PlaceholderAPI-2.11.1.jar"/>
-	<classpathentry kind="lib" path="E:/MC/plugin/Vault.jar"/>
+	<classpathentry kind="lib" path="D:/build/spigot-api-1.20.1-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/build/BungeeCord.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
