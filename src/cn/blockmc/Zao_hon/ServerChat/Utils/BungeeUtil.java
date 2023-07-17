@@ -38,6 +38,7 @@ public class BungeeUtil {
 		if (Config.CHAT_ENABLE) {
 			String message = Config.CHAT_MESSAGE.replace("%message%", msg).replaceAll("%server%", serverName)
 					.replaceAll("%player%", senderName);
+			message = ChatColor.translateAlternateColorCodes('&', message);
 			message = shieldReplace(message);
 			if (sender instanceof Player)
 				message = Message.replacePlayceHolders((Player) sender, message);
@@ -50,6 +51,7 @@ public class BungeeUtil {
 		if (Config.ACTION_BAR_ENABLE) {
 			String message = Config.ACTION_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", serverName)
 					.replaceAll("%player%", senderName);
+			message =ChatColor.translateAlternateColorCodes('&', message);
 			if (sender instanceof Player)
 				message = Message.replacePlayceHolders((Player) sender, message);
 			message = shieldReplace(message);
@@ -61,6 +63,7 @@ public class BungeeUtil {
 		if (Config.BOSS_BAR_ENABLE) {
 			String message = Config.BOSS_BAR_MESSAGE.replace("%message%", msg).replaceAll("%server%", serverName)
 					.replaceAll("%player%", senderName);
+			message =ChatColor.translateAlternateColorCodes('&', message);
 			if (sender instanceof Player)
 				message = Message.replacePlayceHolders((Player) sender, message);
 			message = shieldReplace(message);
